@@ -265,8 +265,8 @@ order by pp.lote">
                                 <SortedDescendingHeaderStyle BackColor="#15524A" />
                             </asp:GridView>
                             <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor from pedido_produto pp
-join produto p on p.id = pp.idproduto 
-where pp.idpedido = @id">
+                                join produto p on p.id = pp.idproduto 
+                                where pp.idpedido = @id">
                                 <SelectParameters>
                                     <asp:ControlParameter ControlID="lblNumeroPedido" Name="id" PropertyName="Text" />
                                 </SelectParameters>
@@ -274,11 +274,11 @@ where pp.idpedido = @id">
                         </div>
                     </div>
                      <div class="mb-3">
-     <label class="form-label">Cupom de Desconto</label>
-     <asp:TextBox ID="txtCupom" runat="server" CssClass="form-control"></asp:TextBox>
-     <asp:Button ID="btnValidarCupom" runat="server" Text="Validar Cupom" CssClass="btn btn-icon btn-icon-end btn-success" OnClick="btnValidarCupom_Click" />
-     <asp:Label ID="lblMsgCupom" runat="server" Text=""></asp:Label>
- </div>
+                         <label class="form-label">Cupom de Desconto</label>
+                         <asp:TextBox ID="txtCupom" runat="server" CssClass="form-control"></asp:TextBox>
+                         <asp:Button ID="btnValidarCupom" runat="server" Text="Validar Cupom" CssClass="btn btn-icon btn-icon-end btn-success" OnClick="btnValidarCupom_Click" />
+                         <asp:Label ID="lblMsgCupom" runat="server" Text=""></asp:Label>
+                     </div>
                     <div class="modal-footer border-0">
                         <asp:Label ID="lblMensagemCarrinho" runat="server" Text=""></asp:Label>
                         <br />
@@ -316,9 +316,9 @@ where pp.idpedido = @id">
                         <asp:TextBox ID="txtNomeCartao" CssClass="form-control" runat="server" placeHolder="" Required></asp:TextBox>
                     </div>
                      <label class="form-label"><i data-acorn-icon="user" class="icon" data-acorn-size="18"></i>Último Nome</label>
- <div class="form-line">
-     <asp:TextBox ID="txtUltimoNome" CssClass="form-control" runat="server" placeHolder="" Required></asp:TextBox>
- </div>
+                     <div class="form-line">
+                         <asp:TextBox ID="txtUltimoNome" CssClass="form-control" runat="server" placeHolder="" Required></asp:TextBox>
+                     </div>
                     <div class="modal-footer border-0">
                         <asp:Label ID="lblMensagemCartao" runat="server" Text=""></asp:Label>
                         <br />
@@ -372,10 +372,24 @@ where pp.idpedido = @id">
                             <br />
                             <br />
                             <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Finalizar Pedido" OnClick="btnSalvar_Click" />
-                            <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300"
-                                DynamicLayout="true">
+                            <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
                                 <ProgressTemplate>
-                                    Carregando...
+                                    <style type="text/css">
+                                        .updateprogress-centered {
+                                            position: absolute;
+                                            top: 50%;
+                                            left: 50%;
+                                            transform: translate(-50%, -50%);
+                                        }
+
+                                        .updateprogress-centered img {
+                                            width: 150px;
+                                            height: 150px;
+                                        }
+                                    </style>
+                                    <div class="updateprogress-centered">
+                                        <img src="../../assets/images/loader_progress.gif" alt="Loading..." />
+                                    </div>
                                 </ProgressTemplate>
                             </asp:UpdateProgress>
                         </div>
@@ -392,7 +406,7 @@ where pp.idpedido = @id">
                     <br />
                     <asp:Button ID="btnNovoPedido" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Iniciar Novo Pedido" OnClick="btnNovoPedido_Click" />
                 </asp:Panel>
-                <hr />
+                <%--<hr />--%>
 
             </div>
 
