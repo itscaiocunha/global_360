@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System;
 using System.Data.Common;
 using System.Data;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace global.admin
 {
@@ -301,12 +303,25 @@ namespace global.admin
                         lblMensagem.Text = "Erro ao tentar atualizada informação. " + ex.Message;
                     }
                 }
-            }               
+            }
         }
 
-        protected void gdvDados_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        protected void GdvDados_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
         {
             hdfId.Value = e.CommandArgument.ToString();
+
+            if (e.CommandName == "Excluir")
+            {
+                ExcluirRegistro();
+            }
+            else if (e.CommandName == "Editar")
+            {
+                EditarRegistro();
+            }
+        }
+
+        protected void EditarRegistro()
+        {
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                           "SELECT * from cliente where id = '" + hdfId.Value + "'"))
             {
@@ -314,7 +329,7 @@ namespace global.admin
                 {
                     txtNomeCliente.Text = reader["nomecompleto"].ToString();
                     txtRazaoSocial.Text = reader["razao_social"].ToString();
-                    txtCPFCNPJ.Text = reader["cnpj_cpf"].ToString();                    
+                    txtCPFCNPJ.Text = reader["cnpj_cpf"].ToString();
                     txtIE.Text = reader["inscricao_estadual"].ToString();
                     txtEmail.Text = reader["email"].ToString();
                     lblEmail.Text = reader["email"].ToString();
@@ -334,5 +349,10 @@ namespace global.admin
             }
         }
 
+        protected void ExcluirRegistro ()
+        {
+            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                          "Delete from cliente where id = '" + hdfId.Value + "'"));
+        }
     }
 }

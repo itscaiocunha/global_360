@@ -97,7 +97,7 @@ order by nomecompleto">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">E-mail</label>
-                        <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Required></asp:TextBox>
+                        <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">CEP</label>
@@ -370,11 +370,18 @@ where pp.idpedido = @id">
 
                             <asp:Label ID="lblMensagem" runat="server" Text="" Font-Size=""></asp:Label>
                             <br />
+                            <br />
                             <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Finalizar Pedido" OnClick="btnSalvar_Click" />
+                            <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300"
+                                DynamicLayout="true">
+                                <ProgressTemplate>
+                                    Carregando...
+                                </ProgressTemplate>
+                            </asp:UpdateProgress>
                         </div>
-
-                    </div>
                 </asp:Panel>
+
+
 
                 <asp:Panel ID="pnlFinal" runat="server" Visible="false">
                     <h2>Número do Pedido #:

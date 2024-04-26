@@ -136,19 +136,34 @@ namespace global
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
             using (IDataReader reader1 = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                       "select * from pedido where id = '" + idpedido + "'"))
+                       "select ct.valor, ct.recorrente, c.cadastrado_por from pedido p join cliente c on c.id = p.idlojista join cliente_taxa ct on ct.idcliente = c.cadastrado_por where p.id = '" + idpedido + "' "))
             {
                 if (reader1.Read())
                 {
-                    //12 parcelas de fatura ao cliente 
-                    for (int i = 0; i < 11; i++)
+                    if (reader1["recorrente"].ToString() == "Não")
+                    {
+                        //12 parcelas de fatura ao cliente 
+                        for (int i = 0; i < 11; i++)
+                        {
+                            DbCommand command = db.GetSqlStringCommand(
+                                    "INSERT INTO comissao (idcliente, idpedido, status, datacadastro, valor, datavencimento) values (@idcliente, @idpedido, @status, getdate(), @valor, @datavencimento)");
+                            db.AddInParameter(command, "@idcliente", DbType.Int16, Convert.ToInt16(reader1["cadastrado_por"].ToString()));
+                            db.AddInParameter(command, "@idpedido", DbType.Int16, Convert.ToInt16(idpedido));
+                            db.AddInParameter(command, "@status", DbType.String, "Aguardando Pagamento");
+                            db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(reader1["valor"].ToString()));
+                            db.AddInParameter(command, "@datavencimento", DbType.String, DateTime.Now.AddMonths(i).Date);
+                            db.ExecuteNonQuery(command);
+                        }
+                    }
+                    else
                     {
                         DbCommand command = db.GetSqlStringCommand(
-                                "INSERT INTO fatura (idpedido, status, datacadastro, valor, datavencimento) values (@idpedido, @status, getdate(), @valor, @datavencimento)");
+                                    "INSERT INTO comissao (idcliente, idpedido, status, datacadastro, valor, datavencimento) values (@idcliente, @idpedido, @status, getdate(), @valor, @datavencimento)");
+                        db.AddInParameter(command, "@idcliente", DbType.Int16, Convert.ToInt16(reader1["cadastrado_por"].ToString()));
                         db.AddInParameter(command, "@idpedido", DbType.Int16, Convert.ToInt16(idpedido));
                         db.AddInParameter(command, "@status", DbType.String, "Aguardando Pagamento");
                         db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(reader1["valor"].ToString()));
-                        db.AddInParameter(command, "@datavencimento", DbType.String, DateTime.Now.AddMonths(i).Date);
+                        db.AddInParameter(command, "@datavencimento", DbType.String, DateTime.Now.AddMonths(1).Date);
                         db.ExecuteNonQuery(command);
                     }
                 }

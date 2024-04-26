@@ -78,15 +78,22 @@
                 </div>
             </div>
             <!-- Controls End -->
+
             <!-- Discount List Start -->
             <div class="row">
                 <div class="col-12 mb-5">
-                    <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados para visualizar" DataSourceID="sdsDados" OnRowCommand="gdvDados_RowCommand">
+                    <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados para visualizar" DataSourceID="sdsDados" OnRowCommand="GdvDados_RowCommand">
                         <Columns>
-                             <asp:TemplateField>
-     <ItemTemplate>
-         <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("id") %>' CommandName="Editar" runat="server" Text="Editar" /></ItemTemplate>
- </asp:TemplateField>
+
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <!-- Botão de Excluir -->
+                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnExcluir" CssClass="btn btn-icon btn-icon-start btn-danger" CommandArgument='<%# Eval("id") %>' CommandName="Excluir" runat="server" Text="Excluir" />
+                                    <!-- Botão de Editar -->
+                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("id") %>' CommandName="Editar" runat="server" Text="Editar" />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
                             <asp:BoundField DataField="id" HeaderText="#Cod" InsertVisible="False" ReadOnly="True" SortExpression="id" />
                             <asp:BoundField DataField="razao_social" Visible="false" HeaderText="razao_social" SortExpression="razao_social" />
                             <asp:BoundField DataField="cnpj_cpf" HeaderText="CPF" SortExpression="cnpj_cpf" />
@@ -99,10 +106,11 @@
                             <asp:BoundField DataField="status" HeaderText="Status" SortExpression="status" />
                             <asp:BoundField DataField="datacadastro" HeaderText="Desde de" SortExpression="datacadastro" />
                                                         <asp:TemplateField>
-    <ItemTemplate>
-        <asp:HyperLink ID="lkbContrato" runat="server" Text="Ver Contrato" NavigateUrl='<%# "http://global360.app.br/src/admin/viewcontrato.aspx?id=" + Eval("token")%>'></asp:HyperLink></ItemTemplate>
-</asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:HyperLink ID="lkbContrato" runat="server" Text="Ver Contrato" NavigateUrl='<%# "http://global360.app.br/src/admin/viewcontrato.aspx?id=" + Eval("token")%>'></asp:HyperLink></ItemTemplate>
+                            </asp:TemplateField>
                         </Columns>
+
                         <EditRowStyle BackColor="#7C6F57" />
                         <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
                         <HeaderStyle />
@@ -113,11 +121,12 @@
                         <SortedAscendingHeaderStyle BackColor="#246B61" />
                         <SortedDescendingCellStyle BackColor="#D4DFE1" />
                         <SortedDescendingHeaderStyle BackColor="#15524A" />
+
                     </asp:GridView>
-                    <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select * from cliente where idtipocliente = 1
-order by nomecompleto"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select * from cliente where idtipocliente = 1 order by nomecompleto"></asp:SqlDataSource>
                 </div>
             </div>
+
             <!-- Discount Add Modal Start -->
             <asp:Panel ID="pnlModal" runat="server" CssClass="modal-right" Visible="false">
                 <div class="modal-dialog">

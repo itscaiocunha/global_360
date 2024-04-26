@@ -19,6 +19,7 @@ using global.iugu;
 using static global.iugu.Assinaturas;
 using static global.iugu.token;
 using w7startup.src.iugu;
+using System.Web.UI.WebControls;
 
 namespace global.lojista
 {
@@ -96,6 +97,9 @@ namespace global.lojista
 
         protected void btnSalvar_Click(object sender, EventArgs e)
         {
+
+            System.Threading.Thread.Sleep(200);
+
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
             string valorfinal = lblValorTotal.Text.Replace(",", "").Replace(".", "");
             valorfinal = valorfinal.PadRight(4, '0');
@@ -199,6 +203,7 @@ namespace global.lojista
                     {
                         auth.InserirStatus(lblNumeroPedido.Text, ddlStatus.SelectedValue);
                         auth.RotinaFaturas(lblNumeroPedido.Text);
+                        auth.RotinaComissao(lblNumeroPedido.Text);
 
                         using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                              "select * from pedido p join cliente c on c.id = p.idconsumidor where p.id = '" + lblNumeroPedido.Text + "'"))
@@ -786,5 +791,7 @@ namespace global.lojista
                 }
             }
         }
+
+
     }
 }
