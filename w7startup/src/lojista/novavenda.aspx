@@ -388,7 +388,7 @@ order by pp.lote">
                                         }
                                     </style>
                                     <div class="updateprogress-centered">
-                                        <img src="../../assets/images/loader_progress.gif" alt="Loading..." />
+                                        <img src="../assets/images/loader_progress.gif" alt="Loading..." />
                                     </div>
                                 </ProgressTemplate>
                             </asp:UpdateProgress>
