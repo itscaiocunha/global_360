@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <!-- Title End -->
-
+                    <asp:Label ID="lblTeste" runat="server"></asp:Label>
                     <!-- Top Buttons Start -->
                     <div class="w-100 d-md-none"></div>
                     <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
@@ -87,8 +87,7 @@
 
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <!-- Botão de Excluir -->
-                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnExcluir" CssClass="btn btn-icon btn-icon-start btn-danger" CommandArgument='<%# Eval("id") %>' CommandName="Excluir" runat="server" Text="Excluir" />
+                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnExcluir" CssClass="btn btn-icon btn-icon-start btn-danger" CommandArgument='<%# Eval("id") %>' CommandName="Excluir" runat="server" Text="Excluir" style="width: 75px; height: 36px;" />
                                     <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
                                         <ProgressTemplate>
                                         <style type="text/css">
@@ -121,7 +120,6 @@
                                             <div class="updateprogress-overlay"></div>
                                         </ProgressTemplate>
                                     </asp:UpdateProgress>
-                                    <!-- Botão de Editar -->
                                     <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("id") %>' CommandName="Editar" runat="server" Text="Editar" />
                                 </ItemTemplate>
                             </asp:TemplateField>
@@ -259,9 +257,9 @@
                         <div class="modal-footer border-0">
                             <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
                             <br />
-                            <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click1" />
                             <asp:LinkButton ID="lkbFechar" runat="server" CssClass="btn btn-danger btn-icon btn-icon-start" OnClick="lkbFechar_Click">
-<i data-acorn-icon="close"></i> Fechar </asp:LinkButton>         
+<i data-acorn-icon="close"></i> Fechar </asp:LinkButton>    
+                            <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click1" />
                         </div>
                     </div>
                 </div>

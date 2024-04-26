@@ -259,9 +259,8 @@ order by nomecompleto"></asp:SqlDataSource>
                         <div class="modal-footer border-0">
                             <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
                             <br />
+                            <asp:LinkButton ID="lkbFechar" runat="server" CssClass="btn btn-danger btn-icon btn-icon-start" OnClick="lkbFechar_Click"><i data-acorn-icon="close"></i> Fechar </asp:LinkButton>         
                             <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click1" />
-                            <asp:LinkButton ID="lkbFechar" runat="server" CssClass="btn btn-danger btn-icon btn-icon-start" OnClick="lkbFechar_Click">
-<i data-acorn-icon="close"></i> Fechar </asp:LinkButton>         
                         </div>
                     </div>
                 </div>

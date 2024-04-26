@@ -55,6 +55,9 @@
                             <asp:Label ID="lblCliente" runat="server" Text=""></asp:Label>
                         </div>
                         <div>
+                            <asp:Label ID="lblCPF" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div>
                             <asp:Label ID="lblEndereco" runat="server" Text=""></asp:Label>
                         </div>
                         <div>

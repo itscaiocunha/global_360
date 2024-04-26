@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <!-- Title End -->
-
+                    
                     <!-- Top Buttons Start -->
                     <div class="w-100 d-md-none"></div>
                     <div class="col-12 col-sm-6 col-md-auto d-flex align-items-end justify-content-end mb-2 mb-sm-0 order-sm-3">
@@ -108,7 +108,7 @@
                         <SortedDescendingHeaderStyle BackColor="#15524A" />
                     </asp:GridView>
                     <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select * from produto p
-join categoria c on c.id = p.idcategoria
+join categoria c on c.id = p.idcategoria where p.status = 'Ativo'
 order by p.titulo"></asp:SqlDataSource>
                 </div>
             </div>
@@ -155,9 +155,9 @@ order by p.titulo"></asp:SqlDataSource>
                         <div class="modal-footer border-0">
                             <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
                             <br />
-                            <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click" />
                             <asp:LinkButton ID="lkbFechar" runat="server" CssClass="btn btn-danger btn-icon btn-icon-start" OnClick="lkbFechar_Click">
 <i data-acorn-icon="close"></i> Fechar </asp:LinkButton>         
+                            <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click" />
                         </div>
                     </div>
                 </div>
