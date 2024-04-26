@@ -374,22 +374,34 @@ order by pp.lote">
                             <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Finalizar Pedido" OnClick="btnSalvar_Click" />
                             <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
                                 <ProgressTemplate>
-                                    <style type="text/css">
-                                        .updateprogress-centered {
-                                            position: absolute;
-                                            top: 50%;
-                                            left: 50%;
-                                            transform: translate(-50%, -50%);
-                                        }
+                                <style type="text/css">
+                                    .updateprogress-overlay {
+                                        position: fixed;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                        background-color: rgba(0, 0, 0, 0.5);
+                                        z-index: 1000; 
+                                    }
 
-                                        .updateprogress-centered img {
-                                            width: 150px;
-                                            height: 150px;
-                                        }
+                                    .updateprogress-centered {
+                                        position: absolute;
+                                        top: 50%;
+                                        left: 50%;
+                                        transform: translate(-50%, -50%);
+                                        z-index: 1001; 
+                                    }
+
+                                    h1 {
+                                        font-size: 20px;
+                                        color: white;
+                                    }
                                     </style>
                                     <div class="updateprogress-centered">
-                                        <img src="../images/loader_progress.gif" alt="Salvando..." />
+                                        <h1>Salvando... Por favor aguarde!</h1>
                                     </div>
+                                    <div class="updateprogress-overlay"></div>
                                 </ProgressTemplate>
                             </asp:UpdateProgress>
                         </div>
