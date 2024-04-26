@@ -180,7 +180,7 @@ namespace global.admin
                                                     txtCidade.Text = "";
                                                     txtComplemento.Text = "";
                                                     txtCelular.Text = "";
-                                                    gdvDados.DataBind();                                                    
+                                                    gdvDados.DataBind();
                                                 }
                                                 catch (Exception ex)
                                                 {
@@ -274,39 +274,55 @@ namespace global.admin
 
         protected void gdvDados_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
         {
-            try
+
+            hdfId.Value = e.CommandArgument.ToString();
+
+            if (e.CommandName == "Excluir")
             {
-                hdfId.Value = e.CommandArgument.ToString();
-                using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                              "SELECT * from cliente where id = '" + hdfId.Value + "'"))
+                ExcluirRegistro();
+            }
+            else if (e.CommandName == "Editar")
+            {
+                EditarRegistro();
+            }
+        }
+
+        protected void EditarRegistro()
+        {
+            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                  "SELECT * from cliente where id = '" + hdfId.Value + "'"))
+            {
+                if (reader.Read())
                 {
-                    if (reader.Read())
-                    {
-                        txtNomeCliente.Text = reader["nomecompleto"].ToString();
-                        txtRazaoSocial.Text = reader["razao_social"].ToString();
-                        txtIE.Text = reader["inscricao_estadual"].ToString();
-                        txtCPFCNPJ.Text = reader["cnpj_cpf"].ToString();
-                        ddlDistribuidor.SelectedValue = reader["cadastrado_por"].ToString();
-                        txtEmail.Text = reader["email"].ToString();
-                        txtCEP.Text = reader["cep"].ToString();
-                        txtEndereco.Text = reader["endereco"].ToString();
-                        txtBairro.Text = reader["bairro"].ToString();
-                        txtNum.Text = reader["numero"].ToString();
-                        txtCidade.Text = reader["cidade"].ToString();
-                        txtComplemento.Text = reader["complemento"].ToString();
-                        ddlUF.SelectedValue = reader["estado"].ToString();
-                        txtCelular.Text = reader["celular"].ToString();
-                        ddlStatus.SelectedValue = reader["status"].ToString();
-                        txtNomeCliente.Focus();
-                        pnlModal.Visible = true;
-                        lblMensagem.Text = "";
-                    }
+                    txtNomeCliente.Text = reader["nomecompleto"].ToString();
+                    txtRazaoSocial.Text = reader["razao_social"].ToString();
+                    txtIE.Text = reader["inscricao_estadual"].ToString();
+                    txtCPFCNPJ.Text = reader["cnpj_cpf"].ToString();
+                    ddlDistribuidor.SelectedValue = reader["cadastrado_por"].ToString();
+                    txtEmail.Text = reader["email"].ToString();
+                    txtCEP.Text = reader["cep"].ToString();
+                    txtEndereco.Text = reader["endereco"].ToString();
+                    txtBairro.Text = reader["bairro"].ToString();
+                    txtNum.Text = reader["numero"].ToString();
+                    txtCidade.Text = reader["cidade"].ToString();
+                    txtComplemento.Text = reader["complemento"].ToString();
+                    ddlUF.SelectedValue = reader["estado"].ToString();
+                    txtCelular.Text = reader["celular"].ToString();
+                    ddlStatus.SelectedValue = reader["status"].ToString();
+                    txtNomeCliente.Focus();
+                    pnlModal.Visible = true;
+                    lblMensagem.Text = "";
                 }
             }
-            catch(Exception x)
-            {
-                lblTeste.Text = x.Message;
-            }
+        }
+
+        protected void ExcluirRegistro()
+        {
+
+            System.Threading.Thread.Sleep(1000);
+
+            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                          "Delete from cliente where id = '" + hdfId.Value + "'")) ;
         }
     }
 }

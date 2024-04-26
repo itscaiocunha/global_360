@@ -351,6 +351,9 @@ namespace global.admin
 
         protected void ExcluirRegistro ()
         {
+
+            System.Threading.Thread.Sleep(1000);
+
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                           "Delete from cliente where id = '" + hdfId.Value + "'"));
         }

@@ -89,6 +89,38 @@
                                 <ItemTemplate>
                                     <!-- Botão de Excluir -->
                                     <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnExcluir" CssClass="btn btn-icon btn-icon-start btn-danger" CommandArgument='<%# Eval("id") %>' CommandName="Excluir" runat="server" Text="Excluir" />
+                                    <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
+                                        <ProgressTemplate>
+                                        <style type="text/css">
+                                            .updateprogress-overlay {
+                                                position: fixed;
+                                                top: 0;
+                                                left: 0;
+                                                width: 100%;
+                                                height: 100%;
+                                                background-color: rgba(0, 0, 0, 0.5);
+                                                z-index: 1000; 
+                                            }
+
+                                            .updateprogress-centered {
+                                                position: absolute;
+                                                top: 50%;
+                                                left: 50%;
+                                                transform: translate(-50%, -50%);
+                                                z-index: 1001; 
+                                            }
+
+                                            h1 {
+                                                font-size: 20px;
+                                                color: white;
+                                            }
+                                            </style>
+                                            <div class="updateprogress-centered">
+                                                <h1>Excluindo...</h1>
+                                            </div>
+                                            <div class="updateprogress-overlay"></div>
+                                        </ProgressTemplate>
+                                    </asp:UpdateProgress>
                                     <!-- Botão de Editar -->
                                     <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("id") %>' CommandName="Editar" runat="server" Text="Editar" />
                                 </ItemTemplate>
