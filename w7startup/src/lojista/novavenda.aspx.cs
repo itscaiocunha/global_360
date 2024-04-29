@@ -182,7 +182,7 @@ namespace global.lojista
                 try
                 {
                     DbCommand command = db.GetSqlStringCommand(
-                    "UPDATE pedido SET valor = @valor, idtaxa = @idtaxa, idlojista = @idlojista, idconsumidor = @idconsumidor, observacao = @observacao,rastreio = @rastreio, status = @status, notafiscal = @notafiscal, prazo_entrega = @prazo_entrega, data_entrega = @data_entrega, idcartao = @idcartao, datacadastro = getdate(), idassinatura = @idassinatura where id = @id");
+                    "UPDATE pedido SET desconto = @desconto, valor = @valor, idtaxa = @idtaxa, idlojista = @idlojista, idconsumidor = @idconsumidor, observacao = @observacao,rastreio = @rastreio, status = @status, notafiscal = @notafiscal, prazo_entrega = @prazo_entrega, data_entrega = @data_entrega, idcartao = @idcartao, datacadastro = getdate(), idassinatura = @idassinatura where id = @id");
                     db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));
                     db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.RetornaTotalPedido(lblNumeroPedido.Text)));
                     db.AddInParameter(command, "@idtaxa", DbType.Int16, Convert.ToInt16(auth.RetornaTaxaComissao(Session["idcliente"].ToString())));
@@ -196,6 +196,7 @@ namespace global.lojista
                     db.AddInParameter(command, "@data_entrega", DbType.DateTime, DateTime.Now);
                     db.AddInParameter(command, "@idcartao", DbType.Int16, 0);
                     db.AddInParameter(command, "@idassinatura", DbType.String, idiugu);
+                    db.AddInParameter(command, "@desconto", DbType.String, lblDesconto.Text);
 
                     db.ExecuteNonQuery(command);
 
