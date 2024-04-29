@@ -52,7 +52,7 @@ namespace global
                     {
                         DbCommand command = db.GetSqlStringCommand(
                 "INSERT INTO cliente (token, cnpj_cpf, rg, inscricao_estadual, razao_social, email, celular, nomecompleto, cep, endereco, bairro, numero, cidade, estado, complemento, idtipocliente, status, qtde_lojistas) values (@token, @cnpj_cpf, @rg, @inscricao_estadual, @razao_social, @email, @celular, @nomecompleto, @cep, @endereco, @bairro, @numero, @cidade, @estado, @complemento, @idtipocliente, @status, @qtde_lojistas)");
-                        db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(auth.GeraTokenAleatorio()).Replace("+", "=").Replace("/", "="));
+                        db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(auth.GeraTokenAleatorio()).Replace("+", ""));
                         db.AddInParameter(command, "@cnpj_cpf", DbType.String, txtCNPJ.Text);
                         db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
                         db.AddInParameter(command, "@razao_social", DbType.String, txtRazaoSocial.Text);
@@ -242,7 +242,7 @@ namespace global
                         "INSERT INTO usuario (idcliente, email, senha, status) values (@idcliente, @email, @senha, 'ATIVO')");
                                     db.AddInParameter(command2, "@idcliente", DbType.Int16, Convert.ToInt16(reader["id"].ToString()));
                                     db.AddInParameter(command2, "@email", DbType.String, txtEmail.Text);
-                                    db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(pw));
+                                    db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(pw).Replace("+", ""));
                                     try
                                     {
                                         db.ExecuteNonQuery(command2);

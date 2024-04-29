@@ -84,7 +84,7 @@ namespace global
                         lblMensagem.Text = "Usuário não liberado. Tente novamente!" ;
                 }
                 else
-                    lblMensagem.Text = "E-mail ou senha incorretos. Tente novamente!" + senha ;
+                    lblMensagem.Text = "E-mail ou senha incorretos. Tente novamente!";
             }
         }
 
