@@ -45,13 +45,14 @@ namespace global
                 if (reader.Read())
                 {
                     string newpw = auth.GeraTokenAleatorio();
+                    string senha = Criptografia.Encrypt(newpw).Replace("+", "=");
                     Database db = DatabaseFactory.CreateDatabase("ConnectionString");
                     try
                     {
                         DbCommand command = db.GetSqlStringCommand(
-                        "UPDATE usuario SET senha = @senha where id = @id");
+                        "UPDATE usuario SET senha = @senha where idcliente = @id");
                         db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(reader["id"].ToString()));
-                        db.AddInParameter(command, "@senha", DbType.String, Criptografia.Encrypt(newpw).Replace("+", "="));
+                        db.AddInParameter(command, "@senha", DbType.String, senha);
 
                         db.ExecuteNonQuery(command);
 

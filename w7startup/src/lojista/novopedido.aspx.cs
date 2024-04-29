@@ -86,6 +86,8 @@ namespace global.lojista
 
         protected void btnSalvar_Click(object sender, EventArgs e)
         {
+            System.Threading.Thread.Sleep(1000);
+
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
             DbCommand command = db.GetSqlStringCommand(
@@ -131,7 +133,7 @@ namespace global.lojista
                     }
                 }
 
-                lblMensagem.Text = "Pedido realizado com sucesso!";
+                lblMensagem.Text = "<span style='color: black; font-size: 30px;'>Pedido realizado com sucesso!</span>"; 
             }
             catch (Exception ex)
             {

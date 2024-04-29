@@ -87,10 +87,14 @@ namespace global.lojista
 
         protected void btnSalvar_Click1(object sender, EventArgs e)
         {
+
+            System.Threading.Thread.Sleep(1000);
+
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
+            bool isNewRecord = string.IsNullOrEmpty(hdfId.Value);
 
             //aqui vai inserir um registro novo no sistema
-            if (hdfId.Value == "")
+            if (isNewRecord)
             {
                 if (!auth.VerificaCNPJ(txtCPFCNPJ.Text))
                 {
@@ -129,25 +133,25 @@ namespace global.lojista
 
                             DbCommand command = db.GetSqlStringCommand(
                "INSERT INTO cliente (token, cnpj_cpf, rg, inscricao_estadual, razao_social, email, celular, nomecompleto, cep, endereco, bairro, numero, cidade, estado, complemento, idtipocliente, status, cadastrado_por, idiugu) values (@token, @cnpj_cpf, @rg, @inscricao_estadual, @razao_social, @email, @celular, @nomecompleto, @cep, @endereco, @bairro, @numero, @cidade, @estado, @complemento, @idtipocliente, @status, @cadastrado_por, @idiugu)");
-                        db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(auth.GeraTokenAleatorio()).Replace("+", "=").Replace("/", "="));
-                        db.AddInParameter(command, "@cnpj_cpf", DbType.String, txtCPFCNPJ.Text);
-                        db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
-                        db.AddInParameter(command, "@razao_social", DbType.String, "");
-                        db.AddInParameter(command, "@inscricao_estadual", DbType.String, "");
-                        db.AddInParameter(command, "@email", DbType.String, txtEmail.Text);
-                        db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
-                        db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeCliente.Text);
-                        db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
-                        db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
-                        db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
-                        db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
-                        db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
-                        db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
-                        db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
-                        db.AddInParameter(command, "@idtipocliente", DbType.Int16, 3);//id do cliente final
-                        db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
-                        db.AddInParameter(command, "@cadastrado_por", DbType.Int32, Convert.ToInt32(hdfIdUsuario.Value));
-                        db.AddInParameter(command, "@idiugu", DbType.String, idiugu);
+                            db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(auth.GeraTokenAleatorio()).Replace("+", "=").Replace("/", "="));
+                            db.AddInParameter(command, "@cnpj_cpf", DbType.String, txtCPFCNPJ.Text);
+                            db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
+                            db.AddInParameter(command, "@razao_social", DbType.String, "");
+                            db.AddInParameter(command, "@inscricao_estadual", DbType.String, "");
+                            db.AddInParameter(command, "@email", DbType.String, txtEmail.Text);
+                            db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
+                            db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeCliente.Text);
+                            db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
+                            db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
+                            db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
+                            db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
+                            db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
+                            db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
+                            db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
+                            db.AddInParameter(command, "@idtipocliente", DbType.Int16, 3);
+                            db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                            db.AddInParameter(command, "@cadastrado_por", DbType.Int32, Convert.ToInt32(hdfIdUsuario.Value));
+                            db.AddInParameter(command, "@idiugu", DbType.String, idiugu);
 
                             db.ExecuteNonQuery(command);
 
@@ -193,7 +197,7 @@ namespace global.lojista
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Senha de acesso</strong><br>" + pw + "</p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><a href='https://global360.app.br/src/login.aspx'>Plataforma Global 360</a></p>";
                                                     strHtml = strHtml + "</font><img src=''></body></html>";
-                                                    
+
                                                     //base teste
                                                     Email.emailTxt("contato@w7agencia.com.br", "contato@w7agencia.com.br", "", "", "Global 360 - Cliente", strHtml, 1);
                                                     //base oficial
@@ -234,70 +238,56 @@ namespace global.lojista
                     }
                     else
                     {
-                        lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu e-mail.";
+                        lblMensagem.Text = "Não foi possível realizar o cadastro, E-mail já existe! Verifique o seu E-mail.";
                     }
                 }
                 else
                 {
-                    lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu cnpj.";
+                    lblMensagem.Text = "Não foi possível realizar o cadastro, CPF já existe! Verifique o seu CPF.";
                 }
             }
             //aqui vai editar um registro dentro do sistema
             else
             {
-                if (!auth.VerificaCNPJ(txtCPFCNPJ.Text))
-                {
-                    if (!auth.VerificaEmail(txtEmail.Text))
-                    {
-                        DbCommand command = db.GetSqlStringCommand(
-               "UPDATE cliente SET rg = @rg, razao_social = @razao_social, inscricao_estadual = @inscricao_estadual, celular = @celular, nomecompleto = @nomecompleto, cep = @cep, endereco = @endereco, bairro = @bairro, numero = @numero, cidade = @cidade, estado = @estado, complemento = @complemento, status = @status where id = @id");
-                        db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(hdfId.Value));
-                        db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
-                        db.AddInParameter(command, "@razao_social", DbType.String, "");
-                        db.AddInParameter(command, "@inscricao_estadual", DbType.String, "");
-                        db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
-                        db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeCliente.Text);
-                        db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
-                        db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
-                        db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
-                        db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
-                        db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
-                        db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
-                        db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
-                        db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                    DbCommand command = db.GetSqlStringCommand(
+           "UPDATE cliente SET rg = @rg, razao_social = @razao_social, inscricao_estadual = @inscricao_estadual, celular = @celular, nomecompleto = @nomecompleto, cep = @cep, endereco = @endereco, bairro = @bairro, numero = @numero, cidade = @cidade, estado = @estado, complemento = @complemento, status = @status where id = @id");
+                    db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(hdfId.Value));
+                    db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
+                    db.AddInParameter(command, "@razao_social", DbType.String, "");
+                    db.AddInParameter(command, "@inscricao_estadual", DbType.String, "");
+                    db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
+                    db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeCliente.Text);
+                    db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
+                    db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
+                    db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
+                    db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
+                    db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
+                    db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
+                    db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
+                    db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
 
-                        try
-                        {
-                            db.ExecuteNonQuery(command);
-                            lblMensagem.Text = "Informação atualizada com sucesso!";
-                            txtNomeCliente.Text = "";
-                            txtCPFCNPJ.Text = "";
-                            txtEmail.Text = "";
-                            txtCEP.Text = "";
-                            txtEndereco.Text = "";
-                            txtBairro.Text = "";
-                            txtNum.Text = "";
-                            txtCidade.Text = "";
-                            txtComplemento.Text = "";
-                            txtCelular.Text = "";
-                            hdfId.Value = "";
-                            gdvDados.DataBind();
-                            pnlModal.Visible = false;
-                        }
-                        catch (Exception ex)
-                        {
-                            lblMensagem.Text = "Erro ao tentar atualizada informação. " + ex.Message;
-                        }
-                    }
-                    else
+                    try
                     {
-                        lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu e-mail.";
+                        db.ExecuteNonQuery(command);
+                        lblMensagem.Text = "Informação atualizada com sucesso!";
+                        txtNomeCliente.Text = "";
+                        txtCPFCNPJ.Text = "";
+                        txtEmail.Text = "";
+                        txtCEP.Text = "";
+                        txtEndereco.Text = "";
+                        txtBairro.Text = "";
+                        txtNum.Text = "";
+                        txtCidade.Text = "";
+                        txtComplemento.Text = "";
+                        txtCelular.Text = "";
+                        hdfId.Value = "";
+                        gdvDados.DataBind();
+                        pnlModal.Visible = false;
                     }
-                }
-                else
-                {
-                    lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu cnpj.";
-                }
+                    catch (Exception ex)
+                    {
+                        lblMensagem.Text = "Erro ao tentar atualizada informação. " + ex.Message;
+                    }
             }
         }
 

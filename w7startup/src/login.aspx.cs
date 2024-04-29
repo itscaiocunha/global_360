@@ -81,10 +81,10 @@ namespace global
                     else if (reader["idperfil"].ToString() == "7")
                         Response.Redirect("cliente/vendas.aspx", false);
                     else
-                        lblMensagem.Text = "Usuário não liberado. Tente novamente!";
+                        lblMensagem.Text = "Usuário não liberado. Tente novamente!" ;
                 }
                 else
-                    lblMensagem.Text = "E-mail ou senha incorretos. Tente novamente!";
+                    lblMensagem.Text = "E-mail ou senha incorretos. Tente novamente!" + senha ;
             }
         }
 
