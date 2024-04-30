@@ -548,12 +548,12 @@ namespace global.lojista
                     }
                     else
                     {
-                        lblMensagemCliente.Text = "Não foi possível realizar o cadastro! Verifique o seu e-mail.";
+                        lblMensagemCliente.Text = "Não foi possível realizar o cadastro, E-mail já existe! Verifique o seu E-mail.";
                     }
                 }
                 else
                 {
-                    lblMensagemCliente.Text = "Não foi possível realizar o cadastro! Verifique o seu cpf.";
+                    lblMensagemCliente.Text = "Não foi possível realizar o cadastro, CPF já existe! Verifique o seu CPF.";
                 }
             }
             else

@@ -91,7 +91,23 @@ order by nomecompleto">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">CPF/CNPJ</label>
-                        <asp:TextBox ID="txtCPFCNPJ" onkeyup="formataCPF(this,event);" MaxLength="14" runat="server" CssClass="form-control" Required></asp:TextBox>
+                        <asp:TextBox ID="txtCPFCNPJ" onkeyup="determinarTipoDocumento(this);" MaxLength="18" runat="server" CssClass="form-control" Required></asp:TextBox>
+
+                        <script>
+                            function determinarTipoDocumento(textBox) {
+                                var value = textBox.value.replace(/\D/g, '');
+        
+                                if (value.length <= 11) {
+                                    textBox.maxLength = 14;
+                                    formataCPF(textBox);
+                                } else {
+                                    textBox.maxLength = 18;
+                                    formataCNPJ(textBox);
+                                }
+                            }
+                        </script>
+
+
                     </div>
                     <div class="mb-3">
                         <label class="form-label">RG</label>

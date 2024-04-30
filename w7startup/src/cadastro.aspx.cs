@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Data.Common;
 using global.iugu;
+using System.Runtime.Remoting.Messaging;
 
 namespace global
 {
@@ -44,7 +45,7 @@ namespace global
         {
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
-            if (ddlTipo.SelectedValue == "PJ")//pessoa juridica
+            if (ddlTipo.SelectedValue == "PJ") //pessoa juridica
             {
                 if (!auth.VerificaCNPJ(txtCNPJ.Text))
                 {
@@ -73,11 +74,23 @@ namespace global
 
                         try
                         {
+                            bool cnpjExistente;
                             db.ExecuteNonQuery(command);
 
                             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                                   "SELECT * from cliente where cnpj_cpf = '" + txtCNPJ.Text + "'"))
                             {
+                                {
+                                    cnpjExistente = reader.Read();
+                                }
+
+                                if (cnpjExistente)
+                                {
+                                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CPF já existe! Verifique o seu CPF.";
+                                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
+                                    return;
+                                }
+
                                 if (reader.Read())
                                 {
                                     string pw = txtSenha.Text;
@@ -89,11 +102,24 @@ namespace global
                                     db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(pw).Replace("+", ""));
                                     try
                                     {
+                                        bool emailExistente;
                                         db.ExecuteNonQuery(command2);
 
                                         using (IDataReader reader2 = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                                   "SELECT * from usuario where email = '" + txtEmail.Text + "'"))
                                         {
+
+                                            {
+                                                emailExistente = reader.Read();
+                                            }
+
+                                            if (emailExistente)
+                                            {
+                                                lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
+                                                txtEmail.BorderColor = System.Drawing.Color.Red;
+                                                return;
+                                            }
+
                                             if (reader2.Read())
                                             {
                                                 DbCommand command3 = db.GetSqlStringCommand(
@@ -163,12 +189,14 @@ namespace global
                     }
                     else
                     {
-                        lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu e-mail.";
+                        lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
+                        txtEmail.BorderColor = System.Drawing.Color.Red;
                     }
                 }
                 else
                 {
-                    lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu cnpj.";
+                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CNPJ já existe! Verifique o seu CNPJ.";
+                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
                 }
             }
             else
@@ -230,10 +258,23 @@ namespace global
                             db.AddInParameter(command, "@qtde_lojistas", DbType.Int16, Convert.ToInt16(txtQtdeLojistas.Text));
 
                             db.ExecuteNonQuery(command);
+                            
+                            bool cpfExistente;
 
                             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                                   "SELECT * from cliente where cnpj_cpf = '" + txtCPF.Text + "'"))
                             {
+                                {
+                                    cpfExistente = reader.Read();
+                                }
+
+                                if (cpfExistente)
+                                {
+                                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CPF já existe! Verifique o seu CPF.";
+                                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
+                                    return;
+                                }
+
                                 if (reader.Read())
                                 {
                                     string pw = txtSenha.Text;
@@ -247,9 +288,22 @@ namespace global
                                     {
                                         db.ExecuteNonQuery(command2);
 
+                                        bool emailExistente;
+
                                         using (IDataReader reader2 = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                                   "SELECT * from usuario where email = '" + txtEmail.Text + "'"))
                                         {
+                                            {
+                                                emailExistente = reader.Read();
+                                            }
+
+                                            if (emailExistente)
+                                            {
+                                                lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
+                                                txtEmail.BorderColor = System.Drawing.Color.Red;
+                                                return;
+                                            }
+
                                             if (reader2.Read())
                                             {
                                                 DbCommand command3 = db.GetSqlStringCommand(
@@ -314,12 +368,14 @@ namespace global
                     }
                     else
                     {
-                        lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu e-mail.";
+                        lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
+                        txtEmail.BorderColor = System.Drawing.Color.Red;
                     }
                 }
                 else
                 {
-                    lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu cpf.";
+                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CPF já existe! Verifique o seu CPF.";
+                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
                 }
             }
         }
