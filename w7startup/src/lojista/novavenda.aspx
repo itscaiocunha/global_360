@@ -58,10 +58,16 @@
                 <asp:Panel ID="pnlCliente" runat="server">
                     <div class="mb-3">
                         <label class="form-label">Escolha uma opção</label>
-                        <asp:RadioButtonList ID="rblCliente" runat="server" AutoPostBack="true" OnSelectedIndexChanged="rblCliente_SelectedIndexChanged" RepeatDirection="Horizontal" RepeatLayout="Flow">
+                        <asp:RadioButtonList ID="rblCliente" runat="server" AutoPostBack="true" OnSelectedIndexChanged="rblCliente_SelectedIndexChanged" RepeatDirection="Vertical" CssClass="radio-list-item">
                             <asp:ListItem Text="Novo Cliente"></asp:ListItem>
-                            <asp:ListItem Text="Cliente cadastrado"></asp:ListItem>
+                            <asp:ListItem Text="Cliente Cadastrado"></asp:ListItem>
                         </asp:RadioButtonList>
+
+                        <style>
+                            .radio-list-item {
+                                margin-bottom: 10px;
+                            }
+                        </style>
 
                     </div>
                     <div class="mb-3">

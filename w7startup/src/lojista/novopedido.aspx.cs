@@ -133,12 +133,16 @@ namespace global.lojista
                     }
                 }
 
-                lblMensagem.Text = "<span style='color: black; font-size: 30px;'>Pedido realizado com sucesso!</span>"; 
+                lblSUbTotal.Visible = false;
+                lblDesconto.Visible = false;
+                lblValorTotal.Visible = false;
+
+                lblMensagem.Text = "<span style='color: black; font-weight: bold; font-size: 16px;'>Pedido realizado com sucesso!</span>";
             }
             catch (Exception ex)
             {
                 lblMensagem.Text = "Erro ao tentar atualizar informação. " + ex.Message;
-            }        
+            }
 
             //gera novo pedido
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
@@ -162,7 +166,7 @@ namespace global.lojista
             db.ExecuteNonQuery(command2);
 
             gdvDados.DataBind();
-        }
+    }
 
         protected void CkbPagamento_CheckedChanged(object sender, EventArgs e)
         {
