@@ -60,7 +60,7 @@
                                             <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("idlote") %>' CommandName="Editar" runat="server" Text="Editar" />
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="idlote" HeaderText="Número Lote" ReadOnly="True" SortExpression="idlote" />
+                            <asp:BoundField DataField="numlote" HeaderText="Número Lote" ReadOnly="True" SortExpression="numlote" />
                             <asp:BoundField DataField="name_produto" HeaderText="Produto" SortExpression="name_produto" />
                             <asp:BoundField DataField="quantidade" HeaderText="Quantidade" SortExpression="quantidade" />                        
                             <asp:BoundField DataField="status" HeaderText="Status" SortExpression="status" />
@@ -94,8 +94,14 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
+                                <label class="form-label">Número do Lote</label>
+                                <asp:TextBox ID="txtLote" runat="server" CssClass="form-control" Required></asp:TextBox>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label">Nome do Produto</label>
-                                <asp:TextBox ID="txtProduto" runat="server" CssClass="form-control" Required></asp:TextBox>
+                                <asp:DropDownList ID="ddlProduto" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsProduto" DataTextField="nome" DataValueField="id"></asp:DropDownList>
+                                    <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto where status = 'Ativo'order by nome">
+                                    </asp:SqlDataSource>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Quantidade</label>

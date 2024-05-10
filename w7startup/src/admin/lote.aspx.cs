@@ -37,7 +37,7 @@ namespace global.admin
         protected void LinkButton1_Click(object sender, EventArgs e)
         {
             pnlModal.Visible = true;
-            txtProduto.Text = "";
+            txtLote.Text = "";
             txtQuantidade.Text = "";
         }
 
@@ -47,8 +47,9 @@ namespace global.admin
 
             try
             {
-                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (name_produto, quantidade, status, data_criacao) values (@name, @quantidade, @status, GETDATE())");
-                db.AddInParameter(command, "@name", DbType.String, txtProduto.Text);
+                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, quantidade, status, data_criacao) values (@lote, @name, @quantidade, @status, GETDATE())");
+                db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
+                db.AddInParameter(command, "@name", DbType.String, ddlProduto.SelectedValue);
                 db.AddInParameter(command, "@quantidade", DbType.String, txtQuantidade.Text);
                 db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
 
@@ -103,7 +104,7 @@ namespace global.admin
             {
                 if (reader.Read())
                 {
-                    txtProduto.Text = reader["name_produto"].ToString();
+                    ddlProduto.SelectedValue = reader["name_produto"].ToString();
                     txtQuantidade.Text = reader["quantidade"].ToString();
                     ddlStatus.SelectedValue = reader["status"].ToString();
                     pnlModal.Visible = true;

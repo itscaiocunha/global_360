@@ -57,7 +57,7 @@ namespace global.lojista
             db.AddInParameter(command, "@idproduto", DbType.Int16, Convert.ToInt16(ddlProduto.SelectedValue));
             db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.VerificaValor(ddlProduto.SelectedValue)));
-            db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
+            db.AddInParameter(command, "@lote", DbType.String, ddlLote.SelectedValue);
             db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
             db.AddInParameter(command, "@marca", DbType.String, txtEAN.Text);
             db.AddInParameter(command, "@modelo", DbType.String, txtEAN.Text);
@@ -111,25 +111,25 @@ namespace global.lojista
                 {
                     if (reader.Read())
                     {
-                        // corpo do e-mail
-                        string strHtml = "<html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>";
-                        strHtml = strHtml + "<title>Global 360 - Plataforma Digital</title></head><body><br>";
-                        strHtml = strHtml + "<img src='https://global360.app.br/src/img/logo/logo_global.png' width='200' alt='Logo'>";
-                        strHtml = strHtml + "<p><strong><font size='2' face='Verdana, Arial, Helvetica, sans-serif'>Novo Pedido<br>Global 360 - Plataforma Digital</font></strong></p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Olá, tudo bem?</p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Seu pedido foi realizado com sucesso na plataforma.</p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>CNPJ:</strong>" + reader["cnpj_cpf"].ToString() + "</p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Empresa:</strong>" + reader["nomecompleto"].ToString() + "</p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Razão Social:</strong>" + reader["razao_social"].ToString() + "</p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Número do Pedido:</strong>" + lblNumeroPedido.Text + "</p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Valor total:</strong> R$ " + reader["valor"].ToString() + "</p>";
-                        strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><a href='https://global360.app.br/src/login.aspx'>Plataforma Global 360</a></p>";
-                        strHtml = strHtml + "</font><img src=''></body></html>";
+                        //// corpo do e-mail
+                        //string strHtml = "<html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>";
+                        //strHtml = strHtml + "<title>Global 360 - Plataforma Digital</title></head><body><br>";
+                        //strHtml = strHtml + "<img src='https://global360.app.br/src/img/logo/logo_global.png' width='200' alt='Logo'>";
+                        //strHtml = strHtml + "<p><strong><font size='2' face='Verdana, Arial, Helvetica, sans-serif'>Novo Pedido<br>Global 360 - Plataforma Digital</font></strong></p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Olá, tudo bem?</p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Seu pedido foi realizado com sucesso na plataforma.</p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>CNPJ:</strong>" + reader["cnpj_cpf"].ToString() + "</p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Empresa:</strong>" + reader["nomecompleto"].ToString() + "</p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Razão Social:</strong>" + reader["razao_social"].ToString() + "</p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Número do Pedido:</strong>" + lblNumeroPedido.Text + "</p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Valor total:</strong> R$ " + reader["valor"].ToString() + "</p>";
+                        //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><a href='https://global360.app.br/src/login.aspx'>Plataforma Global 360</a></p>";
+                        //strHtml = strHtml + "</font><img src=''></body></html>";
 
-                        //base teste
-                        Email.emailTxt("contato@w7agencia.com.br", "contato@w7agencia.com.br", "", "", "Global 360 - Novo Pedido", strHtml, 1);
-                        //base oficial
-                        Email.emailTxt("contato@w7agencia.com.br", reader["email"].ToString(), "", "", "Global 360 - Novo Pedido", strHtml, 1);
+                        ////base teste
+                        //Email.emailTxt("contato@w7agencia.com.br", "contato@w7agencia.com.br", "", "", "Global 360 - Novo Pedido", strHtml, 1);
+                        ////base oficial
+                        //Email.emailTxt("contato@w7agencia.com.br", reader["email"].ToString(), "", "", "Global 360 - Novo Pedido", strHtml, 1);
                     }
                 }
 
