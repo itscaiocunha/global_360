@@ -78,9 +78,10 @@ namespace global.distribuidor
 
         protected void btnSalvar_Click(object sender, EventArgs e)
         {
-            Database db = DatabaseFactory.CreateDatabase("ConnectionString");
+            System.Threading.Thread.Sleep(1000);
 
-            
+            Database db = DatabaseFactory.CreateDatabase("ConnectionString");
+                        
                 DbCommand command = db.GetSqlStringCommand(
                     "UPDATE pedido SET valor = @valor, idtaxa = @idtaxa, idlojista = @idlojista, idconsumidor = @idconsumidor, observacao = @observacao, rastreio = @rastreio, status = @status, notafiscal = @notafiscal, prazo_entrega = @prazo_entrega, datacadastro = getdate() where id = @id");
                 db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));

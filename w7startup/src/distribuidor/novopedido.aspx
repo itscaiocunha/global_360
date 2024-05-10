@@ -53,8 +53,7 @@ order by nome">
                     <label class="form-label">Produto</label>
                     <asp:DropDownList ID="ddlProduto" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsProduto" DataTextField="nome" DataValueField="id">
                     </asp:DropDownList>
-                    <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto
-order by nome"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto where [status] = 'Ativo' order by nome"></asp:SqlDataSource>
                 </div>
 
                 <div class="mb-3">
@@ -178,15 +177,45 @@ where pp.idpedido = @id">
             </div>
             <div class="modal-footer border-0">
                  <p>Sub-total: R$ <asp:Label ID="lblSUbTotal" runat="server" Text="0,00"></asp:Label></p>
-  <p>Desconto: R$ <asp:Label ID="lblDesconto" runat="server" Text="0,00"></asp:Label></p>
- <p>Total: R$ <asp:Label ID="lblValorTotal" runat="server" Text="0,00"></asp:Label></p>
-               
+                 <p>Desconto: R$ <asp:Label ID="lblDesconto" runat="server" Text="0,00"></asp:Label></p>
+                 <p>Total: R$ <asp:Label ID="lblValorTotal" runat="server" Text="0,00"></asp:Label></p>
                 <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
                 <br />
                 <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click" />
+                <asp:Button ID="Button1" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click" />
+                <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
+                    <ProgressTemplate>
+                    <style type="text/css">
+                        .updateprogress-overlay {
+                             position: absolute;
+                             top: 0;
+                             left: 0;
+                             width: 100%;
+                             height: 100%;
+                             background-color: rgba(0, 0, 0, 0.5);
+                             z-index: 1000; 
+                         }
+
+                        .updateprogress-centered {
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            z-index: 1001; 
+                        }
+
+                        h1 {
+                            font-size: 20px;
+                            color: white;
+                        }
+                        </style>
+                        <div class="updateprogress-centered">
+                            <h1>Salvando... Por favor aguarde!</h1>
+                        </div>
+                        <div class="updateprogress-overlay"></div>
+                    </ProgressTemplate>
+                </asp:UpdateProgress>
             </div>
-
-
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

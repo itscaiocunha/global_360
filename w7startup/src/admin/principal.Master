@@ -192,15 +192,21 @@ join tipo_cliente t on t.id = c.idtipocliente"
                                 </a>
                             </li>
                             <li>
-    <a href="cupom.aspx">
-        <i data-acorn-icon="cupcake" class="icon" data-acorn-size="18"></i>
-        <span class="label">Cupom de Desconto</span>
-    </a>
-</li>
+                                <a href="cupom.aspx">
+                                    <i data-acorn-icon="cupcake" class="icon" data-acorn-size="18"></i>
+                                    <span class="label">Cupom de Desconto</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="Produtos.aspx">
                                     <i data-acorn-icon="cupcake" class="icon" data-acorn-size="18"></i>
                                     <span class="label">Produtos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="lote.aspx">
+                                    <i data-acorn-icon="cupcake" class="icon" data-acorn-size="18"></i>
+                                    <span class="label">Lote</span>
                                 </a>
                             </li>
                             <li>
@@ -223,17 +229,17 @@ join tipo_cliente t on t.id = c.idtipocliente"
                             </li>
 
                             <li>
-    <a href="comissao.aspx">
-        <i data-acorn-icon="cart" class="icon" data-acorn-size="18"></i>
-        <span class="label">Comissões</span>
-    </a>
-</li>
+                                <a href="comissao.aspx">
+                                    <i data-acorn-icon="cart" class="icon" data-acorn-size="18"></i>
+                                    <span class="label">Comissões</span>
+                                </a>
+                            </li>
                             <li>
-    <a href="estoque.aspx">
-        <i data-acorn-icon="cart" class="icon" data-acorn-size="18"></i>
-        <span class="label">Estoque</span>
-    </a>
-</li>
+                                <a href="estoque.aspx">
+                                    <i data-acorn-icon="cart" class="icon" data-acorn-size="18"></i>
+                                    <span class="label">Estoque</span>
+                                </a>
+                            </li>
                             <li>
                                 <a href="lojistas.aspx">
                                     <i data-acorn-icon="user" class="icon" data-acorn-size="18"></i>

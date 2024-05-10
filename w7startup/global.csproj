@@ -183,6 +183,7 @@
     <Content Include="src\admin\comissao.aspx" />
     <Content Include="src\admin\contratos.aspx" />
     <Content Include="src\admin\categoria.aspx" />
+    <Content Include="src\admin\lote.aspx" />
     <Content Include="src\admin\novavenda.aspx" />
     <Content Include="src\admin\novopedido.aspx" />
     <Content Include="src\admin\faturas.aspx" />
@@ -735,6 +736,13 @@
     </Compile>
     <Compile Include="src\admin\categoria.aspx.designer.cs">
       <DependentUpon>categoria.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="src\admin\lote.aspx.cs">
+      <DependentUpon>lote.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="src\admin\lote.aspx.designer.cs">
+      <DependentUpon>lote.aspx</DependentUpon>
     </Compile>
     <Compile Include="src\admin\novavenda.aspx.cs">
       <DependentUpon>novavenda.aspx</DependentUpon>

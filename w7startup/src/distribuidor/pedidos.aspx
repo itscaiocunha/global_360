@@ -46,7 +46,7 @@
                    </div>
                 <!-- Search End -->
 
-                <div class="col-sm-12 col-md-7 col-lg-4 col-xxl-10 text-end mb-1">
+                <%--<div class="col-sm-12 col-md-7 col-lg-4 col-xxl-10 text-end mb-1">
                     <div class="d-inline-block">
                         <!-- Print Button Start -->
                         <asp:LinkButton ID="btnImprimir" runat="server" CssClass="btn btn-icon btn-icon-only btn-foreground-alternate shadow"><i data-acorn-icon="print"></i></asp:LinkButton>
@@ -74,7 +74,7 @@
                         <!-- Export Dropdown End -->
                     </div>
                 </div>
-            </div>
+            </div>--%>
             <!-- Controls End -->
             <!-- Discount List Start -->
             <div class="row">

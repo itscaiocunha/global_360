@@ -40,7 +40,7 @@
 
                 <div class="col-sm-12 col-md-7 col-lg-4 col-xxl-10 text-end mb-1">
                     <div class="d-inline-block">
-                        <!-- Print Button Start -->
+                        <%--<!-- Print Button Start -->
                         <asp:LinkButton ID="btnImprimir" runat="server" CssClass="btn btn-icon btn-icon-only btn-foreground-alternate shadow"><i data-acorn-icon="print"></i></asp:LinkButton>
                         <!-- Print Button End -->
 
@@ -60,7 +60,7 @@
                                 <asp:LinkButton ID="btnDownloadExcel" runat="server" CssClass="dropdown-item export-excel">Excel</asp:LinkButton>
                                 <asp:LinkButton ID="btnDownloadPDf" runat="server" CssClass="dropdown-item export-pdf">Pdf</asp:LinkButton>
                                 <asp:LinkButton ID="btnDownloadCSV" runat="server" CssClass="dropdown-item export-cvs">Csv</asp:LinkButton>
-                            </div>
+                            </div>--%>
 
                         </div>
                         <!-- Export Dropdown End -->
@@ -93,25 +93,24 @@
                         <sorteddescendingheaderstyle backcolor="#15524A" />
                     </asp:GridView>
                     <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select idlojista, idconsumidor, max(nomecompleto) as nomecompleto, max(produto) as produto, SUM(qtde_distribuidor) as qtde_distribuidor, lote, sum(qtde_lojista) as qtde_lojista, sum(qtde_cliente) as qtde_cliente from (
-
-select p.idlojista, p.idconsumidor, max(c.nomecompleto) as nomecompleto, max(prod.titulo) as produto, SUM(qtde) as qtde_distribuidor, pp.lote, 0 as qtde_lojista, 0 as qtde_cliente from pedido p 
-join pedido_produto pp on pp.idpedido = p.id 
-join produto prod on prod.id = pp.idproduto
-join cliente c on c.id = p.idlojista and idtipocliente = 1
-group by p.idlojista, p.idconsumidor, pp.lote
-union all
-select p.idlojista, p.idconsumidor,max(c.nomecompleto) as nomecompleto, max(prod.titulo) as produto, SUM(qtde) as qtde_distribuidor, pp.lote, 0 as qtde_lojista, 0 as qtde_cliente from pedido p 
-join pedido_produto pp on pp.idpedido = p.id 
-join produto prod on prod.id = pp.idproduto 
-join cliente c on c.id = p.idlojista and idtipocliente = 2
-group by p.idlojista, p.idconsumidor, pp.lote
-union all
-select p.idlojista, p.idconsumidor, max(c.nomecompleto) as nomecompleto, max(prod.titulo) as produto, SUM(qtde) as qtde_distribuidor, pp.lote, 0 as qtde_lojista, 0 as qtde_cliente from pedido p 
-join pedido_produto pp on pp.idpedido = p.id 
-join produto prod on prod.id = pp.idproduto
-join cliente c on c.id = p.idlojista and idtipocliente = 3
-group by p.idlojista, p.idconsumidor, pp.lote) as tab
-group by idlojista, idconsumidor, lote"></asp:SqlDataSource>
+                        select p.idlojista, p.idconsumidor, max(c.nomecompleto) as nomecompleto, max(prod.titulo) as produto, SUM(qtde) as qtde_distribuidor, pp.lote, 0 as qtde_lojista, 0 as qtde_cliente from pedido p 
+                        join pedido_produto pp on pp.idpedido = p.id 
+                        join produto prod on prod.id = pp.idproduto
+                        join cliente c on c.id = p.idlojista and idtipocliente = 1
+                        group by p.idlojista, p.idconsumidor, pp.lote
+                        union all
+                        select p.idlojista, p.idconsumidor,max(c.nomecompleto) as nomecompleto, max(prod.titulo) as produto, SUM(qtde) as qtde_distribuidor, pp.lote, 0 as qtde_lojista, 0 as qtde_cliente from pedido p 
+                        join pedido_produto pp on pp.idpedido = p.id 
+                        join produto prod on prod.id = pp.idproduto 
+                        join cliente c on c.id = p.idlojista and idtipocliente = 2
+                        group by p.idlojista, p.idconsumidor, pp.lote
+                        union all
+                        select p.idlojista, p.idconsumidor, max(c.nomecompleto) as nomecompleto, max(prod.titulo) as produto, SUM(qtde) as qtde_distribuidor, pp.lote, 0 as qtde_lojista, 0 as qtde_cliente from pedido p 
+                        join pedido_produto pp on pp.idpedido = p.id 
+                        join produto prod on prod.id = pp.idproduto
+                        join cliente c on c.id = p.idlojista and idtipocliente = 3
+                        group by p.idlojista, p.idconsumidor, pp.lote) as tab
+                        group by idlojista, idconsumidor, lote"></asp:SqlDataSource>
                 </div>
             </div>
            
