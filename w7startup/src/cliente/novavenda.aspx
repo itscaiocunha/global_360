@@ -139,42 +139,42 @@ order by nomecompleto">
 </div>
                 </asp:Panel>
 
+
+                <!-- Venda -->
                 <asp:Panel ID="pnlCarrinho" runat="server" Visible="false">
                     <h2 class="small-title">Carrinho de Produtos</h2>
                     <div class="mb-3">
                         <label class="form-label">Produto</label>
                         <asp:DropDownList ID="ddlProduto" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsProduto" DataTextField="nome" DataValueField="id">
                         </asp:DropDownList>
-                        <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto
-order by nome"></asp:SqlDataSource>
+                        <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                            "select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto where status = 'Ativo' order by nome">
+                        </asp:SqlDataSource>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Quant.</label>
                         <asp:TextBox ID="txtQtde" onkeyup="formataInteiro(this,event);" runat="server" Text="1" CssClass="form-control"></asp:TextBox>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Lote</label>
-                        <asp:TextBox ID="txtLote" runat="server" CssClass="form-control"></asp:TextBox>
-                                                 <asp:DropDownList ID="ddlLote" CssClass="form-control" AppendDataBoundItems="true" runat="server" DataSourceID="sdsClientes" DataTextField="nomecliente" DataValueField="id" AutoPostBack="True" OnSelectedIndexChanged="ddlCliente_SelectedIndexChanged">
-                             <asp:ListItem Text="Selecione o Lote" Value="0"></asp:ListItem>
-                         </asp:DropDownList>
-                         <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select distinct pp.lote from pedido p
-join pedido_produto pp on pp.idpedido = p.id
-where idproduto = @idproduto and idlojista = @id
-order by pp.lote">
-                             <SelectParameters>
-                                 <asp:SessionParameter Name="id" SessionField="idcliente" />
-                             </SelectParameters>
-                         </asp:SqlDataSource>
+                        <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="cod" DataValueField="idlote">
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                            "select idlote, numlote as cod from lote where status = 'Ativo' order by cod">
+                        </asp:SqlDataSource>                
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Código Único</label>
                         <asp:TextBox ID="txtEAN" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
+
                     <asp:Button ID="btnAdicionarItem" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Adicionar ao carrinho" OnClick="btnAdicionarItem_Click" />
                     <br />
                     <br />
+
                     <!-- car -->
                     <div class="row">
                         <div class="col-12 mb-5">
@@ -207,22 +207,25 @@ order by pp.lote">
                                 <SortedDescendingCellStyle BackColor="#D4DFE1" />
                                 <SortedDescendingHeaderStyle BackColor="#15524A" />
                             </asp:GridView>
-                            <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor from pedido_produto pp
-join produto p on p.id = pp.idproduto 
-where pp.idpedido = @id">
+                            <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                                "select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor from pedido_produto pp
+                                join produto p on p.id = pp.idproduto 
+                                where pp.idpedido = @id">
                                 <SelectParameters>
                                     <asp:ControlParameter ControlID="lblNumeroPedido" Name="id" PropertyName="Text" />
                                 </SelectParameters>
                             </asp:SqlDataSource>
                         </div>
                     </div>
-                                        <div class="modal-footer border-0">
-    <asp:Label ID="lblMensagemCarrinho" runat="server" Text=""></asp:Label>
-    <br />
-    <asp:Button ID="btnSalvarCarrinho" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Avançar" OnClick="btnSalvarCarrinho_Click" />
-</div>
+
+                    <div class="modal-footer border-0">
+                        <asp:Label ID="lblMensagemCarrinho" runat="server" Text=""></asp:Label>
+                        <br />
+                        <asp:Button ID="btnSalvarCarrinho" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Avançar" OnClick="btnSalvarCarrinho_Click" />
+                    </div>
                 </asp:Panel>
 
+                <!-- Pagamento -->
                 <asp:Panel ID="pnlDadosPagamento" runat="server" Visible="false">
                     <h2 class="small-title">Informações de Pagamento</h2>
                     <label class="form-label"><i data-acorn-icon="user" class="icon" data-acorn-size="18"></i>Número do Cartão</label>
@@ -242,10 +245,10 @@ where pp.idpedido = @id">
                         <asp:TextBox ID="txtNomeCartao" CssClass="form-control" runat="server" placeHolder="" Required></asp:TextBox>
                     </div>
                     <div class="modal-footer border-0">
-    <asp:Label ID="lblMensagemCartao" runat="server" Text=""></asp:Label>
-    <br />
-    <asp:Button ID="btnSalvarCartao" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Avançar" OnClick="btnSalvarCartao_Click" />
-</div>
+                        <asp:Label ID="lblMensagemCartao" runat="server" Text=""></asp:Label>
+                        <br />
+                        <asp:Button ID="btnSalvarCartao" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Avançar" OnClick="btnSalvarCartao_Click" />
+                    </div>
                 </asp:Panel>
 
                 <asp:Panel ID="pnlDadosFinais" runat="server" Visible="false">

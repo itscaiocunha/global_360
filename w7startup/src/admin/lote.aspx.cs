@@ -49,7 +49,7 @@ namespace global.admin
             {
                 DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, quantidade, status, data_criacao) values (@lote, @name, @quantidade, @status, GETDATE())");
                 db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
-                db.AddInParameter(command, "@name", DbType.String, ddlProduto.SelectedValue);
+                db.AddInParameter(command, "@name", DbType.String, Convert.ToInt16(ddlProduto.SelectedValue));
                 db.AddInParameter(command, "@quantidade", DbType.String, txtQuantidade.Text);
                 db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
 

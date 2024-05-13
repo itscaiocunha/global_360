@@ -92,7 +92,8 @@
                         <sorteddescendingcellstyle backcolor="#D4DFE1" />
                         <sorteddescendingheaderstyle backcolor="#15524A" />
                     </asp:GridView>
-                    <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select idlojista, idconsumidor, max(nomecompleto) as nomecompleto, max(produto) as produto, SUM(qtde_distribuidor) as qtde_distribuidor, lote, sum(qtde_lojista) as qtde_lojista, sum(qtde_cliente) as qtde_cliente from (
+                    <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                        "select idlojista, idconsumidor, max(nomecompleto) as nomecompleto, max(produto) as produto, SUM(qtde_distribuidor) as qtde_distribuidor, lote, sum(qtde_lojista) as qtde_lojista, sum(qtde_cliente) as qtde_cliente from (
                         select p.idlojista, p.idconsumidor, max(c.nomecompleto) as nomecompleto, max(prod.titulo) as produto, SUM(qtde) as qtde_distribuidor, pp.lote, 0 as qtde_lojista, 0 as qtde_cliente from pedido p 
                         join pedido_produto pp on pp.idpedido = p.id 
                         join produto prod on prod.id = pp.idproduto
@@ -110,7 +111,8 @@
                         join produto prod on prod.id = pp.idproduto
                         join cliente c on c.id = p.idlojista and idtipocliente = 3
                         group by p.idlojista, p.idconsumidor, pp.lote) as tab
-                        group by idlojista, idconsumidor, lote"></asp:SqlDataSource>
+                        group by idlojista, idconsumidor, lote">
+                    </asp:SqlDataSource>
                 </div>
             </div>
            

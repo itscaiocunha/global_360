@@ -112,12 +112,12 @@
                         <SortedDescendingHeaderStyle BackColor="#15524A" />
                     </asp:GridView>
                     <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select p.id, c2.nomecompleto as vendedor, c.nomecompleto as comprador, prod.titulo, pp.valor, pp.qtde, FORMAT(p.DATACADASTRO,'dd/MM/yyyy') as datacadastro, p.status from pedido p
-join pedido_produto pp on pp.idpedido = p.id
-join produto prod on prod.id = pp.idproduto
-join cliente c on c.id = p.idconsumidor
-join cliente c2 on c2.id = p.idlojista
-where p.idconsumidor = @id
-order by datacadastro desc">
+                        join pedido_produto pp on pp.idpedido = p.id
+                        join produto prod on prod.id = pp.idproduto
+                        join cliente c on c.id = p.idconsumidor
+                        join cliente c2 on c2.id = p.idlojista
+                        where p.idconsumidor = @id
+                        order by datacadastro desc">
                         <SelectParameters>
     <asp:ControlParameter ControlID="hdfId" Name="id" PropertyName="Value" />
 </SelectParameters>

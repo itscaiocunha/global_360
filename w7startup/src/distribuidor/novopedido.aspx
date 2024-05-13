@@ -60,10 +60,16 @@ order by nome">
                     <label class="form-label">Quant.</label>
                     <asp:TextBox ID="txtQtde" onkeyup="formataInteiro(this,event);" runat="server" Text="1" CssClass="form-control"></asp:TextBox>
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label">Lote</label>
-                    <asp:TextBox ID="txtLote" runat="server" CssClass="form-control"></asp:TextBox>
+                    <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="cod" DataValueField="idlote">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                        "select idlote, numlote as cod from lote where status = 'Ativo' order by cod">
+                    </asp:SqlDataSource>                
                 </div>
+
                 <div class="mb-3">
                     <label class="form-label">Código Único</label>
                     <asp:TextBox ID="txtEAN" runat="server" CssClass="form-control"></asp:TextBox>

@@ -57,7 +57,7 @@ namespace global.distribuidor
             db.AddInParameter(command, "@idproduto", DbType.Int16, Convert.ToInt16(ddlProduto.SelectedValue));
             db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.VerificaValor(ddlProduto.SelectedValue)));
-            db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
+            db.AddInParameter(command, "@lote", DbType.String, Convert.ToInt16(ddlLote.SelectedValue));
             db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
             try
             {

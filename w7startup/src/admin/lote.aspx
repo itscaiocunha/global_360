@@ -60,7 +60,7 @@
                                             <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("idlote") %>' CommandName="Editar" runat="server" Text="Editar" />
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="numlote" HeaderText="Número Lote" ReadOnly="True" SortExpression="numlote" />
+                            <asp:BoundField DataField="numlote" HeaderText="Número Lote" SortExpression="numlote" />
                             <asp:BoundField DataField="name_produto" HeaderText="Produto" SortExpression="name_produto" />
                             <asp:BoundField DataField="quantidade" HeaderText="Quantidade" SortExpression="quantidade" />                        
                             <asp:BoundField DataField="status" HeaderText="Status" SortExpression="status" />
@@ -81,7 +81,8 @@
                             </asp:TemplateField>
                         </Columns>
                     </asp:GridView>
-                <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select * from lote where status = 'Ativo' order by name_produto DESC "></asp:SqlDataSource>
+                <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                    "select l.idlote, l.numlote, p.titulo as name_produto, l.quantidade, l.[status], l.data_criacao from lote l  join produto p on l.name_produto = p.id where l.status = 'Ativo' order by l.name_produto DESC "></asp:SqlDataSource>
                 </div>
             </div>
 
