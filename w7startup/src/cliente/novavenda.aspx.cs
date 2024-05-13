@@ -58,10 +58,7 @@ namespace global.cliente
             db.AddInParameter(command, "@idproduto", DbType.Int16, Convert.ToInt16(ddlProduto.SelectedValue));
             db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.VerificaValor(ddlProduto.SelectedValue)));
-            if (ddlLote.SelectedValue != "0")
-                db.AddInParameter(command, "@lote", DbType.String, ddlLote.SelectedValue);
-            else
-                db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
+            db.AddInParameter(command, "@lote", DbType.String, ddlLote.SelectedValue);
             db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
             try
             {

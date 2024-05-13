@@ -28,6 +28,7 @@
             <!-- Title and Top Buttons End -->
 
             <div id="card-body">
+
                 <%--<div class="mb-3">
                     <h2 class="small-title">Informações Gerais</h2> 
                     <label class="form-label">Vendedor</label>
@@ -66,7 +67,7 @@ order by nome">
                     <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="cod" DataValueField="idlote">
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
-                        "select idlote, numlote as cod from lote where status = 'Ativo' order by cod">
+                        "select idlote, numlote + ' | ' + convert(varchar, quantidade) as cod from lote where status = 'Ativo' order by cod">
                     </asp:SqlDataSource>                
                 </div>
 
@@ -109,21 +110,23 @@ order by nome">
                             <SortedDescendingCellStyle BackColor="#D4DFE1" />
                             <SortedDescendingHeaderStyle BackColor="#15524A" />
                         </asp:GridView>
-                        <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor from pedido_produto pp
-join produto p on p.id = pp.idproduto 
-where pp.idpedido = @id">
+                        <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                            "select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor 
+                            from pedido_produto pp
+                            join produto p on p.id = pp.idproduto 
+                            where pp.idpedido = @id">
                             <SelectParameters>
                                 <asp:ControlParameter ControlID="lblNumeroPedido" Name="id" PropertyName="Text" />
                             </SelectParameters>
                         </asp:SqlDataSource>
                     </div>
                 </div>
-                                <div class="mb-3">
-    <label class="form-label">Cupom</label>
-    <asp:TextBox ID="txtCupom" runat="server" CssClass="form-control"></asp:TextBox>
+                <div class="mb-3">
+                    <label class="form-label">Cupom</label>
+                    <asp:TextBox ID="txtCupom" runat="server" CssClass="form-control"></asp:TextBox>
                     <asp:Button ID="btnValidarCupom" runat="server" Text="Validar Cupom"  CssClass="btn btn-icon btn-icon-end btn-success" OnClick="btnValidarCupom_Click" />
                     <asp:Label ID="lblMsgCupom" runat="server" Text=""></asp:Label>
-</div>
+                </div>
                 <div class="mb-3">
                     <label class="form-label">Haverá Pagamento?</label>
                     <asp:CheckBox ID="CkbPagamento" runat="server" AutoPostBack="true" OnCheckedChanged="CkbPagamento_CheckedChanged" />
@@ -186,9 +189,9 @@ where pp.idpedido = @id">
                  <p>Desconto: R$ <asp:Label ID="lblDesconto" runat="server" Text="0,00"></asp:Label></p>
                  <p>Total: R$ <asp:Label ID="lblValorTotal" runat="server" Text="0,00"></asp:Label></p>
                 <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
+                <asp:Label ID="lblteste" runat="server"></asp:Label> 
                 <br />
                 <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click" />
-                <asp:Button ID="Button1" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click" />
                 <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
                     <ProgressTemplate>
                     <style type="text/css">
