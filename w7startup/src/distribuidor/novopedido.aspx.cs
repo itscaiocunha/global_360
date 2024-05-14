@@ -83,7 +83,7 @@ namespace global.distribuidor
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                "select * from lote where numlote = '" + ddlLote.SelectedValue + "'"))
+                "select * from lote where idlote = '" + ddlLote.SelectedValue + "'"))
             {
                 if (reader.Read())
                 {
@@ -91,16 +91,16 @@ namespace global.distribuidor
                         "UPDATE lote set quantidade = quantidade - @quantidade");
                     db.AddInParameter(command, "@quantidade", DbType.Int16, Convert.ToInt16(txtQtde));
 
-                    try
-                    {
-                        db.ExecuteNonQuery(command);
-                        lblteste.Text = ddlLote.SelectedValue;
-                    }
-                    catch (Exception ex)
-                    {
-                        lblteste.Text = "Erro: " + ex;
-                    }
-
+                    lblteste.Text = "ok";
+                    //try
+                    //{
+                    //    db.ExecuteNonQuery(command);
+                    //    lblteste.Text = "ok";
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    lblteste.Text = "Erro: " + ex;
+                    //}
                 }
             }
 
@@ -179,7 +179,7 @@ namespace global.distribuidor
 
             //db.ExecuteNonQuery(command2);
 
-            gdvDados.DataBind();
+            //gdvDados.DataBind();
         }
 
         protected void CkbPagamento_CheckedChanged(object sender, EventArgs e)

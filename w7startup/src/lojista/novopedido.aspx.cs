@@ -28,12 +28,12 @@ namespace global.lojista
                 {
                     if (reader.Read())
                     {
-                        hdfId.Value = reader["novopedido"].ToString();
+                        hdfIdProduto.Value = reader["novopedido"].ToString();
                         lblNumeroPedido.Text = reader["novopedido"].ToString();
                     }
                     else
                     {
-                        hdfId.Value = "1";
+                        hdfIdProduto.Value = "1";
                         lblNumeroPedido.Text = "1";
                     }
                 }
@@ -43,7 +43,8 @@ namespace global.lojista
                 DbCommand command = db.GetSqlStringCommand(
                         "INSERT INTO pedido (valor) values (0)");
 
-                db.ExecuteNonQuery(command);
+                db.ExecuteNonQuery(command);               
+
             }
         }
 
@@ -58,22 +59,22 @@ namespace global.lojista
             db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.VerificaValor(ddlProduto.SelectedValue)));
             db.AddInParameter(command, "@lote", DbType.String, Convert.ToInt16(ddlLote.SelectedValue));
-            db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@marca", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@modelo", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@placa", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@ano_modelo", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@cor", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@chassi", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@renavam", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@ano_fabricacao", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@marca", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@modelo", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@placa", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@ano_modelo", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@cor", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@chassi", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@renavam", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@ano_fabricacao", DbType.String, txtEAN.Text);
             try
             {
                 db.ExecuteNonQuery(command);
                 gdvDados.DataBind();
-                txtEAN.Text = "";
+                //txtEAN.Text = "";
                 txtQtde.Text = "1";
-                txtEAN.Text = "";
+                //txtEAN.Text = "";
                 lblMensagem.Text = "";
             }
             catch (Exception ex)
@@ -193,9 +194,9 @@ namespace global.lojista
                 db.ExecuteNonQuery(command);
                 gdvDados.DataBind();
                 RetornaValorTotal(lblNumeroPedido.Text);
-                txtEAN.Text = "";
+                //txtEAN.Text = "";
                 txtQtde.Text = "1";
-                txtEAN.Text = "";
+                //txtEAN.Text = "";
                 hdfIdProduto.Value = "";
                 lblMensagem.Text = "";
             }

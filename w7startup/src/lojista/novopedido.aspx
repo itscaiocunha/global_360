@@ -15,7 +15,7 @@
                     <!-- Title Start -->
                     <div class="col-auto mb-3 mb-md-0 me-auto">
                         <div class="w-auto sw-md-30">
-                            <a href="#" class="muted-link pb-1 d-inline-block breadcrumb-back">
+                            <a href="dashboard.aspx" class="muted-link pb-1 d-inline-block breadcrumb-back">
                                 <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
                                 <span class="text-small align-middle">Lojista</span>
                             </a>
@@ -32,10 +32,18 @@
                 <div class="mb-3">
                     <h2 class="small-title">Informações Gerais</h2>
                     <label class="form-label">Vendedor</label>
-                    <asp:DropDownList ID="ddlVendedor" Enabled="false" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsVendedor" DataTextField="nomecompleto" DataValueField="id">
+                    <asp:DropDownList ID="ddlVendedor" Enabled="false" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsVendedor" DataTextField="nomecompleto" DataValueField="cadastrado_por">
                     </asp:DropDownList>
-                    <asp:SqlDataSource ID="sdsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select id, nomecompleto from cliente where idtipocliente in (1,2) 
-order by nomecompleto"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="sdsVendedor" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                        "select cl.nomecompleto, c.cadastrado_por 
+                        from cliente c
+                        join cliente cl on cl.id = c.cadastrado_por 
+                        where c.id = @id
+                        order by nomecompleto">
+                        <SelectParameters>
+                            <asp:SessionParameter Name="id" SessionField="idcliente" />
+                        </SelectParameters>
+                    </asp:SqlDataSource>
                 </div>
                 <br />
                 <%--               <div class="mb-3">
@@ -73,10 +81,10 @@ order by nome">
                     </asp:SqlDataSource>                
                 </div>
 
-                <div class="mb-3">
+                <%--<div class="mb-3">
                     <label class="form-label">Código Único</label>
                     <asp:TextBox ID="txtEAN" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
+                </div>--%>
                 <asp:Button ID="btnAdicionarItem" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Adicionar ao carrinho" OnClick="btnAdicionarItem_Click" />
                 <br />
                 <br />

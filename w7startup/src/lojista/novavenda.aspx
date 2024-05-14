@@ -216,27 +216,27 @@ order by pp.lote">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">IMEI</label>
-                        <asp:TextBox ID="txtEAN" runat="server" CssClass="form-control" Required></asp:TextBox>
+                        <asp:TextBox ID="txtEAN" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                     <div class="mb-3">
     <label class="form-label">Placa</label>
-    <asp:TextBox ID="txtPlaca" runat="server" CssClass="form-control" Required></asp:TextBox>
+    <asp:TextBox ID="txtPlaca" runat="server" CssClass="form-control"></asp:TextBox>
 </div>
                     <div class="mb-3">
     <label class="form-label">Marca</label>
-    <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control" Required></asp:TextBox>
+    <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control"></asp:TextBox>
 </div>
                     <div class="mb-3">
     <label class="form-label">Modelo</label>
-    <asp:TextBox ID="txtModelo" runat="server" CssClass="form-control" Required></asp:TextBox>
+    <asp:TextBox ID="txtModelo" runat="server" CssClass="form-control"></asp:TextBox>
 </div>
                     <div class="mb-3">
     <label class="form-label">Ano do Modelo</label>
-    <asp:TextBox ID="txtAno" runat="server" CssClass="form-control" Required></asp:TextBox>
+    <asp:TextBox ID="txtAno" runat="server" CssClass="form-control"></asp:TextBox>
 </div>
                     <div class="mb-3">
     <label class="form-label">Cor</label>
-    <asp:TextBox ID="txtCor" runat="server" CssClass="form-control" Required></asp:TextBox>
+    <asp:TextBox ID="txtCor" runat="server" CssClass="form-control"></asp:TextBox>
 </div>
                                         <div class="mb-3">
     <label class="form-label">Chassi</label>
