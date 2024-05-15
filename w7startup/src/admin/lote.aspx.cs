@@ -38,6 +38,7 @@ namespace global.admin
         {
             pnlModal.Visible = true;
             txtLote.Text = "";
+            txtIMEI.Text = "";
             txtQuantidade.Text = "";
         }
 
@@ -47,11 +48,12 @@ namespace global.admin
 
             try
             {
-                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, quantidade, status, data_criacao) values (@lote, @name, @quantidade, @status, GETDATE())");
+                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, quantidade, status, data_criacao, IMEI) values (@lote, @name, @quantidade, @status, GETDATE(), @IMEI)");
                 db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
                 db.AddInParameter(command, "@name", DbType.String, Convert.ToInt16(ddlProduto.SelectedValue));
                 db.AddInParameter(command, "@quantidade", DbType.String, txtQuantidade.Text);
                 db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                db.AddInParameter(command, "@IMEI", DbType.String, txtIMEI.Text);
 
                 try
                 {
@@ -107,6 +109,7 @@ namespace global.admin
                     ddlProduto.SelectedValue = reader["name_produto"].ToString();
                     txtQuantidade.Text = reader["quantidade"].ToString();
                     ddlStatus.SelectedValue = reader["status"].ToString();
+                    txtIMEI.Text = reader["IMEI"].ToString();
                     pnlModal.Visible = true;
                     lblMensagem.Text = "";
                 }

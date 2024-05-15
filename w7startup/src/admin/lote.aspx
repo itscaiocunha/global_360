@@ -62,7 +62,8 @@
                             </asp:TemplateField>
                             <asp:BoundField DataField="numlote" HeaderText="Número Lote" SortExpression="numlote" />
                             <asp:BoundField DataField="name_produto" HeaderText="Produto" SortExpression="name_produto" />
-                            <asp:BoundField DataField="quantidade" HeaderText="Quantidade" SortExpression="quantidade" />                        
+                            <asp:BoundField DataField="IMEI" HeaderText="IMEI" SortExpression="IMEI" />
+                            <asp:BoundField DataField="quantidade" HeaderText="Quantidade" SortExpression="quantidade" />  
                             <asp:BoundField DataField="status" HeaderText="Status" SortExpression="status" />
                             <asp:BoundField DataField="data_criacao" HeaderText="Desde de" SortExpression="data_criacao" />
                              <asp:TemplateField>
@@ -82,7 +83,7 @@
                         </Columns>
                     </asp:GridView>
                 <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
-                    "select l.idlote, l.numlote, p.titulo as name_produto, l.quantidade, l.[status], l.data_criacao from lote l  join produto p on l.name_produto = p.id where l.status = 'Ativo' order by l.name_produto DESC "></asp:SqlDataSource>
+                    "select l.idlote, l.numlote, p.titulo as name_produto, l.IMEI, l.quantidade, l.[status], l.data_criacao from lote l  join produto p on l.name_produto = p.id where l.status = 'Ativo' order by l.name_produto DESC "></asp:SqlDataSource>
                 </div>
             </div>
 
@@ -103,6 +104,10 @@
                                 <asp:DropDownList ID="ddlProduto" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsProduto" DataTextField="nome" DataValueField="id"></asp:DropDownList>
                                     <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto where status = 'Ativo'order by nome">
                                     </asp:SqlDataSource>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">IMEI</label>
+                                <asp:TextBox ID="txtIMEI" runat="server" CssClass="form-control" Required></asp:TextBox>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Quantidade</label>
