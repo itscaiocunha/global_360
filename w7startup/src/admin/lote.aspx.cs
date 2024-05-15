@@ -39,7 +39,6 @@ namespace global.admin
             pnlModal.Visible = true;
             txtLote.Text = "";
             txtIMEI.Text = "";
-            txtQuantidade.Text = "";
         }
 
         protected void btnSalvar_Click1(object sender, EventArgs e)
@@ -48,10 +47,9 @@ namespace global.admin
 
             try
             {
-                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, quantidade, status, data_criacao, IMEI) values (@lote, @name, @quantidade, @status, GETDATE(), @IMEI)");
+                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, status, data_criacao, IMEI) values (@lote, @name, @status, GETDATE(), @IMEI)");
                 db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
                 db.AddInParameter(command, "@name", DbType.String, Convert.ToInt16(ddlProduto.SelectedValue));
-                db.AddInParameter(command, "@quantidade", DbType.String, txtQuantidade.Text);
                 db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
                 db.AddInParameter(command, "@IMEI", DbType.String, txtIMEI.Text);
 
@@ -107,7 +105,6 @@ namespace global.admin
                 if (reader.Read())
                 {
                     ddlProduto.SelectedValue = reader["name_produto"].ToString();
-                    txtQuantidade.Text = reader["quantidade"].ToString();
                     ddlStatus.SelectedValue = reader["status"].ToString();
                     txtIMEI.Text = reader["IMEI"].ToString();
                     pnlModal.Visible = true;

@@ -150,15 +150,6 @@ namespace global.admin
         protected global::System.Web.UI.WebControls.TextBox txtIMEI;
 
         /// <summary>
-        /// Controle txtQuantidade.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtQuantidade;
-
-        /// <summary>
         /// Controle ddlStatus.
         /// </summary>
         /// <remarks>
