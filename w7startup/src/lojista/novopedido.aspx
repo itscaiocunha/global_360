@@ -126,9 +126,10 @@ order by nome">
                             <SortedDescendingCellStyle BackColor="#D4DFE1" />
                             <SortedDescendingHeaderStyle BackColor="#15524A" />
                         </asp:GridView>
-                        <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor from pedido_produto pp
-join produto p on p.id = pp.idproduto 
-where pp.idpedido = @id">
+                        <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                            "select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor from pedido_produto pp
+                            join produto p on p.id = pp.idproduto 
+                            where pp.idpedido = @id">
                             <SelectParameters>
                                 <asp:ControlParameter ControlID="lblNumeroPedido" Name="id" PropertyName="Text" />
                             </SelectParameters>
@@ -136,16 +137,19 @@ where pp.idpedido = @id">
                     </div>
                 </div>
                 <div class="mb-3">
-    <label class="form-label">Cupom</label>
-    <asp:TextBox ID="txtCupom" runat="server" CssClass="form-control"></asp:TextBox>
+                    <label class="form-label">Cupom</label>
+                    <asp:TextBox ID="txtCupom" runat="server" CssClass="form-control"></asp:TextBox>
                     <asp:Button ID="btnValidarCupom" runat="server" Text="Validar Cupom"  CssClass="btn btn-icon btn-icon-end btn-success" OnClick="btnValidarCupom_Click" />
                     <asp:Label ID="lblMsgCupom" runat="server" Text=""></asp:Label>
-</div>
+                </div>
+
                 <div class="mb-3">
                     <label class="form-label">Haverá Pagamento?</label>
                     <asp:CheckBox ID="CkbPagamento" runat="server" AutoPostBack="true" OnCheckedChanged="CkbPagamento_CheckedChanged" />
                 </div>
+
                 <br />
+
                 <asp:Panel ID="pnlPagamento" runat="server" Visible="false">
                     <h2 class="small-title">Informações de Pagamento</h2>
                     <label class="form-label"><i data-acorn-icon="user" class="icon" data-acorn-size="18"></i>Número do Cartão</label>
@@ -165,6 +169,7 @@ where pp.idpedido = @id">
                         <asp:TextBox ID="txtNomeCartao" CssClass="form-control" runat="server" placeHolder="" Required></asp:TextBox>
                     </div>
                 </asp:Panel>
+
                 <hr />
                <%-- <div class="mb-3">
                     <label class="form-label">Link da Nf</label>
@@ -198,6 +203,7 @@ where pp.idpedido = @id">
                     <asp:TextBox ID="txtObservacoes" TextMode="MultiLine" Rows="3" MaxLength="500" runat="server" CssClass="form-control"></asp:TextBox>
                 </div>--%>
             </div>
+
             <div class="modal-footer border-0">
                 <p>Sub-total: R$ <asp:Label ID="lblSUbTotal" runat="server" Text="0,00"></asp:Label></p>
                  <p>Desconto: R$ <asp:Label ID="lblDesconto" runat="server" Text="0,00"></asp:Label></p>
@@ -205,6 +211,7 @@ where pp.idpedido = @id">
                 <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
                 <br />
                 <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click" />
+                
                 <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
                     <ProgressTemplate>
                     <style type="text/css">
@@ -237,6 +244,7 @@ where pp.idpedido = @id">
                         <div class="updateprogress-overlay"></div>
                     </ProgressTemplate>
                 </asp:UpdateProgress>
+
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>

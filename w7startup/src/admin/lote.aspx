@@ -64,7 +64,6 @@
                             <asp:BoundField DataField="Produto" HeaderText="Produto" SortExpression="Produto" />
                             <asp:BoundField DataField="Quantidade" HeaderText="Quantidade" SortExpression="Quantidade" />
                             <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
-                            <asp:BoundField DataField="data_criacao" HeaderText="Desde de" SortExpression="data_criacao" />
                              <asp:TemplateField>
                                 <ItemTemplate>
                                     <EditRowStyle BackColor="#7C6F57" />
@@ -82,7 +81,7 @@
                         </Columns>
                     </asp:GridView>
                 <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
-                    "select max(l.idlote) as ID, max(l.numlote) as Lote, max(p.titulo) as Produto, COUNT(li.IMEI) as Quantidade, max(l.[status]) as Status, max(l.data_criacao) as data_criacao from lote l  
+                    "select max(l.idlote) as ID, max(l.numlote) as Lote, max(p.titulo) as Produto, COUNT(li.IMEI) as Quantidade, max(l.[status]) as Status from lote l  
                     join produto p on l.name_produto = p.id 
                     join lote_imei li on li.idlote = l.idlote 
                     where l.status = 'Ativo' 
