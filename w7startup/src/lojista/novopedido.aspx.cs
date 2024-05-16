@@ -53,7 +53,7 @@ namespace global.lojista
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
             DbCommand command = db.GetSqlStringCommand(
-            "INSERT INTO pedido_produto (idpedido, idproduto, qtde, valor, lote, ean, marca, modelo, placa, ano_modelo, cor, chassi, renavam, ano_fabricacao) values (@idpedido, @idproduto, @qtde, @valor, @lote, @ean, @marca, @modelo, @placa, @ano_modelo, @cor, @chassi, @renavam, @ano_fabricacao)");
+            "INSERT INTO pedido_produto (idpedido, idproduto, qtde, valor, lote) values (@idpedido, @idproduto, @qtde, @valor, @lote)");
             db.AddInParameter(command, "@idpedido", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));
             db.AddInParameter(command, "@idproduto", DbType.Int16, Convert.ToInt16(ddlProduto.SelectedValue));
             db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
@@ -145,26 +145,26 @@ namespace global.lojista
                 lblMensagem.Text = "Erro ao tentar atualizar informação. " + ex.Message;
             }
 
-            //gera novo pedido
-            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                              "select top 1 id+1 as novopedido from pedido order by id desc"))
-            {
-                if (reader.Read())
-                {
-                    hdfId.Value = reader["novopedido"].ToString();
-                    lblNumeroPedido.Text = reader["novopedido"].ToString();
-                }
-                else
-                {
-                    hdfId.Value = "1";
-                    lblNumeroPedido.Text = "1";
-                }
-            }
+            ////gera novo pedido
+            //using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+            //                  "select top 1 id+1 as novopedido from pedido order by id desc"))
+            //{
+            //    if (reader.Read())
+            //    {
+            //        hdfId.Value = reader["novopedido"].ToString();
+            //        lblNumeroPedido.Text = reader["novopedido"].ToString();
+            //    }
+            //    else
+            //    {
+            //        hdfId.Value = "1";
+            //        lblNumeroPedido.Text = "1";
+            //    }
+            //}
 
-            DbCommand command2 = db.GetSqlStringCommand(
-                    "INSERT INTO pedido (valor) values (0)");
+            //DbCommand command2 = db.GetSqlStringCommand(
+            //        "INSERT INTO pedido (valor) values (0)");
 
-            db.ExecuteNonQuery(command2);
+            //db.ExecuteNonQuery(command2);
 
             gdvDados.DataBind();
     }

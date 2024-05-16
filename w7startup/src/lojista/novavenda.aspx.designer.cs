@@ -321,15 +321,6 @@ namespace global.lojista
         protected global::System.Web.UI.WebControls.TextBox txtQtde;
 
         /// <summary>
-        /// Controle txtLote.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLote;
-
-        /// <summary>
         /// Controle ddlLote.
         /// </summary>
         /// <remarks>
@@ -348,85 +339,22 @@ namespace global.lojista
         protected global::System.Web.UI.WebControls.SqlDataSource sdsLote;
 
         /// <summary>
-        /// Controle txtEAN.
+        /// Controle ddlIMEI.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEAN;
+        protected global::System.Web.UI.WebControls.DropDownList ddlIMEI;
 
         /// <summary>
-        /// Controle txtPlaca.
+        /// Controle sdsIMEI.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPlaca;
-
-        /// <summary>
-        /// Controle txtMarca.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMarca;
-
-        /// <summary>
-        /// Controle txtModelo.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtModelo;
-
-        /// <summary>
-        /// Controle txtAno.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAno;
-
-        /// <summary>
-        /// Controle txtCor.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCor;
-
-        /// <summary>
-        /// Controle txtChassi.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtChassi;
-
-        /// <summary>
-        /// Controle txtRenavam.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtRenavam;
-
-        /// <summary>
-        /// Controle txtAnoFabricacao.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAnoFabricacao;
+        protected global::System.Web.UI.WebControls.SqlDataSource sdsIMEI;
 
         /// <summary>
         /// Controle btnAdicionarItem.

@@ -74,15 +74,17 @@
                         <asp:DropDownList ID="ddlCliente" Visible="false" CssClass="form-control" AppendDataBoundItems="true" runat="server" DataSourceID="sdsClientes" DataTextField="nomecliente" DataValueField="id" AutoPostBack="True" OnSelectedIndexChanged="ddlCliente_SelectedIndexChanged">
                             <asp:ListItem Text="Selecione o cliente" Value="0"></asp:ListItem>
                         </asp:DropDownList>
-                        <asp:SqlDataSource ID="sdsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select id, nomecompleto +' '+ substring(cnpj_cpf, 0,4)+'********'+substring(cnpj_cpf, 13,3) as nomecliente from cliente
-where cadastrado_por = @id
-order by nomecompleto">
+                        <asp:SqlDataSource ID="sdsClientes" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                            "select id, nomecompleto +' '+ substring(cnpj_cpf, 0,4)+'********'+substring(cnpj_cpf, 13,3) as nomecliente from cliente
+                            where cadastrado_por = @id
+                            order by nomecompleto">
                             <SelectParameters>
                                 <asp:SessionParameter Name="id" SessionField="idcliente" />
                             </SelectParameters>
                         </asp:SqlDataSource></div>
                 </asp:Panel>
 
+                <%-- Cadastro de Novo Cliente --%>
                 <asp:Panel ID="pnlDadosCliente" runat="server" Visible="false">
                     <h2 class="small-title">Cadastro de Cliente</h2>
                     <div class="mb-3">
@@ -184,72 +186,86 @@ order by nomecompleto">
                     </div>
                 </asp:Panel>
 
+                <%-- Cadastro de Venda --%>
                 <asp:Panel ID="pnlCarrinho" runat="server" Visible="false">
                     <h2 class="small-title">Carrinho de Produtos</h2>
                     <div class="mb-3">
                         <label class="form-label">Produto</label>
                         <asp:DropDownList ID="ddlProduto" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsProduto" DataTextField="nome" DataValueField="id">
                         </asp:DropDownList>
-                        <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto where status = 'ATIVO'
-order by nome"></asp:SqlDataSource>
+                        <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                            "select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto where status = 'ATIVO' order by nome"></asp:SqlDataSource>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Quant.</label>
                         <asp:TextBox ID="txtQtde" onkeyup="formataInteiro(this,event);" runat="server" Text="1" CssClass="form-control"></asp:TextBox>
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">Lote</label>
-                        <asp:TextBox ID="txtLote" runat="server" CssClass="form-control"></asp:TextBox>
-                        <asp:DropDownList ID="ddlLote" CssClass="form-control" AppendDataBoundItems="true" runat="server" DataSourceID="sdsLote" DataTextField="lote" DataValueField="lote">
-                            <asp:ListItem Text="Selecione o Lote" Value="0"></asp:ListItem>
+                        <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="lote" DataValueField="idlote">
                         </asp:DropDownList>
-                        <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select distinct pp.lote from pedido p
-join pedido_produto pp on pp.idpedido = p.id
-where idproduto = @idproduto and idlojista = @id
-order by pp.lote">
+                        <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                            "select distinct l.idlote, p.lote from pedido p
+                            join lote l on l.idlote = p.lote 
+                            where idlojista = @id and l.name_produto = @produto">
                             <SelectParameters>
-                                <asp:ControlParameter ControlID="ddlProduto" Name="idproduto" PropertyName="SelectedValue" />
                                 <asp:SessionParameter Name="id" SessionField="idcliente" />
+                                <asp:ControlParameter ControlID="ddlProduto" Name="produto" PropertyName="SelectedValue" />
                             </SelectParameters>
-                        </asp:SqlDataSource>
+                            <SelectParameters>
+                                <asp:SessionParameter Name="produto" SessionField=ddlProduto.SelectValue />
+                            </SelectParameters>
+                        </asp:SqlDataSource>                
                     </div>
+
                     <div class="mb-3">
                         <label class="form-label">IMEI</label>
-                        <asp:TextBox ID="txtEAN" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:DropDownList ID="ddlIMEI" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsIMEI" DataTextField="imei" DataValueField="idlote">
+                        </asp:DropDownList>
+                        <asp:SqlDataSource ID="sdsIMEI" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                            "select distinct imei from lote_imei li 
+                            left join pedido_produto pp on pp.ean = li.imei
+                            where li.idlote = @id and pp.ean is null">
+                            <SelectParameters>
+                                <asp:SessionParameter Name="id" SessionField="idcliente" />
+                            </SelectParameters>
+                        </asp:SqlDataSource>                
                     </div>
-                    <div class="mb-3">
-    <label class="form-label">Placa</label>
-    <asp:TextBox ID="txtPlaca" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
-                    <div class="mb-3">
-    <label class="form-label">Marca</label>
-    <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
-                    <div class="mb-3">
-    <label class="form-label">Modelo</label>
-    <asp:TextBox ID="txtModelo" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
-                    <div class="mb-3">
-    <label class="form-label">Ano do Modelo</label>
-    <asp:TextBox ID="txtAno" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
-                    <div class="mb-3">
-    <label class="form-label">Cor</label>
-    <asp:TextBox ID="txtCor" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
+
+                    <%--<div class="mb-3">
+                        <label class="form-label">Placa</label>
+                        <asp:TextBox ID="txtPlaca" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
                                         <div class="mb-3">
-    <label class="form-label">Chassi</label>
-    <asp:TextBox ID="txtChassi" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
+                        <label class="form-label">Marca</label>
+                        <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
                                         <div class="mb-3">
-    <label class="form-label">Renavam</label>
-    <asp:TextBox ID="txtRenavam" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
+                        <label class="form-label">Modelo</label>
+                        <asp:TextBox ID="txtModelo" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
                                         <div class="mb-3">
-    <label class="form-label">Ano de Fabricação</label>
-    <asp:TextBox ID="txtAnoFabricacao" runat="server" CssClass="form-control"></asp:TextBox>
-</div>
+                        <label class="form-label">Ano do Modelo</label>
+                        <asp:TextBox ID="txtAno" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                                        <div class="mb-3">
+                        <label class="form-label">Cor</label>
+                        <asp:TextBox ID="txtCor" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                                                            <div class="mb-3">
+                        <label class="form-label">Chassi</label>
+                        <asp:TextBox ID="txtChassi" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                                                            <div class="mb-3">
+                        <label class="form-label">Renavam</label>
+                        <asp:TextBox ID="txtRenavam" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                                                            <div class="mb-3">
+                        <label class="form-label">Ano de Fabricação</label>
+                        <asp:TextBox ID="txtAnoFabricacao" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>--%>
 
                     <asp:Button ID="btnAdicionarItem" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Adicionar ao carrinho" OnClick="btnAdicionarItem_Click" />
                     <br />

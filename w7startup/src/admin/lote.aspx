@@ -57,13 +57,13 @@
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                            <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("idlote") %>' CommandName="Editar" runat="server" Text="Editar" />
+                                            <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("ID") %>' CommandName="Editar" runat="server" Text="Editar" />
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="numlote" HeaderText="Número Lote" SortExpression="numlote" />
-                            <asp:BoundField DataField="name_produto" HeaderText="Produto" SortExpression="name_produto" />
-                            <asp:BoundField DataField="IMEI" HeaderText="IMEI" SortExpression="IMEI" />
-                            <asp:BoundField DataField="status" HeaderText="Status" SortExpression="status" />
+                            <asp:BoundField DataField="Lote" HeaderText="Lote" SortExpression="Lote" />
+                            <asp:BoundField DataField="Produto" HeaderText="Produto" SortExpression="Produto" />
+                            <asp:BoundField DataField="Quantidade" HeaderText="Quantidade" SortExpression="Quantidade" />
+                            <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
                             <asp:BoundField DataField="data_criacao" HeaderText="Desde de" SortExpression="data_criacao" />
                              <asp:TemplateField>
                                 <ItemTemplate>
@@ -82,7 +82,11 @@
                         </Columns>
                     </asp:GridView>
                 <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
-                    "select l.idlote, l.numlote, p.titulo as name_produto, l.IMEI, l.[status], l.data_criacao from lote l  join produto p on l.name_produto = p.id where l.status = 'Ativo' order by l.name_produto DESC "></asp:SqlDataSource>
+                    "select max(l.idlote) as ID, max(l.numlote) as Lote, max(p.titulo) as Produto, COUNT(li.IMEI) as Quantidade, max(l.[status]) as Status, max(l.data_criacao) as data_criacao from lote l  
+                    join produto p on l.name_produto = p.id 
+                    join lote_imei li on li.idlote = l.idlote 
+                    where l.status = 'Ativo' 
+                    group by l.numlote "></asp:SqlDataSource>
                 </div>
             </div>
 
@@ -94,8 +98,14 @@
                             <h5 class="modal-title">Adicionar Lote</h5>
                         </div>
                         <div class="modal-body">
-                            <div class="mb-3">
+                            <div class="mb-3">                                
                                 <label class="form-label">Número do Lote</label>
+                                <asp:DropDownList ID="ddlLote" runat="server" AppendDataBoundItems="true" AutoPostBack="true" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="cod" DataValueField="idlote" OnSelectedIndexChanged="ddlLote_SelectedIndexChanged">
+                                    <asp:ListItem Text="Novo Lote" Value="0"></asp:ListItem>
+</asp:DropDownList>
+<asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+    "select distinct idlote, numlote as cod from lote where status = 'Ativo' order by cod">
+</asp:SqlDataSource>      
                                 <asp:TextBox ID="txtLote" runat="server" CssClass="form-control" Required></asp:TextBox>
                             </div>
                             <div class="mb-3">

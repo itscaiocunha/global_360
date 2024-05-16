@@ -45,28 +45,69 @@ namespace global.admin
         {
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
-            try
+            if (ddlLote.SelectedValue == "0")
             {
-                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, status, data_criacao, IMEI) values (@lote, @name, @status, GETDATE(), @IMEI)");
-                db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
-                db.AddInParameter(command, "@name", DbType.String, Convert.ToInt16(ddlProduto.SelectedValue));
-                db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                try
+                {
+                    DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, status, data_criacao, IMEI) values (@lote, @name, @status, GETDATE(), @IMEI)");
+                    db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
+                    db.AddInParameter(command, "@name", DbType.String, Convert.ToInt16(ddlProduto.SelectedValue));
+                    db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                    db.AddInParameter(command, "@IMEI", DbType.String, txtIMEI.Text);
+
+                    try
+                    {
+                        db.ExecuteNonQuery(command);
+
+                        using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                 "SELECT top 1 idlote from lote order by data_criacao desc"))
+                        {
+                            if (reader.Read())
+                            {
+                                DbCommand command2 = db.GetSqlStringCommand("INSERT INTO lote_imei (idlote, IMEI) values (@idlote, @IMEI)");
+                                db.AddInParameter(command2, "@idlote", DbType.Int16, Convert.ToInt16(reader["idlote"].ToString()));
+                                db.AddInParameter(command2, "@IMEI", DbType.String, txtIMEI.Text);
+
+                                try
+                                {
+                                    db.ExecuteNonQuery(command2);
+                                    ddlLote.DataBind();
+                                    lblMensagem.Text = "Informação salva com sucesso!";
+                                }
+                                catch (Exception ex)
+                                {
+                                    lblMensagem.Text = "Lote salvo com sucesso, mas erro ao salvar IMEI. " + ex.Message;
+                                }                                
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        lblMensagem.Text = "Erro ao tentar salvar informação. " + ex.Message;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    lblMensagem.Text = "Erro ao entrar no banco. " + ex.Message;
+                }
+            }
+            else
+            {
+                DbCommand command = db.GetSqlStringCommand("INSERT INTO lote_imei (idlote, IMEI) values (@idlote, @IMEI)");
+                db.AddInParameter(command, "@idlote", DbType.Int16, Convert.ToInt16(ddlLote.SelectedValue));
                 db.AddInParameter(command, "@IMEI", DbType.String, txtIMEI.Text);
 
                 try
                 {
                     db.ExecuteNonQuery(command);
+                    ddlLote.DataBind();
                     lblMensagem.Text = "Informação salva com sucesso!";
                 }
                 catch (Exception ex)
                 {
                     lblMensagem.Text = "Erro ao tentar salvar informação. " + ex.Message;
                 }
-
-            }
-            catch (Exception ex)
-            {
-                lblMensagem.Text = "Erro ao entrar no banco. " + ex.Message;
             }
 
         }
@@ -120,6 +161,14 @@ namespace global.admin
 
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                           "Delete from lote where id = '" + hdfId.Value + "'")) ;
+        }
+
+        protected void ddlLote_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlLote.SelectedValue == "0")
+                txtLote.Visible = true;
+            else
+                txtLote.Visible = false;
         }
     }
 }

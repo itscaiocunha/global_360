@@ -79,7 +79,7 @@
             <!-- Discount List Start -->
             <div class="row">
                 <div class="col-12 mb-5">
-                                        <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados para visualizar" DataSourceID="sdsDados">
+                       <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados para visualizar" DataSourceID="sdsDados">
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
@@ -95,35 +95,35 @@
                             <asp:BoundField DataField="datacadastro" HeaderText="Data do Pedido" SortExpression="datacadastro" />
                             <asp:BoundField DataField="status" HeaderText="Status" SortExpression="status" />
                             <asp:TemplateField>
-    <ItemTemplate>
-        <asp:HyperLink ID="HyperLink2" runat="server" Target="_blank" NavigateUrl='<%# "printpedido.aspx?id="+ Eval("id") %>'>Imprimir</asp:HyperLink>
-    </ItemTemplate>
-</asp:TemplateField>
-                        </Columns>
-                        <EditRowStyle BackColor="#7C6F57" />
-                        <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
-                        <HeaderStyle />
-                        <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
-                        <RowStyle Height="4em" BackColor="White" ForeColor="#a59e9e" CssClass="fix-margin" />
-                        <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
-                        <SortedAscendingCellStyle BackColor="#F8FAFA" />
-                        <SortedAscendingHeaderStyle BackColor="#246B61" />
-                        <SortedDescendingCellStyle BackColor="#D4DFE1" />
-                        <SortedDescendingHeaderStyle BackColor="#15524A" />
-                    </asp:GridView>
+                                <ItemTemplate>
+                                    <asp:HyperLink ID="HyperLink2" runat="server" Target="_blank" NavigateUrl='<%# "printpedido.aspx?id="+ Eval("id") %>'>Imprimir</asp:HyperLink>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            </Columns>
+                            <EditRowStyle BackColor="#7C6F57" />
+                            <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+                            <HeaderStyle />
+                            <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+                            <RowStyle Height="4em" BackColor="White" ForeColor="#a59e9e" CssClass="fix-margin" />
+                            <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+                            <SortedAscendingCellStyle BackColor="#F8FAFA" />
+                            <SortedAscendingHeaderStyle BackColor="#246B61" />
+                            <SortedDescendingCellStyle BackColor="#D4DFE1" />
+                            <SortedDescendingHeaderStyle BackColor="#15524A" />
+                        </asp:GridView>
                     <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select p.id, c2.nomecompleto as vendedor, c.nomecompleto as comprador, prod.titulo, pp.valor, pp.qtde, FORMAT(p.DATACADASTRO,'dd/MM/yyyy') as datacadastro, p.status from pedido p
-join pedido_produto pp on pp.idpedido = p.id
-join produto prod on prod.id = pp.idproduto
-join cliente c on c.id = p.idconsumidor
-join cliente c2 on c2.id = p.idlojista
-where p.idconsumidor = @id
-order by datacadastro desc">
+                        join pedido_produto pp on pp.idpedido = p.id
+                        join produto prod on prod.id = pp.idproduto
+                        join cliente c on c.id = p.idconsumidor
+                        join cliente c2 on c2.id = p.idlojista
+                        where p.idconsumidor = @id
+                        order by datacadastro desc">
                         <SelectParameters>
-    <asp:ControlParameter ControlID="hdfId" Name="id" PropertyName="Value" />
-</SelectParameters>
+                            <asp:ControlParameter ControlID="hdfId" Name="id" PropertyName="Value" />
+                        </SelectParameters>
                     </asp:SqlDataSource>
                 </div>
             </div>
-                   </ContentTemplate>
+        </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

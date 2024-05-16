@@ -64,21 +64,27 @@ order by nome">
 
                 <div class="mb-3">
                     <label class="form-label">Lote</label>
-                    <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="cod" DataValueField="idlote">
+                    <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="numlote" DataValueField="idlote">
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
-                        "select idlote, numlote + ' | ' + convert(varchar, quantidade) as cod from lote where status = 'Ativo' order by cod">
+                        "select idlote, numlote from lote where name_produto = 1"> <%--Fazer pegar o ddlProduto--%>
                     </asp:SqlDataSource>                
                 </div>
 
-                <div class="mb-3">
+                <%--<div class="mb-3">
                     <label class="form-label">Código Único</label>
-                    <asp:TextBox ID="txtEAN" runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
+                    <asp:DropDownList ID="ddlEAN" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsEAN" DataTextField="ean" DataValueField="idlote">
+                    </asp:DropDownList>
+                    <asp:SqlDataSource ID="sdsEAN" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                        "select idlote, IMEI as ean from lote where status = 'Ativo' order by ean">
+                    </asp:SqlDataSource>                
+                </div>--%>
+
                 <asp:Button ID="btnAdicionarItem" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Adicionar ao carrinho" OnClick="btnAdicionarItem_Click" />
                 <br />
                 <br />
-                <!-- car -->
+
+                <!-- Carrinho -->
                 <div class="row">
                     <div class="col-12 mb-5">
                         <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados produtos no carrinho" DataSourceID="sdsDados" OnRowCommand="gdvDados_RowCommand">

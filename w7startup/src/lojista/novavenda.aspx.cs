@@ -67,25 +67,21 @@ namespace global.lojista
             db.AddInParameter(command, "@idproduto", DbType.Int16, Convert.ToInt16(ddlProduto.SelectedValue));
             db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.VerificaValor(ddlProduto.SelectedValue)));
-            if (ddlLote.SelectedValue != "0")
-                db.AddInParameter(command, "@lote", DbType.String, ddlLote.SelectedValue);
-            else
-                db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
-            db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
-            db.AddInParameter(command, "@ano_fabricacao", DbType.String, txtAnoFabricacao.Text);
-            db.AddInParameter(command, "@ano_modelo", DbType.String, txtAno.Text);
-            db.AddInParameter(command, "@chassi", DbType.String, txtChassi.Text);
-            db.AddInParameter(command, "@cor", DbType.String, txtCor.Text);
-            db.AddInParameter(command, "@marca", DbType.String, txtMarca.Text);
-            db.AddInParameter(command, "@modelo", DbType.String, txtModelo.Text);
-            db.AddInParameter(command, "@placa", DbType.String, txtPlaca.Text);
-            db.AddInParameter(command, "@renavam", DbType.String, txtRenavam.Text);
+            db.AddInParameter(command, "@lote", DbType.String, ddlLote.SelectedValue);
+            //db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
+            //db.AddInParameter(command, "@ano_fabricacao", DbType.String, txtAnoFabricacao.Text);
+            //db.AddInParameter(command, "@ano_modelo", DbType.String, txtAno.Text);
+            //db.AddInParameter(command, "@chassi", DbType.String, txtChassi.Text);
+            //db.AddInParameter(command, "@cor", DbType.String, txtCor.Text);
+            //db.AddInParameter(command, "@marca", DbType.String, txtMarca.Text);
+            //db.AddInParameter(command, "@modelo", DbType.String, txtModelo.Text);
+            //db.AddInParameter(command, "@placa", DbType.String, txtPlaca.Text);
+            //db.AddInParameter(command, "@renavam", DbType.String, txtRenavam.Text);
             try
             {
                 db.ExecuteNonQuery(command);
                 gdvDados.DataBind();
                 RetornaValorTotal(lblNumeroPedido.Text);
-                txtEAN.Text = "";
                 txtQtde.Text = "1";
                 lblMensagem.Text = "";
             }
@@ -273,9 +269,7 @@ namespace global.lojista
                 db.ExecuteNonQuery(command);
                 gdvDados.DataBind();
                 RetornaValorTotal(lblNumeroPedido.Text);
-                txtEAN.Text = "";
                 txtQtde.Text = "1";
-                txtEAN.Text = "";
                 hdfIdProduto.Value = "";
                 lblMensagem.Text = "";
             }
