@@ -49,11 +49,10 @@ namespace global.admin
             {
                 try
                 {
-                    DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, name_produto, status, data_criacao, IMEI) values (@lote, @name, @status, GETDATE(), @IMEI)");
+                    DbCommand command = db.GetSqlStringCommand("INSERT INTO lote (numlote, idproduto, status, data_criacao) values (@lote, @produto, @status, GETDATE())");
                     db.AddInParameter(command, "@lote", DbType.String, txtLote.Text);
-                    db.AddInParameter(command, "@name", DbType.String, Convert.ToInt16(ddlProduto.SelectedValue));
+                    db.AddInParameter(command, "@produto", DbType.String, Convert.ToInt16(ddlProduto.SelectedValue));
                     db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
-                    db.AddInParameter(command, "@IMEI", DbType.String, txtIMEI.Text);
 
                     try
                     {
@@ -145,7 +144,7 @@ namespace global.admin
             {
                 if (reader.Read())
                 {
-                    ddlProduto.SelectedValue = reader["name_produto"].ToString();
+                    ddlProduto.SelectedValue = reader["idproduto"].ToString();
                     ddlStatus.SelectedValue = reader["status"].ToString();
                     txtIMEI.Text = reader["IMEI"].ToString();
                     pnlModal.Visible = true;

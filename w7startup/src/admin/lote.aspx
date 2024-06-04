@@ -82,7 +82,7 @@
                     </asp:GridView>
                 <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
                     "select max(l.idlote) as ID, max(l.numlote) as Lote, max(p.titulo) as Produto, COUNT(li.IMEI) as Quantidade, max(l.[status]) as Status from lote l  
-                    join produto p on l.name_produto = p.id 
+                    join produto p on l.idproduto = p.id 
                     join lote_imei li on li.idlote = l.idlote 
                     where l.status = 'Ativo' 
                     group by l.numlote "></asp:SqlDataSource>
@@ -101,10 +101,10 @@
                                 <label class="form-label">Número do Lote</label>
                                 <asp:DropDownList ID="ddlLote" runat="server" AppendDataBoundItems="true" AutoPostBack="true" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="cod" DataValueField="idlote" OnSelectedIndexChanged="ddlLote_SelectedIndexChanged">
                                     <asp:ListItem Text="Novo Lote" Value="0"></asp:ListItem>
-</asp:DropDownList>
-<asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
-    "select distinct idlote, numlote as cod from lote where status = 'Ativo' order by cod">
-</asp:SqlDataSource>      
+                                </asp:DropDownList>
+                                        <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
+                                            "select distinct idlote, numlote as cod from lote where status = 'Ativo' order by cod">
+                                        </asp:SqlDataSource>      
                                 <asp:TextBox ID="txtLote" runat="server" CssClass="form-control" Required></asp:TextBox>
                             </div>
                             <div class="mb-3">

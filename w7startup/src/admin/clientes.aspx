@@ -84,9 +84,9 @@
                     <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados para visualizar" DataSourceID="sdsDados" OnRowCommand="gdvDados_RowCommand">
                         <Columns>
                              <asp:TemplateField>
-     <ItemTemplate>
-         <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("id") %>' CommandName="Editar" runat="server" Text="Editar" /></ItemTemplate>
- </asp:TemplateField>
+                                 <ItemTemplate>
+                                     <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("id") %>' CommandName="Editar" runat="server" Text="Editar" /></ItemTemplate>
+                             </asp:TemplateField>
                             <asp:BoundField DataField="id" HeaderText="#Cod" InsertVisible="False" ReadOnly="True" SortExpression="id" />                            
                             <asp:BoundField DataField="cnpj_cpf" HeaderText="CPF" SortExpression="cnpj_cpf" />
                             <asp:BoundField DataField="email" HeaderText="E-mail" SortExpression="email" />
@@ -97,10 +97,10 @@
                             <asp:BoundField DataField="estado" HeaderText="UF" SortExpression="estado" />                          
                             <asp:BoundField DataField="status" HeaderText="Status" SortExpression="status" />
                             <asp:BoundField DataField="datacadastro" HeaderText="Desde de" SortExpression="datacadastro" />
-                                                        <asp:TemplateField>
-    <ItemTemplate>
-        <asp:HyperLink ID="lkbContrato" runat="server" Text="Ver Contrato" NavigateUrl='<%# "http://global360.app.br/src/admin/viewcontrato.aspx?id=" + Eval("token")%>'></asp:HyperLink></ItemTemplate>
-</asp:TemplateField>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:HyperLink ID="lkbContrato" runat="server" Text="Ver Contrato" NavigateUrl='<%# "http://global360.app.br/src/admin/viewcontrato.aspx?id=" + Eval("token")%>'></asp:HyperLink></ItemTemplate>
+                            </asp:TemplateField>
                         </Columns>
                         <EditRowStyle BackColor="#7C6F57" />
                         <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
@@ -214,7 +214,8 @@ order by nomecompleto"></asp:SqlDataSource>
                             <br />
                             <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click1" />
                             <asp:LinkButton ID="lkbFechar" runat="server" CssClass="btn btn-danger btn-icon btn-icon-start" OnClick="lkbFechar_Click">
-<i data-acorn-icon="close"></i> Fechar </asp:LinkButton>         
+                                <i data-acorn-icon="close"></i> Fechar
+                            </asp:LinkButton>         
                         </div>
                     </div>
                 </div>

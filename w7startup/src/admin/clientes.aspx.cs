@@ -85,7 +85,6 @@ namespace global
             }
         }
 
-        protected void btnSalvar_Click1(object sender, EventArgs e)
         {
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
