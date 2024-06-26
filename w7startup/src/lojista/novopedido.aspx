@@ -79,7 +79,7 @@ order by nome">
                     <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
                         "select distinct l.idlote, p.lote from pedido p
                         join lote l on l.idlote = p.lote 
-                        where idlojista = @id and l.name_produto = @produto">
+                        where idlojista = @id and l.idproduto = @produto">
                         <SelectParameters>
                             <asp:SessionParameter Name="id" SessionField="idcliente" />
                             <asp:ControlParameter ControlID="ddlProduto" Name="produto" PropertyName="SelectedValue" />
