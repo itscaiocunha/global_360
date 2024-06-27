@@ -74,12 +74,10 @@ order by nome">
 
                 <div class="mb-3">
                     <label class="form-label">Lote</label>
-                    <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="lote" DataValueField="idlote">
+                    <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="numlote" DataValueField="idlote">
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
-                        "select distinct l.idlote, p.lote from pedido p
-                        join lote l on l.idlote = p.lote 
-                        where idlojista = @id and l.idproduto = @produto">
+                        "select distinct idlote, numlote from lote">
                         <SelectParameters>
                             <asp:SessionParameter Name="id" SessionField="idcliente" />
                             <asp:ControlParameter ControlID="ddlProduto" Name="produto" PropertyName="SelectedValue" />

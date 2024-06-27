@@ -42,10 +42,10 @@
                         <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" placeholder="Filtrar"></asp:TextBox>
                         </div>                        
                 </div>
-                                        <div class="col-sm-12 col-md-5 col-lg-4 col-xxl-2 mb-1">
+                                        <%--<div class="col-sm-12 col-md-5 col-lg-4 col-xxl-2 mb-1">
                        <asp:LinkButton ID="lkbFiltro" runat="server" CssClass="btn btn-outline-primary btn-icon btn-icon-start ms-0 ms-sm-1 w-100 w-md-auto" OnClick="lkbFiltro_Click">
 <i data-acorn-icon="search"></i> Filtrar</asp:LinkButton>     
-                   </div>
+                   </div>--%>
                 <!-- Search End -->
 
                 <div class="col-sm-12 col-md-7 col-lg-4 col-xxl-10 text-end mb-1">
@@ -79,7 +79,7 @@
             </div>
             <!-- Controls End -->
             <!-- Discount List Start -->
-            <div class="row">
+            <%--<div class="row">
                 <div class="col-12 mb-5">
                     <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados para visualizar" DataSourceID="sdsDados" OnRowCommand="gdvDados_RowCommand">
                         <Columns>
@@ -116,7 +116,7 @@
                     <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select * from cliente where idtipocliente = 3
 order by nomecompleto"></asp:SqlDataSource>
                 </div>
-            </div>
+            </div>--%>
             <!-- Discount Add Modal Start -->
             <asp:Panel ID="pnlModal" runat="server" CssClass="modal-right" Visible="false">
                 <div class="modal-dialog">
@@ -209,14 +209,14 @@ order by nomecompleto"></asp:SqlDataSource>
         </asp:DropDownList>
     </div>
 </div>
-                        <div class="modal-footer border-0">
+                        <%--<div class="modal-footer border-0">
                             <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
                             <br />
                             <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click1" />
                             <asp:LinkButton ID="lkbFechar" runat="server" CssClass="btn btn-danger btn-icon btn-icon-start" OnClick="lkbFechar_Click">
                                 <i data-acorn-icon="close"></i> Fechar
                             </asp:LinkButton>         
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
             </asp:Panel>

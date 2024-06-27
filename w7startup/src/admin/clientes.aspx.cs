@@ -52,7 +52,7 @@ namespace global
             txtCidade.Text = "";
             txtComplemento.Text = "";
             txtCelular.Text = "";
-            lblMensagem.Text = "";
+            //lblMensagem.Text = "";
             txtNomeCliente.Focus();
         }
 
@@ -61,11 +61,11 @@ namespace global
             pnlModal.Visible = false;
         }
 
-        protected void lkbFiltro_Click(object sender, EventArgs e)
-        {
-            sdsDados.SelectCommand = "select * from cliente where nomecompleto like '%" + txtBuscar.Text + "%' and idtipo_cliente = 3";
-            gdvDados.DataBind();
-        }
+        //protected void lkbFiltro_Click(object sender, EventArgs e)
+        //{
+        //    sdsDados.SelectCommand = "select * from cliente where nomecompleto like '%" + txtBuscar.Text + "%' and idtipo_cliente = 3";
+        //    gdvDados.DataBind();
+        //}
 
         protected void txtCEP_TextChanged(object sender, EventArgs e)
         {
