@@ -81,9 +81,10 @@ namespace global.distribuidor
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
             DbCommand command = db.GetSqlStringCommand(
-                "UPDATE pedido SET valor = @valor, idtaxa = @idtaxa, idlojista = @idlojista, idconsumidor = @idconsumidor, observacao = @observacao, rastreio = @rastreio, status = @status, notafiscal = @notafiscal, prazo_entrega = @prazo_entrega, datacadastro = getdate() where id = @id");
+                "UPDATE pedido SET valor = @valor, lote = @lote idtaxa = @idtaxa, idlojista = @idlojista, idconsumidor = @idconsumidor, observacao = @observacao, rastreio = @rastreio, status = @status, notafiscal = @notafiscal, prazo_entrega = @prazo_entrega, datacadastro = getdate() where id = @id");
             db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.RetornaTotalPedido(lblNumeroPedido.Text)));
+            db.AddInParameter(command, "@lote", DbType.Int16, Convert.ToInt16(ddlLote.SelectedValue));
             db.AddInParameter(command, "@idtaxa", DbType.Int16, Convert.ToInt16(auth.RetornaTaxaComissao("7")));
             db.AddInParameter(command, "@idlojista", DbType.Int16, Convert.ToInt16("7"));
             db.AddInParameter(command, "@idconsumidor", DbType.Int16, Convert.ToInt16(Session["idcliente"].ToString()));
