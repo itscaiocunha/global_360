@@ -204,32 +204,31 @@
 
                     <div class="mb-3">
                         <label class="form-label">Lote</label>
-                        <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="lote" DataValueField="idlote">
+                        <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="numlote" DataValueField="idlote">
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
-                            "select distinct l.idlote, p.lote from pedido p
-                            join lote l on l.idlote = p.lote 
-                            where idlojista = @id and l.name_produto = @produto">
+                            "SELECT DISTINCT l.numlote as numlote, p.lote as idlote
+                            FROM pedido p
+                            JOIN lote l ON l.idlote = p.lote 
+                            WHERE p.idconsumidor = @id AND l.idproduto = @produto">
                             <SelectParameters>
                                 <asp:SessionParameter Name="id" SessionField="idcliente" />
                                 <asp:ControlParameter ControlID="ddlProduto" Name="produto" PropertyName="SelectedValue" />
                             </SelectParameters>
-                            <SelectParameters>
-                                <asp:SessionParameter Name="produto" SessionField=ddlProduto.SelectValue />
-                            </SelectParameters>
                         </asp:SqlDataSource>                
                     </div>
+
 
                     <div class="mb-3">
                         <label class="form-label">IMEI</label>
                         <asp:DropDownList ID="ddlIMEI" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsIMEI" DataTextField="imei" DataValueField="idlote">
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="sdsIMEI" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
-                            "select distinct imei from lote_imei li 
+                            "select distinct li.idlote, li.imei from lote_imei li 
                             left join pedido_produto pp on pp.ean = li.imei
-                            where li.idlote = @id and pp.ean is null">
+                            where li.idlote = @numlote and pp.ean is null">
                             <SelectParameters>
-                                <asp:SessionParameter Name="id" SessionField="idcliente" />
+                                <asp:ControlParameter ControlID="ddlLote" Name="numlote" PropertyName="SelectedValue" />
                             </SelectParameters>
                         </asp:SqlDataSource>                
                     </div>
