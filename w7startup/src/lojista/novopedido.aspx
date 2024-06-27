@@ -77,7 +77,7 @@ order by nome">
                     <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="numlote" DataValueField="idlote">
                     </asp:DropDownList>
                     <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
-                        "select distinct idlote, numlote from lote">
+                        "select distinct max(idlote) as idlote, numlote from lote group by numlote">
                         <SelectParameters>
                             <asp:SessionParameter Name="id" SessionField="idcliente" />
                             <asp:ControlParameter ControlID="ddlProduto" Name="produto" PropertyName="SelectedValue" />
