@@ -126,21 +126,8 @@ namespace global.admin
         {
 
             hdfId.Value = e.CommandArgument.ToString();
-
-            if (e.CommandName == "Excluir")
-            {
-                ExcluirRegistro();
-            }
-            else if (e.CommandName == "Editar")
-            {
-                EditarRegistro();
-            }
-        }
-
-        protected void EditarRegistro()
-        {
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                  "SELECT * from lote"))
+                          "SELECT * from lote where idlote = '" + hdfId.Value + "'"))
             {
                 if (reader.Read())
                 {

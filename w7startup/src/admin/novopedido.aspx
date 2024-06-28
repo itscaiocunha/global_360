@@ -61,7 +61,7 @@ order by nome"></asp:SqlDataSource>
                 <div class="mb-3">
                     <label class="form-label">Lote</label>
                     <asp:DropDownList ID="ddlLote" runat="server"  CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="numlote" DataValueField="idlote"></asp:DropDownList>
-                    <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select idlote, numlote from lote"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="sdsLote" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="select distinct max(idlote) as idlote, numlote from lote group by numlote"></asp:SqlDataSource>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Código Único</label>

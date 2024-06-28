@@ -51,7 +51,7 @@
                         <asp:LinkButton ID="btnImprimir" runat="server" CssClass="btn btn-icon btn-icon-only btn-foreground-alternate shadow"><i data-acorn-icon="print"></i></asp:LinkButton>
                         <!-- Print Button End -->
 
-                        <!-- Export Dropdown Start -->
+                        <%--<!-- Export Dropdown Start -->
                         <div class="d-inline-block">
                             <button class="btn p-0" data-bs-toggle="dropdown" type="button" data-bs-offset="0,3">
                                 <span
@@ -69,7 +69,7 @@
                                 <asp:LinkButton ID="btnDownloadCSV" runat="server" CssClass="dropdown-item export-cvs">Csv</asp:LinkButton>
                             </div>
 
-                        </div>
+                        </div>--%>
                         <!-- Export Dropdown End -->
                     </div>
                 </div>
