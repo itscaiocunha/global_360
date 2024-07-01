@@ -57,7 +57,7 @@
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("id") %>' CommandName="Editar" runat="server" Text="Editar" />
+                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("idlote") %>' CommandName="Editar" runat="server" Text="Editar" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:BoundField DataField="Lote" HeaderText="Lote" SortExpression="Lote" />
@@ -82,7 +82,7 @@
                     </asp:GridView>
                     <asp:HiddenField ID="HiddenField1" runat="server" />
                 <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
-                    "select max(l.idlote) as ID, max(l.numlote) as Lote, max(p.titulo) as Produto, COUNT(li.IMEI) as Quantidade, max(l.[status]) as Status from lote l  
+                    "select max(l.idlote) as idlote, max(l.numlote) as Lote, max(p.titulo) as Produto, COUNT(li.IMEI) as Quantidade, max(l.[status]) as Status from lote l  
                     join produto p on l.idproduto = p.id 
                     join lote_imei li on li.idlote = l.idlote 
                     where l.status = 'Ativo' 

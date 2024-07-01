@@ -219,7 +219,7 @@
                     </div>
 
 
-                    <div class="mb-3">
+                    <%--<div class="mb-3">
                         <label class="form-label">IMEI</label>
                         <asp:DropDownList ID="ddlIMEI" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsIMEI" DataTextField="imei" DataValueField="idlote">
                         </asp:DropDownList>
@@ -231,6 +231,11 @@
                                 <asp:ControlParameter ControlID="ddlLote" Name="numlote" PropertyName="SelectedValue" />
                             </SelectParameters>
                         </asp:SqlDataSource>                
+                    </div>--%>
+
+                    <div class="mb-3">
+                        <label class="form-label">IMEI</label>
+                        <asp:TextBox ID="imei" onkeyup="formataInteiro(this,event);" runat="server" Text="" CssClass="form-control"></asp:TextBox>
                     </div>
 
                     <%--<div class="mb-3">
