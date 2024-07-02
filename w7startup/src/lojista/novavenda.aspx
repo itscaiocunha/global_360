@@ -218,35 +218,20 @@
                         </asp:SqlDataSource>                
                     </div>
 
-
-                    <%--<div class="mb-3">
-                        <label class="form-label">IMEI</label>
-                        <asp:DropDownList ID="ddlIMEI" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsIMEI" DataTextField="imei" DataValueField="idlote">
-                        </asp:DropDownList>
-                        <asp:SqlDataSource ID="sdsIMEI" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
-                            "select distinct li.idlote, li.imei from lote_imei li 
-                            left join pedido_produto pp on pp.ean = li.imei
-                            where li.idlote = @numlote and pp.ean is null">
-                            <SelectParameters>
-                                <asp:ControlParameter ControlID="ddlLote" Name="numlote" PropertyName="SelectedValue" />
-                            </SelectParameters>
-                        </asp:SqlDataSource>                
-                    </div>--%>
-
                     <div class="mb-3">
                         <label class="form-label">IMEI</label>
                         <asp:TextBox ID="imei" onkeyup="formataInteiro(this,event);" runat="server" Text="" CssClass="form-control"></asp:TextBox>
                     </div>
 
-                    <%--<div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Placa</label>
                         <asp:TextBox ID="txtPlaca" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                                        <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Marca</label>
                         <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                                        <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Modelo</label>
                         <asp:TextBox ID="txtModelo" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
@@ -254,26 +239,27 @@
                         <label class="form-label">Ano do Modelo</label>
                         <asp:TextBox ID="txtAno" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                                        <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Cor</label>
                         <asp:TextBox ID="txtCor" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                                                            <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Chassi</label>
                         <asp:TextBox ID="txtChassi" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                                                            <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Renavam</label>
                         <asp:TextBox ID="txtRenavam" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
-                                                            <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Ano de Fabricação</label>
                         <asp:TextBox ID="txtAnoFabricacao" runat="server" CssClass="form-control"></asp:TextBox>
-                    </div>--%>
+                    </div>
 
                     <asp:Button ID="btnAdicionarItem" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Adicionar ao carrinho" OnClick="btnAdicionarItem_Click" />
                     <br />
                     <br />
+
                     <!-- car -->
                     <div class="row">
                         <div class="col-12 mb-5">
@@ -288,6 +274,14 @@
                                     <asp:BoundField DataField="titulo" HeaderText="Produto" SortExpression="titulo" />
                                     <asp:BoundField DataField="qtde" HeaderText="Quant." SortExpression="qtde" />
                                     <asp:BoundField DataField="valor" HeaderText="Valor" SortExpression="valor" />
+                                    <asp:BoundField DataField="marca" HeaderText="Marca" SortExpression="marca" />
+                                    <asp:BoundField DataField="modelo" HeaderText="Modelo" SortExpression="modelo" />
+                                    <asp:BoundField DataField="placa" HeaderText="Placa" SortExpression="placa" />
+                                    <asp:BoundField DataField="ano_modelo" HeaderText="Ano" SortExpression="ano_modelo" />
+                                    <asp:BoundField DataField="cor" HeaderText="Cor" SortExpression="cor" />
+                                    <asp:BoundField DataField="chassi" HeaderText="Chassi" SortExpression="chassi" />
+                                    <asp:BoundField DataField="renavam" HeaderText="Renavam" SortExpression="renavam" />
+
                                     <asp:TemplateField>
                                         <ItemTemplate>
                                             <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-danger" CommandArgument='<%# Eval("id") %>' CommandName="Excluir" runat="server" Text="Retirar" />
@@ -306,7 +300,8 @@
                                 <SortedDescendingCellStyle BackColor="#D4DFE1" />
                                 <SortedDescendingHeaderStyle BackColor="#15524A" />
                             </asp:GridView>
-                            <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select pp.idproduto as id, imagem, pp.idpedido, titulo, qtde, pp.valor from pedido_produto pp
+                            <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
+                                "select pp.idproduto as id, imagem, pp.idpedido, pp.lote, titulo, qtde, pp.valor, pp.marca, pp.modelo, pp.placa, pp.ano_modelo, pp.cor, pp.chassi, pp.renavam from pedido_produto pp
                                 join produto p on p.id = pp.idproduto 
                                 where pp.idpedido = @id">
                                 <SelectParameters>

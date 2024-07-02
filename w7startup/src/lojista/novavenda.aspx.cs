@@ -62,21 +62,22 @@ namespace global.lojista
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
             DbCommand command = db.GetSqlStringCommand(
-            "INSERT INTO pedido_produto (idpedido, idproduto, qtde, valor, lote, ean, ano_fabricacao, ano_modelo, chassi, cor, marca, modelo, placa, renavam) values (@idpedido, @idproduto, @qtde, @valor, @lote, @ean, @ano_fabricacao, @ano_modelo, @chassi, @cor, @marca, @modelo, @placa, @renavam)");
+            "INSERT INTO pedido_produto (idpedido, idproduto, qtde, valor, lote, ean, marca, modelo, placa, ano_modelo, cor, chassi, renavam, ano_fabricacao) values (@idpedido, @idproduto, @qtde, @valor, @lote, @ean, @marca, @modelo, @placa, @ano_modelo, @cor, @chassi, @renavam, @ano_fabricacao)");
             db.AddInParameter(command, "@idpedido", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));
             db.AddInParameter(command, "@idproduto", DbType.Int16, Convert.ToInt16(ddlProduto.SelectedValue));
             db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.VerificaValor(ddlProduto.SelectedValue)));
             db.AddInParameter(command, "@lote", DbType.String, ddlLote.SelectedValue);
-            //db.AddInParameter(command, "@ean", DbType.String, txtEAN.Text);
-            //db.AddInParameter(command, "@ano_fabricacao", DbType.String, txtAnoFabricacao.Text);
-            //db.AddInParameter(command, "@ano_modelo", DbType.String, txtAno.Text);
-            //db.AddInParameter(command, "@chassi", DbType.String, txtChassi.Text);
-            //db.AddInParameter(command, "@cor", DbType.String, txtCor.Text);
-            //db.AddInParameter(command, "@marca", DbType.String, txtMarca.Text);
-            //db.AddInParameter(command, "@modelo", DbType.String, txtModelo.Text);
-            //db.AddInParameter(command, "@placa", DbType.String, txtPlaca.Text);
-            //db.AddInParameter(command, "@renavam", DbType.String, txtRenavam.Text);
+            db.AddInParameter(command, "@ean", DbType.String, imei.Text);
+            db.AddInParameter(command, "@marca", DbType.String, txtMarca.Text);
+            db.AddInParameter(command, "@modelo", DbType.String, txtModelo.Text);
+            db.AddInParameter(command, "@placa", DbType.String, txtPlaca.Text);
+            db.AddInParameter(command, "@ano_modelo", DbType.String, txtAno.Text);
+            db.AddInParameter(command, "@cor", DbType.String, txtCor.Text);
+            db.AddInParameter(command, "@chassi", DbType.String, txtChassi.Text);
+            db.AddInParameter(command, "@renavam", DbType.String, txtRenavam.Text);
+            db.AddInParameter(command, "@ano_fabricacao", DbType.String, txtAnoFabricacao.Text);
+
             try
             {
                 db.ExecuteNonQuery(command);
