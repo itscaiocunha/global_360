@@ -57,38 +57,30 @@
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("idlote") %>' CommandName="Editar" runat="server" Text="Editar" />
+                                    <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#pnlModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-primary" CommandArgument='<%# Eval("ID") %>' CommandName="Editar" runat="server" Text="Editar" />
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:BoundField DataField="Lote" HeaderText="Lote" SortExpression="Lote" />
                             <asp:BoundField DataField="Produto" HeaderText="Produto" SortExpression="Produto" />
                             <asp:BoundField DataField="Quantidade" HeaderText="Quantidade" SortExpression="Quantidade" />
                             <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
-                             <asp:TemplateField>
-                                <ItemTemplate>
-                                    <EditRowStyle BackColor="#7C6F57" />
-                                    <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
-                                    <HeaderStyle />
-                                    <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
-                                    <RowStyle Height="4em" BackColor="White" ForeColor="#a59e9e" CssClass="fix-margin" />
-                                    <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
-                                    <SortedAscendingCellStyle BackColor="#F8FAFA" />
-                                    <SortedAscendingHeaderStyle BackColor="#246B61" />
-                                    <SortedDescendingCellStyle BackColor="#D4DFE1" />
-                                    <SortedDescendingHeaderStyle BackColor="#15524A" />
-                                </ItemTemplate>
-                            </asp:TemplateField>
                         </Columns>
+                        <EditRowStyle BackColor="#7C6F57" />
+                        <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+                        <RowStyle Height="4em" BackColor="White" ForeColor="#a59e9e" CssClass="fix-margin" />
+                        <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#F8FAFA" />
+                        <SortedAscendingHeaderStyle BackColor="#246B61" />
+                        <SortedDescendingCellStyle BackColor="#D4DFE1" />
+                        <SortedDescendingHeaderStyle BackColor="#15524A" />
                     </asp:GridView>
                     <asp:HiddenField ID="HiddenField1" runat="server" />
-                <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand=
-                    "select max(l.idlote) as idlote, max(l.numlote) as Lote, max(p.titulo) as Produto, COUNT(li.IMEI) as Quantidade, max(l.[status]) as Status from lote l  
-                    join produto p on l.idproduto = p.id 
-                    join lote_imei li on li.idlote = l.idlote 
-                    where l.status = 'Ativo' 
-                    group by l.numlote "></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="sdsDados" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT MAX(l.idlote) AS ID, MAX(l.numlote) AS Lote, MAX(p.titulo) AS Produto, COUNT(li.IMEI) AS Quantidade, MAX(l.[status]) AS Status FROM lote l JOIN produto p ON l.idproduto = p.id JOIN lote_imei li ON li.idlote = l.idlote WHERE l.status = 'Ativo' GROUP BY l.numlote">
+                    </asp:SqlDataSource>
                 </div>
             </div>
+
 
             <!-- Discount Add Modal Start -->
             <asp:Panel ID="pnlModal" runat="server" CssClass="modal-right" Visible="false">

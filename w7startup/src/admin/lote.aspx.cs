@@ -15,6 +15,7 @@ using pix_dynamic_payload_generator.net.Requests.RequestServices;
 using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using System.Data.Common;
+using System.Web.UI.WebControls;
 
 namespace global.admin
 {
@@ -122,32 +123,29 @@ namespace global.admin
             gdvDados.DataBind();
         }
 
-        protected void gdvDados_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        protected void gdvDados_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-
-            hdfId.Value = e.CommandArgument.ToString();
-            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                          "SELECT * from lote where idlote = '" + hdfId.Value + "'"))
+            if (e.CommandName == "Editar")
             {
-                if (reader.Read())
+                HiddenField1.Value = e.CommandArgument.ToString();
+
+                using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                              "SELECT l.idlote, l.numlote as numlote, l.idproduto as idproduto, l.status as status, lm.imei as IMEI from lote l inner join lote_imei lm on l.idlote = lm.idlote where l.idlote = '" + HiddenField1.Value + "'"))
                 {
-                    ddlProduto.SelectedValue = reader["idproduto"].ToString();
-                    ddlStatus.SelectedValue = reader["status"].ToString();
-                    txtIMEI.Text = reader["IMEI"].ToString();
-                    pnlModal.Visible = true;
-                    lblMensagem.Text = "";
+                    if (reader.Read())
+                    {
+                        txtLote.Text = reader["numlote"].ToString();
+                        ddlProduto.SelectedValue = reader["idproduto"].ToString();
+                        ddlStatus.SelectedValue = reader["status"].ToString();
+                        txtIMEI.Text = reader["IMEI"].ToString();
+
+                        pnlModal.Visible = true;
+                        lblMensagem.Text = "";
+                    }
                 }
             }
         }
 
-        protected void ExcluirRegistro()
-        {
-
-            System.Threading.Thread.Sleep(1000);
-
-            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                          "Delete from lote where id = '" + hdfId.Value + "'")) ;
-        }
 
         protected void ddlLote_SelectedIndexChanged(object sender, EventArgs e)
         {
