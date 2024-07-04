@@ -69,7 +69,7 @@ namespace global.lojista
         {
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
             DbCommand command = db.GetSqlStringCommand(
-               "UPDATE cliente SET rg = @rg, celular = @celular, nomecompleto = @nomecompleto, cep = @cep, endereco = @endereco, bairro = @bairro, numero = @numero, cidade = @cidade, estado = @estado, complemento = @complemento, status = @status, contrato = @contrato where id = @id");
+               "UPDATE cliente SET rg = @rg, celular = @celular, nomecompleto = @nomecompleto, cep = @cep, endereco = @endereco, bairro = @bairro, numero = @numero, cidade = @cidade, estado = @estado, complemento = @complemento where id = @id");
             db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(Session["idcliente"].ToString()));
             db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
             db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
