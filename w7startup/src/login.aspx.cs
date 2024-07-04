@@ -61,7 +61,7 @@ namespace global
         protected void btnSalvar_Click1(object sender, EventArgs e)
         {
 
-            string senha = Criptografia.Encrypt(txtSenha.Text).Replace("+", "");
+            string senha = Criptografia.Encrypt(txtSenha.Text).Replace("+", "=");
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                           "SELECT u.id as idusuario, u.email as emailusuario, * from usuario u join usuario_perfil up on up.idusuario = u.id join cliente c on c.id = u.idcliente where c.status = 'ATIVO' and u.email = '" + txtEmail.Text + "' and senha = '" + senha + "' "))
             {
