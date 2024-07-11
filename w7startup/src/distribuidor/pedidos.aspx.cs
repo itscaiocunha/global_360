@@ -19,9 +19,9 @@ namespace global.distribuidor
 {
     public partial class pedidos : System.Web.UI.Page
     {
-        public static void Page_Load(object sender, EventArgs e)
+        public void Page_Load(object sender, EventArgs e)
         {
-            
+            hdfId.Value = Session["idcliente"].ToString();
         }
 
         protected void LinkButton1_Click(object sender, EventArgs e)

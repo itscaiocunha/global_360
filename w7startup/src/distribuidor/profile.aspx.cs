@@ -92,7 +92,7 @@ namespace global.distribuidor
                     DbCommand command2 = db.GetSqlStringCommand(
                "UPDATE usuario SET senha = @senha where idcliente = @idcliente");
                     db.AddInParameter(command2, "@idcliente", DbType.Int16, Convert.ToInt16(Session["idcliente"].ToString()));
-                    db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(txtNovaSenha.Text).Replace("+","="));
+                    db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(txtNovaSenha.Text).Replace("+",""));
 
                     try
                     {
