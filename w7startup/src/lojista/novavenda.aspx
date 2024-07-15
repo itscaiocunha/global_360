@@ -260,7 +260,7 @@
                     <br />
                     <br />
 
-                    <!-- car -->
+                    <!-- Carrinho -->
                     <div class="row">
                         <div class="col-12 mb-5">
                             <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados produtos no carrinho" DataSourceID="sdsDados" OnRowCommand="gdvDados_RowCommand">
@@ -455,7 +455,6 @@
                     <br />
                     <asp:Button ID="btnNovoPedido" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Iniciar Novo Pedido" OnClick="btnNovoPedido_Click" />
                 </asp:Panel>
-                <%--<hr />--%>
 
             </div>
 

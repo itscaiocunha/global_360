@@ -24,12 +24,13 @@ namespace global.lojista
             hdfId.Value = Request.QueryString["id"].ToString();
             //traz o conteudo do contrato para salvar no cadastro final
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                              "select p.id, p.valor, p.rastreio, p.prazo_entrega, p.data_entrega, FORMAT(p.DATACADASTRO,'dd/MM/yyyy') as datacadastro, p.[status], c1.nomecompleto as nomefantasia, c1.cidade+'/'+c1.estado as local_lojista, c1.celular as telefonelojista, c2.nomecompleto as nomecliente, c2.endereco+' '+c2.bairro+' '+c2.numero+','+c2.cidade+'/'+c2.estado as enderecocliente from pedido p join cliente c1 on c1.id = p.idlojista join cliente c2 on c2.id = p.idconsumidor where p.id = '" + hdfId.Value + "'"))
+                              "select p.id, p.observacao, p.valor, p.rastreio, p.prazo_entrega, p.data_entrega, FORMAT(p.DATACADASTRO,'dd/MM/yyyy') as datacadastro, c1.cnpj_cpf, p.[status], c1.nomecompleto as nomefantasia, c1.cidade+'/'+c1.estado as local_lojista, c1.celular as telefonelojista, c2.nomecompleto as nomecliente, c2.endereco+' '+c2.bairro+' '+c2.numero+','+c2.cidade+'/'+c2.estado as enderecocliente from pedido p join cliente c1 on c1.id = p.idlojista join cliente c2 on c2.id = p.idconsumidor where p.id = '" + hdfId.Value + "'"))
             {
                 if (reader.Read())
                 {
                     lblNumeroPedido.Text = reader["id"].ToString();
                     lblRazaoSocial.Text = reader["nomefantasia"].ToString();
+                    lblCPF.Text = reader["cnpj_cpf"].ToString();
                     lblCidadeUf.Text = reader["local_lojista"].ToString();
                     lblTelefone.Text = reader["telefonelojista"].ToString();
                     lblDataEntrega.Text = reader["data_entrega"].ToString();
@@ -41,6 +42,7 @@ namespace global.lojista
                     lblValorTotal.Text = reader["valor"].ToString();
                     lblCliente.Text = reader["nomecliente"].ToString();
                     ddlStatus.SelectedValue = reader["status"].ToString();
+                    lblObservações.Text = reader["observacao"].ToString();
                 }
             }
         }

@@ -55,6 +55,9 @@
                             <asp:Label ID="lblCliente" runat="server" Text=""></asp:Label>
                         </div>
                         <div>
+                            <asp:Label ID="lblCPF" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div>
                             <asp:Label ID="lblEndereco" runat="server" Text=""></asp:Label>
                         </div>
                         <div>
@@ -69,6 +72,10 @@
                             Rastreio:
                             <asp:Label ID="lblRastreio" runat="server" Text=""></asp:Label>
                         </div>
+                        <div>
+                            Observações:
+                            <asp:Label ID="lblObservações" runat="server" Text=""></asp:Label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -79,11 +86,11 @@
                         </div>
                         <div>
                             Valor total R$ 
-    <asp:Label ID="lblValorTotal" runat="server" Text=""></asp:Label>
+                            <asp:Label ID="lblValorTotal" runat="server" Text=""></asp:Label>
                         </div>
                         <div>
                             Nota Fiscal: 
-   <asp:HyperLink ID="hplNF" runat="server" Target="_blank">Visualizar NF</asp:HyperLink>
+                            <asp:HyperLink ID="hplNF" runat="server" Target="_blank">Visualizar NF</asp:HyperLink>
                         </div>
                         <div>
                             <asp:Label ID="lblStatusAtual" runat="server" Text=""></asp:Label>
