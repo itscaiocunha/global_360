@@ -29,7 +29,7 @@ namespace global.distribuidor
                 if (reader.Read())
                 {
                     lblNumeroPedido.Text = reader["id"].ToString();
-                    lblRazaoSocial.Text = reader["nomecompleto"].ToString();
+                    lblRazaoSocial.Text = reader["nomefantasia"].ToString();
                     lblCidadeUf.Text = reader["local_lojista"].ToString();
                     lblTelefone.Text = reader["telefonelojista"].ToString();
                     lblDataEntrega.Text = reader["data_entrega"].ToString();
