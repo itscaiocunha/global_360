@@ -121,7 +121,6 @@ join pedido_produto pp on pp.idpedido = p.id
 join produto prod on prod.id = pp.idproduto
 join cliente c on c.id = p.idconsumidor
 join cliente c2 on c2.id = p.idlojista
-where c.idtipocliente = 3
 order by datacadastro desc"></asp:SqlDataSource>
                 </div>
             </div>

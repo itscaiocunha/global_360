@@ -5,7 +5,7 @@
     <asp:HiddenField ID="hdfId" runat="server" />
     <asp:HiddenField ID="hdfIdCliente" runat="server" />
     <asp:HiddenField ID="hdfIdCartao" runat="server" />
-    <asp:HiddenField ID="hdfIdIugu" runat="server" />
+    <%--<asp:HiddenField ID="hdfIdIugu" runat="server" />--%>
     <asp:HiddenField ID="hdfIdProduto" runat="server" />
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <%--<script type="text/javascript" src="https://js.iugu.com/v2"></script>

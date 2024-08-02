@@ -15,20 +15,20 @@ using pix_dynamic_payload_generator.net.Requests.RequestServices;
 using System.Runtime.InteropServices;
 using System.Data.Common;
 using Newtonsoft.Json;
-using global.iugu;
-using static global.iugu.Assinaturas;
-using static global.iugu.token;
-using w7startup.src.iugu;
+//using global.iugu;
+//using static global.iugu.Assinaturas;
+//using static global.iugu.token;
+//using w7startup.src.iugu;
 using System.Web.UI.WebControls;
 
 namespace global.lojista
 {
     public partial class novavenda : System.Web.UI.Page
     {
-        public static string BASEURRLTOKEN = @"https://api.iugu.com/v1/payment_token";
-        public static string BASEURRL = @"https://api.iugu.com/v1/customers?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D";
-        public static string BASEURRLASSINATURA = @"https://api.iugu.com/v1/subscriptions?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D";
-        public static string BASEURLFATURA = @"https://api.iugu.com/v1/invoices?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D";
+        //public static string BASEURRLTOKEN = @"https://api.iugu.com/v1/payment_token";
+        //public static string BASEURRL = @"https://api.iugu.com/v1/customers?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D";
+        //public static string BASEURRLASSINATURA = @"https://api.iugu.com/v1/subscriptions?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D";
+        //public static string BASEURLFATURA = @"https://api.iugu.com/v1/invoices?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D";
         public void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -100,50 +100,50 @@ namespace global.lojista
             string valorfinal = lblValorTotal.Text.Replace(",", "").Replace(".", "");
             valorfinal = valorfinal.PadRight(4, '0');
 
-            try
-            {
-                var client = new RestClient($"{BASEURRLASSINATURA}");
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("Accept", "application/json");
-                Assinaturas dadosAssina = new Assinaturas
-                {
-                    plan_identifier = "premium_plan",
-                    customer_id = lblMsgErro.Text,
-                    expires_at = null,
-                    only_on_charge_success = null,
-                    ignore_due_email = null,
-                    payable_with = "credit_card",
-                    credits_based = false,
-                    price_cents = Convert.ToInt32(valorfinal),
-                    credits_cycle = null,
-                    credits_min = 0,
-                    subitems = new List<subitem>
-            {
-                new subitem
-                {
-                    description = "Mensalidade",
-                    price_cents = Convert.ToInt32(valorfinal),
-                    quantity = 1,
-                    recurrent = true
-                }
-            },
-                    two_step = false,
-                    suspend_on_invoice_expired = false,
-                    only_charge_on_due_date = false
-                };
+            //try
+            //{
+            //    var client = new RestClient($"{BASEURRLASSINATURA}");
+            //    var request = new RestRequest(Method.POST);
+            //    request.AddHeader("Accept", "application/json");
+            //    Assinaturas dadosAssina = new Assinaturas
+            //    {
+            //        plan_identifier = "premium_plan",
+            //        customer_id = lblMsgErro.Text,
+            //        expires_at = null,
+            //        only_on_charge_success = null,
+            //        ignore_due_email = null,
+            //        payable_with = "credit_card",
+            //        credits_based = false,
+            //        price_cents = Convert.ToInt32(valorfinal),
+            //        credits_cycle = null,
+            //        credits_min = 0,
+            //        subitems = new List<subitem>
+            //{
+                //new subitem
+                //{
+                //    description = "Mensalidade",
+                //    price_cents = Convert.ToInt32(valorfinal),
+                //    quantity = 1,
+                //    recurrent = true
+                //}
+            //},
+            //        two_step = false,
+            //        suspend_on_invoice_expired = false,
+            //        only_charge_on_due_date = false
+            //    };
 
-                var env = dadosAssina.toCreate();
-                string json = JsonConvert.SerializeObject(env);
-                request.AddParameter("application/json", env, ParameterType.RequestBody);
+                //var env = dadosAssina.toCreate();
+                //string json = JsonConvert.SerializeObject(env);
+                //request.AddParameter("application/json", env, ParameterType.RequestBody);
 
-                IRestResponse response = client.Execute(request);
-                var dados = response.Content;
+                //IRestResponse response = client.Execute(request);
+                //var dados = response.Content;
 
                 //lblMensagem.Text = dados;
 
-                if (!string.IsNullOrEmpty(dados) && dados.Length >= 39)
-                {
-                    string idiugu = dados.Substring(7, 32);
+                //if (!string.IsNullOrEmpty(dados) && dados.Length >= 39)
+                //{
+                    //string idiugu = dados.Substring(7, 32);
 
                     try
                     {
@@ -162,7 +162,7 @@ namespace global.lojista
                         db.AddInParameter(command, "@prazo_entrega", DbType.Int16, 0);
                         db.AddInParameter(command, "@data_entrega", DbType.DateTime, DateTime.Now);
                         db.AddInParameter(command, "@idcartao", DbType.Int16, 0);
-                        db.AddInParameter(command, "@idassinatura", DbType.String, idiugu);
+                        db.AddInParameter(command, "@idassinatura", DbType.String, 0);
 
                         double desconto;
                         if (!double.TryParse(lblDesconto.Text, out desconto))
@@ -222,17 +222,17 @@ namespace global.lojista
                     {
                         lblMensagem.Text = "Erro ao tentar salvar dados. " + ex.Message;
                     }
-                }
-                else
-                {
-                    lblMensagem.Text = "A resposta do servidor de pagamento é inválida ou não contém o ID esperado.";
-                }
+                //}
+                //else
+                //{
+                //    lblMensagem.Text = "A resposta do servidor de pagamento é inválida ou não contém o ID esperado.";
+                //}
 
-            }
-            catch (Exception ex)
-            {
-                lblMensagem.Text = "Erro ao tentar conectar com pagamento. " + ex.Message;
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    lblMensagem.Text = "Erro ao tentar conectar com pagamento. " + ex.Message;
+            //}
         }
 
 
@@ -398,35 +398,35 @@ namespace global.lojista
                     if (!auth.VerificaEmail(txtEmail.Text))
                     {
                         //cria o cliente na iugu
-                        Clientes dadoscliente = new Clientes();
-                        dadoscliente.email = txtEmail.Text;
-                        dadoscliente.name = txtNomeCliente.Text;
-                        dadoscliente.notes = "";
-                        dadoscliente.phone = txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(2, 9);
-                        dadoscliente.phone_prefix = "0" + txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(0, 2);
-                        dadoscliente.cpf_cnpj = txtCPFCNPJ.Text.Replace("-", "").Replace(".", "");
-                        dadoscliente.cc_emails = txtEmail.Text;
-                        dadoscliente.zip_code = txtCEP.Text.Replace("-", "");
-                        dadoscliente.number = txtNum.Text;
-                        dadoscliente.street = txtEndereco.Text;
-                        dadoscliente.city = txtCidade.Text;
-                        dadoscliente.state = "SP";
-                        dadoscliente.district = txtBairro.Text;
-                        dadoscliente.complement = "";
+                        //Clientes dadoscliente = new Clientes();
+                        //dadoscliente.email = txtEmail.Text;
+                        //dadoscliente.name = txtNomeCliente.Text;
+                        //dadoscliente.notes = "";
+                        //dadoscliente.phone = txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(2, 9);
+                        //dadoscliente.phone_prefix = "0" + txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(0, 2);
+                        //dadoscliente.cpf_cnpj = txtCPFCNPJ.Text.Replace("-", "").Replace(".", "");
+                        //dadoscliente.cc_emails = txtEmail.Text;
+                        //dadoscliente.zip_code = txtCEP.Text.Replace("-", "");
+                        //dadoscliente.number = txtNum.Text;
+                        //dadoscliente.street = txtEndereco.Text;
+                        //dadoscliente.city = txtCidade.Text;
+                        //dadoscliente.state = "SP";
+                        //dadoscliente.district = txtBairro.Text;
+                        //dadoscliente.complement = "";
 
-                        var client = new RestClient($"{BASEURRL}");
-                        var request = new RestRequest(Method.POST);
-                        request.AddHeader("Accept", "application/json");
-                        var env = dadoscliente.toCreate();
-                        request.AddParameter(
-                            "application/json",
-                            env,
-                            ParameterType.RequestBody);
+                        //var client = new RestClient($"{BASEURRL}");
+                        //var request = new RestRequest(Method.POST);
+                        //request.AddHeader("Accept", "application/json");
+                        //var env = dadoscliente.toCreate();
+                        //request.AddParameter(
+                        //    "application/json",
+                        //    env,
+                        //    ParameterType.RequestBody);
                         try
                         {
-                            IRestResponse response = client.Execute(request);
-                            var dados = response.Content;
-                            string idiugu = dados.Substring(7, 32);
+                            //IRestResponse response = client.Execute(request);
+                            //var dados = response.Content;
+                            //string idiugu = dados.Substring(7, 32);
 
                             DbCommand command = db.GetSqlStringCommand(
                 "INSERT INTO cliente (token, cnpj_cpf, rg, email, celular, nomecompleto, cep, endereco, bairro, numero, cidade, estado, complemento, idtipocliente, status, contrato, cadastrado_por, datacadastro, idiugu) values (@token, @cnpj_cpf, @rg, @email, @celular, @nomecompleto, @cep, @endereco, @bairro, @numero, @cidade, @estado, @complemento, @idtipocliente, @status, @contrato, @cadastrado_por, getdate(), @idiugu)");
@@ -447,7 +447,7 @@ namespace global.lojista
                             db.AddInParameter(command, "@status", DbType.String, "Ativo");
                             db.AddInParameter(command, "@contrato", DbType.String, "");
                             db.AddInParameter(command, "@cadastrado_por", DbType.Int16, Convert.ToInt16(Session["idcliente"].ToString()));
-                            db.AddInParameter(command, "@idiugu", DbType.String, idiugu);
+                            db.AddInParameter(command, "@idiugu", DbType.String, 0);
 
 
                             db.ExecuteNonQuery(command);
@@ -598,47 +598,47 @@ namespace global.lojista
             {
                 try
                 {
-                    var client = new RestClient($"{BASEURRLTOKEN}");
-                    var request = new RestRequest(Method.POST);
-                    request.AddHeader("Accept", "application/json");
-                    token dadosAssina = new token();
-                    dadosAssina.account_id = "2D31F42C262B4135A85420124CD71958";
-                    dadosAssina.method = "credit_card";
-                    dadosAssina.test = "false";
-                    subitemstk ListaItems = new subitemstk();
-                    ListaItems.number = txtNumeroCartao.Text;
-                    ListaItems.verification_value = txtCodSegunraca.Text;
-                    ListaItems.first_name = txtNomeCartao.Text;
-                    ListaItems.last_name = txtUltimoNome.Text;
-                    ListaItems.month = txtDataValidade.Text.Substring(0, 2);
-                    ListaItems.year = "20" + txtDataValidade.Text.Substring(3, 2);
-                    dadosAssina.data = ListaItems;
-                    var env = dadosAssina.toCreate();
-                    request.AddParameter(
-                        "application/json",
-                        env,
-                        ParameterType.RequestBody);
+                    //var client = new RestClient($"{BASEURRLTOKEN}");
+                    //var request = new RestRequest(Method.POST);
+                    //request.AddHeader("Accept", "application/json");
+                    //token dadosAssina = new token();
+                    //dadosAssina.account_id = "2D31F42C262B4135A85420124CD71958";
+                    //dadosAssina.method = "credit_card";
+                    //dadosAssina.test = "false";
+                    //subitemstk ListaItems = new subitemstk();
+                    //ListaItems.number = txtNumeroCartao.Text;
+                    //ListaItems.verification_value = txtCodSegunraca.Text;
+                    //ListaItems.first_name = txtNomeCartao.Text;
+                    //ListaItems.last_name = txtUltimoNome.Text;
+                    //ListaItems.month = txtDataValidade.Text.Substring(0, 2);
+                    //ListaItems.year = "20" + txtDataValidade.Text.Substring(3, 2);
+                    //dadosAssina.data = ListaItems;
+                    //var env = dadosAssina.toCreate();
+                    //request.AddParameter(
+                    //    "application/json",
+                    //    env,
+                    //    ParameterType.RequestBody);
 
-                    IRestResponse response = client.Execute(request);
-                    var dados = response.Content;
-                    string idtoken = dados.Substring(7, 36);
+                    //IRestResponse response = client.Execute(request);
+                    //var dados = response.Content;
+                    //string idtoken = dados.Substring(7, 36);
 
-                    var client2 = new RestClient($"https://api.iugu.com/v1/customers/59615B40438B42E4AC9DF0A5EA2E2634/payment_methods?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D");
-                    var request2 = new RestRequest(Method.POST);
-                    request.AddHeader("Accept", "application/json");
-                    formapagamento dadosForma = new formapagamento();
-                    dadosForma.description = "Cartão de Pagamento";
-                    dadosForma.token = idtoken;
-                    dadosForma.set_as_default = "true";
-                    var env2 = dadosForma.toCreate();
-                    request2.AddParameter(
-                        "application/json",
-                        env2,
-                        ParameterType.RequestBody);
+                    //var client2 = new RestClient($"https://api.iugu.com/v1/customers/59615B40438B42E4AC9DF0A5EA2E2634/payment_methods?api_token=A58C8CA308649C87AD34DC93E19C6E9EE3CCE1251DB456A4C0D61B2388401E0D");
+                    //var request2 = new RestRequest(Method.POST);
+                    //request.AddHeader("Accept", "application/json");
+                    ////formapagamento dadosForma = new formapagamento();
+                    //dadosForma.description = "Cartão de Pagamento";
+                    //dadosForma.token = idtoken;
+                    //dadosForma.set_as_default = "true";
+                    //var env2 = dadosForma.toCreate();
+                    //request2.AddParameter(
+                    //    "application/json",
+                    //    env2,
+                    //    ParameterType.RequestBody);
 
-                    IRestResponse response2 = client2.Execute(request2);
-                    var dados2 = response2.Content;
-                    string idpagamento = dados2.Substring(7, 32);
+                    //IRestResponse response2 = client2.Execute(request2);
+                    //var dados2 = response2.Content;
+                    //string idpagamento = dados2.Substring(7, 32);
 
                     try
                     {
@@ -651,8 +651,8 @@ namespace global.lojista
                         db.AddInParameter(command, "@vencimento", DbType.String, txtDataValidade.Text);
                         db.AddInParameter(command, "@codigo", DbType.String, txtCodSegunraca.Text);
                         db.AddInParameter(command, "@status", DbType.String, "ATIVO");
-                        db.AddInParameter(command, "@tokeiugu", DbType.String, idtoken);
-                        db.AddInParameter(command, "@idpagamento", DbType.String, idpagamento);
+                        db.AddInParameter(command, "@tokeiugu", DbType.String, 0);
+                        db.AddInParameter(command, "@idpagamento", DbType.String, 0);
 
                         db.ExecuteNonQuery(command);
 

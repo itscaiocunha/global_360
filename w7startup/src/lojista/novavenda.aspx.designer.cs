@@ -42,15 +42,6 @@ namespace global.lojista
         protected global::System.Web.UI.WebControls.HiddenField hdfIdCartao;
 
         /// <summary>
-        /// Controle hdfIdIugu.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfIdIugu;
-
-        /// <summary>
         /// Controle hdfIdProduto.
         /// </summary>
         /// <remarks>
