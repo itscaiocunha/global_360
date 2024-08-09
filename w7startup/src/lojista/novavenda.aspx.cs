@@ -62,10 +62,9 @@ namespace global.lojista
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
 
             DbCommand command = db.GetSqlStringCommand(
-            "INSERT INTO pedido_produto (idpedido, idproduto, qtde, valor, lote, ean, marca, modelo, placa, ano_modelo, cor, chassi, renavam, ano_fabricacao) values (@idpedido, @idproduto, @qtde, @valor, @lote, @ean, @marca, @modelo, @placa, @ano_modelo, @cor, @chassi, @renavam, @ano_fabricacao)");
+            "INSERT INTO pedido_produto (idpedido, idproduto, valor, lote, ean, marca, modelo, placa, ano_modelo, cor, chassi, renavam, ano_fabricacao) values (@idpedido, @idproduto, @valor, @lote, @ean, @marca, @modelo, @placa, @ano_modelo, @cor, @chassi, @renavam, @ano_fabricacao)");
             db.AddInParameter(command, "@idpedido", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));
             db.AddInParameter(command, "@idproduto", DbType.Int16, Convert.ToInt16(ddlProduto.SelectedValue));
-            db.AddInParameter(command, "@qtde", DbType.Int16, Convert.ToInt16(txtQtde.Text));
             db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.VerificaValor(ddlProduto.SelectedValue)));
             db.AddInParameter(command, "@lote", DbType.String, ddlLote.SelectedValue);
             db.AddInParameter(command, "@ean", DbType.String, imei.Text);
@@ -83,7 +82,6 @@ namespace global.lojista
                 db.ExecuteNonQuery(command);
                 gdvDados.DataBind();
                 RetornaValorTotal(lblNumeroPedido.Text);
-                txtQtde.Text = "1";
                 lblMensagem.Text = "";
             }
             catch (Exception ex)
@@ -96,182 +94,185 @@ namespace global.lojista
         {
             System.Threading.Thread.Sleep(200);
 
-            if(ddlStatus.SelectedValue == "Aguardando Pagamento")
-    {
-                txtPagamento.Text = "Escolha uma forma de pagamento.";
-                txtPagamento.CssClass = "text-info";
+            Database db = DatabaseFactory.CreateDatabase("ConnectionString");
+            string valorfinal = lblValorTotal.Text.Replace(",", "").Replace(".", "");
+            valorfinal = valorfinal.PadRight(4, '0');
 
-                if (txtQtde.Text == "1")
-                {
-                    btnPagamento1.Visible = true;
-                    btnFinalizar.Visible = true;
-                    ddlStatus.SelectedIndex = 5;
-                }
-                if (txtQtde.Text == "2")
-                {
-                    btnPagamento2.Visible = true;
-                    btnFinalizar.Visible = true;
-                    ddlStatus.SelectedIndex = 5;
-                }
-                if (txtQtde.Text == "3")
-                {
-                    btnPagamento3.Visible = true;
-                    btnFinalizar.Visible = true;
-                    ddlStatus.SelectedIndex = 5;
-                }
-                if (txtQtde.Text == "4")
-                {
-                    btnPagamento4.Visible = true;
-                    btnFinalizar.Visible = true;
-                    ddlStatus.SelectedIndex = 5;
-                }
-                if (txtQtde.Text == "5")
-                {
-                    btnPagamento5.Visible = true;
-                    btnFinalizar.Visible = true;
-                    ddlStatus.SelectedIndex = 5;
-                }
-            }
-            else
+            //try
+            //{
+            //    var client = new RestClient($"{BASEURRLASSINATURA}");
+            //    var request = new RestRequest(Method.POST);
+            //    request.AddHeader("Accept", "application/json");
+            //    Assinaturas dadosAssina = new Assinaturas
+            //    {
+            //        plan_identifier = "premium_plan",
+            //        customer_id = lblMsgErro.Text,
+            //        expires_at = null,
+            //        only_on_charge_success = null,
+            //        ignore_due_email = null,
+            //        payable_with = "credit_card",
+            //        credits_based = false,
+            //        price_cents = Convert.ToInt32(valorfinal),
+            //        credits_cycle = null,
+            //        credits_min = 0,
+            //        subitems = new List<subitem>
+            //{
+            //new subitem
+            //{
+            //    description = "Mensalidade",
+            //    price_cents = Convert.ToInt32(valorfinal),
+            //    quantity = 1,
+            //    recurrent = true
+            //}
+            //},
+            //        two_step = false,
+            //        suspend_on_invoice_expired = false,
+            //        only_charge_on_due_date = false
+            //    };
+
+            //var env = dadosAssina.toCreate();
+            //string json = JsonConvert.SerializeObject(env);
+            //request.AddParameter("application/json", env, ParameterType.RequestBody);
+
+            //IRestResponse response = client.Execute(request);
+            //var dados = response.Content;
+
+            //lblMensagem.Text = dados;
+
+            //if (!string.IsNullOrEmpty(dados) && dados.Length >= 39)
+            //{
+            //string idiugu = dados.Substring(7, 32);
+
+            try
             {
-                Database db = DatabaseFactory.CreateDatabase("ConnectionString");
-                string valorfinal = lblValorTotal.Text.Replace(",", "").Replace(".", "");
-                valorfinal = valorfinal.PadRight(4, '0');
+                DbCommand command = db.GetSqlStringCommand(
+                    "UPDATE pedido SET desconto = @desconto, valor = @valor, idtaxa = @idtaxa, idlojista = @idlojista, idconsumidor = @idconsumidor, observacao = @observacao, rastreio = @rastreio, status = @status, notafiscal = @notafiscal, prazo_entrega = @prazo_entrega, data_entrega = @data_entrega, idcartao = @idcartao, datacadastro = getdate(), idassinatura = @idassinatura where id = @id");
 
-                //try
-                //{
-                //    var client = new RestClient($"{BASEURRLASSINATURA}");
-                //    var request = new RestRequest(Method.POST);
-                //    request.AddHeader("Accept", "application/json");
-                //    Assinaturas dadosAssina = new Assinaturas
-                //    {
-                //        plan_identifier = "premium_plan",
-                //        customer_id = lblMsgErro.Text,
-                //        expires_at = null,
-                //        only_on_charge_success = null,
-                //        ignore_due_email = null,
-                //        payable_with = "credit_card",
-                //        credits_based = false,
-                //        price_cents = Convert.ToInt32(valorfinal),
-                //        credits_cycle = null,
-                //        credits_min = 0,
-                //        subitems = new List<subitem>
-                //{
-                //new subitem
-                //{
-                //    description = "Mensalidade",
-                //    price_cents = Convert.ToInt32(valorfinal),
-                //    quantity = 1,
-                //    recurrent = true
-                //}
-                //},
-                //        two_step = false,
-                //        suspend_on_invoice_expired = false,
-                //        only_charge_on_due_date = false
-                //    };
+                db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));
+                db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.RetornaTotalPedido(lblNumeroPedido.Text)));
+                db.AddInParameter(command, "@idtaxa", DbType.Int16, Convert.ToInt16(auth.RetornaTaxaComissao(Session["idcliente"].ToString())));
+                db.AddInParameter(command, "@idlojista", DbType.Int16, Convert.ToInt16(Session["idcliente"].ToString()));
+                db.AddInParameter(command, "@idconsumidor", DbType.Int16, Convert.ToInt16(lblIdCliente.Text));
+                db.AddInParameter(command, "@observacao", DbType.String, txtObservacoes.Text);
+                db.AddInParameter(command, "@rastreio", DbType.String, "");
+                db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                db.AddInParameter(command, "@notafiscal", DbType.String, "");
+                db.AddInParameter(command, "@prazo_entrega", DbType.Int16, 0);
+                db.AddInParameter(command, "@data_entrega", DbType.DateTime, DateTime.Now);
+                db.AddInParameter(command, "@idcartao", DbType.Int16, 0);
+                db.AddInParameter(command, "@idassinatura", DbType.String, 0);
 
-                //var env = dadosAssina.toCreate();
-                //string json = JsonConvert.SerializeObject(env);
-                //request.AddParameter("application/json", env, ParameterType.RequestBody);
+                double desconto;
+                if (!double.TryParse(lblDesconto.Text, out desconto))
+                {
+                    lblMensagem.Text = "O valor do desconto não é um número válido.";
+                    return;
+                }
+                db.AddInParameter(command, "@desconto", DbType.Double, desconto);
 
-                //IRestResponse response = client.Execute(request);
-                //var dados = response.Content;
-
-                //lblMensagem.Text = dados;
-
-                //if (!string.IsNullOrEmpty(dados) && dados.Length >= 39)
-                //{
-                //string idiugu = dados.Substring(7, 32);
+                db.ExecuteNonQuery(command);
 
                 try
                 {
-                    DbCommand command = db.GetSqlStringCommand(
-                    "UPDATE pedido SET desconto = @desconto, valor = @valor, idtaxa = @idtaxa, idlojista = @idlojista, idconsumidor = @idconsumidor, observacao = @observacao, rastreio = @rastreio, status = @status, notafiscal = @notafiscal, prazo_entrega = @prazo_entrega, data_entrega = @data_entrega, idcartao = @idcartao, datacadastro = getdate(), idassinatura = @idassinatura where id = @id");
+                    auth.InserirStatus(lblNumeroPedido.Text, ddlStatus.SelectedValue);
+                    auth.RotinaFaturas(lblNumeroPedido.Text);
+                    auth.RotinaComissao(lblNumeroPedido.Text);
 
-                    db.AddInParameter(command, "@id", DbType.Int16, Convert.ToInt16(lblNumeroPedido.Text));
-                    db.AddInParameter(command, "@valor", DbType.Double, Convert.ToDouble(auth.RetornaTotalPedido(lblNumeroPedido.Text)));
-                    db.AddInParameter(command, "@idtaxa", DbType.Int16, Convert.ToInt16(auth.RetornaTaxaComissao(Session["idcliente"].ToString())));
-                    db.AddInParameter(command, "@idlojista", DbType.Int16, Convert.ToInt16(Session["idcliente"].ToString()));
-                    db.AddInParameter(command, "@idconsumidor", DbType.Int16, Convert.ToInt16(lblIdCliente.Text));
-                    db.AddInParameter(command, "@observacao", DbType.String, txtObservacoes.Text);
-                    db.AddInParameter(command, "@rastreio", DbType.String, "");
-                    db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
-                    db.AddInParameter(command, "@notafiscal", DbType.String, "");
-                    db.AddInParameter(command, "@prazo_entrega", DbType.Int16, 0);
-                    db.AddInParameter(command, "@data_entrega", DbType.DateTime, DateTime.Now);
-                    db.AddInParameter(command, "@idcartao", DbType.Int16, 0);
-                    db.AddInParameter(command, "@idassinatura", DbType.String, 0);
-
-                    double desconto;
-                    if (!double.TryParse(lblDesconto.Text, out desconto))
+                    using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                         "select * from pedido p join cliente c on c.id = p.idconsumidor where p.id = '" + lblNumeroPedido.Text + "'"))
                     {
-                        lblMensagem.Text = "O valor do desconto não é um número válido.";
-                        return;
-                    }
-                    db.AddInParameter(command, "@desconto", DbType.Double, desconto);
-
-                    db.ExecuteNonQuery(command);
-
-                    try
-                    {
-                        auth.InserirStatus(lblNumeroPedido.Text, ddlStatus.SelectedValue);
-                        auth.RotinaFaturas(lblNumeroPedido.Text);
-                        auth.RotinaComissao(lblNumeroPedido.Text);
-
-                        using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                             "select * from pedido p join cliente c on c.id = p.idconsumidor where p.id = '" + lblNumeroPedido.Text + "'"))
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                // corpo do e-mail
-                                string strHtml = "<html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>";
-                                strHtml = strHtml + "<title>Global 360 - Plataforma Digital</title></head><body><br>";
-                                strHtml = strHtml + "<img src='https://global360.app.br/src/img/logo/logo_global.png' width='200' alt='Logo'>";
-                                strHtml = strHtml + "<p><strong><font size='2' face='Verdana, Arial, Helvetica, sans-serif'>Nova Venda<br>Global 360 - Plataforma Digital</font></strong></p>";
-                                strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Olá, tudo bem?</p>";
-                                strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Sua venda foi realizada com sucesso na plataforma.</p>";
-                                strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>CPF:</strong>" + reader["cnpj_cpf"].ToString() + "</p>";
-                                strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Cliente:</strong>" + reader["nomecompleto"].ToString() + "</p>";
-                                strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Número do Pedido:</strong>" + lblNumeroPedido.Text + "</p>";
-                                strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Valor total:</strong> R$ " + reader["valor"].ToString() + "</p>";
-                                strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><a href='https://global360.app.br/src/login.aspx'>Plataforma Global 360</a></p>";
-                                strHtml = strHtml + "</font><img src=''></body></html>";
+                            // corpo do e-mail
+                            string strHtml = "<html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>";
+                            strHtml = strHtml + "<title>Global 360 - Plataforma Digital</title></head><body><br>";
+                            strHtml = strHtml + "<img src='https://global360.app.br/src/img/logo/logo_global.png' width='200' alt='Logo'>";
+                            strHtml = strHtml + "<p><strong><font size='2' face='Verdana, Arial, Helvetica, sans-serif'>Nova Venda<br>Global 360 - Plataforma Digital</font></strong></p>";
+                            strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Olá, tudo bem?</p>";
+                            strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Sua venda foi realizada com sucesso na plataforma.</p>";
+                            strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>CPF:</strong>" + reader["cnpj_cpf"].ToString() + "</p>";
+                            strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Cliente:</strong>" + reader["nomecompleto"].ToString() + "</p>";
+                            strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Número do Pedido:</strong>" + lblNumeroPedido.Text + "</p>";
+                            strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Valor total:</strong> R$ " + reader["valor"].ToString() + "</p>";
+                            strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><a href='https://global360.app.br/src/login.aspx'>Plataforma Global 360</a></p>";
+                            strHtml = strHtml + "</font><img src=''></body></html>";
 
-                                //base teste
-                                Email.emailTxt("contato@w7agencia.com.br", "contato@w7agencia.com.br", "", "", "Global 360 - Nova Venda", strHtml, 1);
-                                //base oficial
-                                Email.emailTxt("contato@w7agencia.com.br", reader["email"].ToString(), "", "", "Global 360 - Nova Compra", strHtml, 1);
+                            //base teste
+                            Email.emailTxt("contato@w7agencia.com.br", "contato@w7agencia.com.br", "", "", "Global 360 - Nova Venda", strHtml, 1);
+                            //base oficial
+                            Email.emailTxt("contato@w7agencia.com.br", reader["email"].ToString(), "", "", "Global 360 - Nova Compra", strHtml, 1);
+                        }
+                    }
+
+                    using (IDataReader count = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                        "select count(*) as qtde from pedido_produto where idpedido = " + lblNumeroPedido.Text))
+                    {
+                        if (count.Read())
+                        {
+                            int qtde = Convert.ToInt32(count["qtde"]);
+
+                            if (qtde >= 1)
+                            {
+                                btnPagamento1.Visible = true;
+                            }
+                            if (qtde >= 2)
+                            {
+                                btnPagamento1.Visible = false;
+                                btnPagamento2.Visible = true;
+                            }
+                            if (qtde >= 3)
+                            {
+                                btnPagamento1.Visible = false;
+                                btnPagamento2.Visible = false;
+                                btnPagamento3.Visible = true;
+                            }
+                            if (qtde >= 4)
+                            {
+                                btnPagamento1.Visible = false;
+                                btnPagamento2.Visible = false;
+                                btnPagamento3.Visible = false;
+                                btnPagamento4.Visible = true;
+                            }
+                            if (qtde >= 5)
+                            {
+                                btnPagamento1.Visible = false;
+                                btnPagamento2.Visible = false;
+                                btnPagamento3.Visible = false;
+                                btnPagamento4.Visible = false;
+                                btnPagamento5.Visible = true;
                             }
                         }
+                    }
 
-                        lblMensagemFinal.Text = "Pedido realizado com sucesso!";
-                        lblNumeroPedidoFinal.Text = lblNumeroPedido.Text;
-                        hplVerPedido.NavigateUrl = "../lojista/viewpedido.aspx?id=" + lblNumeroPedido.Text + "";
-                        hplVerContrato.NavigateUrl = "../lojista/viewcontrato.aspx?id=" + lblNumeroPedido.Text + "";
-                        pnlDadosFinais.Visible = false;
-                        pnlFinal.Visible = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        lblMensagem.Text = "Erro ao tentar alterar dados de fatura. " + ex.Message;
-                    }
+
+                    lblMensagemFinal.Text = "Pedido realizado com sucesso!";
+                    lblNumeroPedidoFinal.Text = lblNumeroPedido.Text;
+                    hplVerPedido.NavigateUrl = "../lojista/viewpedido.aspx?id=" + lblNumeroPedido.Text + "";
+                    hplVerContrato.NavigateUrl = "../lojista/viewcontrato.aspx?id=" + lblNumeroPedido.Text + "";
+                    pnlDadosFinais.Visible = false;
+                    pnlFinal.Visible = true;
                 }
                 catch (Exception ex)
                 {
-                    lblMensagem.Text = "Erro ao tentar salvar dados. " + ex.Message;
+                    lblMensagem.Text = "Erro ao tentar alterar dados de fatura. " + ex.Message;
                 }
-                //}
-                //else
-                //{
-                //    lblMensagem.Text = "A resposta do servidor de pagamento é inválida ou não contém o ID esperado.";
-                //}
-
-                //}
-                //catch (Exception ex)
-                //{
-                //    lblMensagem.Text = "Erro ao tentar conectar com pagamento. " + ex.Message;
-                //}
             }
+            catch (Exception ex)
+            {
+                lblMensagem.Text = "Erro ao tentar salvar dados. " + ex.Message;
+            }
+            //}
+            //else
+            //{
+            //    lblMensagem.Text = "A resposta do servidor de pagamento é inválida ou não contém o ID esperado.";
+            //}
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    lblMensagem.Text = "Erro ao tentar conectar com pagamento. " + ex.Message;
+            //}
+
         }
 
         protected void gdvDados_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
@@ -287,7 +288,6 @@ namespace global.lojista
                 db.ExecuteNonQuery(command);
                 gdvDados.DataBind();
                 RetornaValorTotal(lblNumeroPedido.Text);
-                txtQtde.Text = "1";
                 hdfIdProduto.Value = "";
                 lblMensagem.Text = "";
             }

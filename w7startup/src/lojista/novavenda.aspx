@@ -167,10 +167,10 @@
                         <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
                             "select id, titulo as nome from produto where status = 'ATIVO' order by nome"></asp:SqlDataSource>
                     </div>
-                    <div class="mb-3">
+                    <%--<div class="mb-3">
                         <label class="form-label">Quant.</label>
                         <asp:TextBox ID="txtQtde" onkeyup="formataInteiro(this,event);" runat="server" Text="1" CssClass="form-control"></asp:TextBox>
-                    </div>
+                    </div>--%>
                     <div class="mb-3">
                         <label class="form-label">Lote</label>
                         <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="numlote" DataValueField="idlote">
@@ -391,15 +391,6 @@
                                 </ProgressTemplate>
                             </asp:UpdateProgress>
                         </div>
-                        <asp:Label ID="txtPagamento" runat="server" Text="" Font-Size=""></asp:Label>
-                        <br />
-                        <br />
-                        <asp:Button ID="btnPagamento1" runat="server" Text="1 dispositivos: R$59,90" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento1_Click"/>
-                        <asp:Button ID="btnPagamento2" runat="server" Text="2 dispositivos: R$99,80" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento2_Click"/>
-                        <asp:Button ID="btnPagamento3" runat="server" Text="3 dispositivos: R$149,70" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento3_Click"/>
-                        <asp:Button ID="btnPagamento4" runat="server" Text="4 dispositivos: R$199,60" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento4_Click"/>
-                        <asp:Button ID="btnPagamento5" runat="server" Text="5 dispositivos: R$249,50" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento5_Click"/>
-                        <asp:Button ID="btnFinalizar" runat="server" Text="Pagamento Finalizado" CssClass="btn btn-icon btn-icon-end btn-success" Visible="false" onClick="btnFinalizar_Click"/>
                 </asp:Panel>
 
                 <%-- Pedido Final --%>
@@ -410,7 +401,16 @@
                     <asp:HyperLink ID="hplVerContrato" runat="server" Target="_blank">Visualizar/Imprimir Contrato</asp:HyperLink><br />
                     <asp:Label ID="lblMensagemFinal" runat="server" Text="" Font-Size="1.5em"></asp:Label><br />
                     <br />
-                    <asp:Button ID="btnNovoPedido" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Iniciar Novo Pedido" OnClick="btnNovoPedido_Click" />
+                    <asp:Label ID="txtPagamento" runat="server" Text="" Font-Size="1.5em"></asp:Label><br />
+                    <br />
+                    <asp:Button ID="btnPagamento1" runat="server" Text="Clique aqui para assinar" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento1_Click"/>
+                    <asp:Button ID="btnPagamento2" runat="server" Text="Clique aqui para assinar" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento2_Click"/>
+                    <asp:Button ID="btnPagamento3" runat="server" Text="Clique aqui para assinar" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento3_Click"/>
+                    <asp:Button ID="btnPagamento4" runat="server" Text="Clique aqui para assinar" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento4_Click"/>
+                    <asp:Button ID="btnPagamento5" runat="server" Text="Clique aqui para assinar" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento5_Click"/>
+                    <br />
+                    <br />
+<%--                    <asp:Button ID="btnNovoPedido" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Iniciar Novo Pedido" OnClick="btnNovoPedido_Click" />--%>
                 </asp:Panel>
 
             </div>
