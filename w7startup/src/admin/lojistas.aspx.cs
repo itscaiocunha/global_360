@@ -323,6 +323,7 @@ namespace global.admin
 
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
                           "Delete from cliente where id = '" + hdfId.Value + "'")) ;
+
         }
     }
 }

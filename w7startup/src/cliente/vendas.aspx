@@ -1,15 +1,14 @@
 ﻿<%@ Page Async="true" Title="" Language="C#" MasterPageFile="~/src/cliente/principal.Master" AutoEventWireup="true" CodeBehind="vendas.aspx.cs" Inherits="global.cliente.vendas" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-         <script src="../js/mascara.js"></script>    
+    <script src="../js/mascara.js"></script>    
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
             <asp:HiddenField ID="hdfId" runat="server" />            
-            <!-- Title and Top Buttons Start -->
+            <%-- Título Página --%>
             <div class="page-title-container">
                 <div class="row g-0">
-                    <!-- Title Start -->
                     <div class="col-auto mb-3 mb-md-0 me-auto">
                         <div class="w-auto sw-md-30">
                             <a href="#" class="muted-link pb-1 d-inline-block breadcrumb-back">

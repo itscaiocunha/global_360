@@ -5,44 +5,20 @@
     <asp:HiddenField ID="hdfId" runat="server" />
     <asp:HiddenField ID="hdfIdCliente" runat="server" />
     <asp:HiddenField ID="hdfIdCartao" runat="server" />
-    <%--<asp:HiddenField ID="hdfIdIugu" runat="server" />--%>
     <asp:HiddenField ID="hdfIdProduto" runat="server" />
     <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-    <%--<script type="text/javascript" src="https://js.iugu.com/v2"></script>
-
-    <script type="text/javascript">
-        Iugu.setAccountID("2D31F42C262B4135A85420124CD71958");
-        Iugu.setup();
-        cc = Iugu.CreditCard("4111111111111111",
-            "12", "2017", "Nome",
-            "Sobrenome", "123");
-        Iugu.utils.validateCreditCardNumber("4111111111111111"); // Retorna true
-        Iugu.utils.validateCVV("123", "visa"); // Retorna true
-        Iugu.utils.validateCVV("1234", "amex"); // Retorna true
-        Iugu.utils.validateCVV("3213", "mastercard"); // Retorna false
-        Iugu.utils.validateExpirationString("12/2018"); // Retorna true
-        Iugu.createPaymentToken(this, function (response) {
-            if (response.errors) {
-                alert("Erro salvando cartão");
-            } else {
-                alert("Token criado:" + response.id);
-            }
-        });
-
-    </script>--%>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
         <ContentTemplate>
-
-            <!-- Title and Top Buttons Start -->
+            <!-- Título Página -->
             <div class="page-title-container">
                 <div class="row g-0">
-                    <!-- Title Start -->
                     <div class="col-auto mb-6 mb-md-0 me-auto">
                         <div class="w-auto sw-md-30">
-                            <a href="#" class="muted-link pb-1 d-inline-block breadcrumb-back">
+                            <a href="dashboard.aspx" class="muted-link pb-1 d-inline-block breadcrumb-back">
                                 <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
                                 <span class="text-small align-middle">Lojista</span>
                             </a>
+                            <%-- Número da Venda --%>
                             <h1 class="mb-0 pb-0 display-4" id="title">Número #:
                                 <asp:Label ID="lblNumeroPedido" runat="server" Text=""></asp:Label></h1>
                             <asp:Label ID="lblIdCliente" Visible="false" runat="server" Text=""></asp:Label>
@@ -50,10 +26,10 @@
                             <asp:Label ID="lblIdCartao" Visible="false" runat="server" Text=""></asp:Label>
                         </div>
                     </div>
-                    <!-- Title End -->
                 </div>
             </div>
-            <!-- Title and Top Buttons End -->
+
+            <%-- Opção de Cliente --%>
             <div id="card-body">
                 <asp:Panel ID="pnlCliente" runat="server">
                     <div class="mb-3">
@@ -62,13 +38,11 @@
                             <asp:ListItem Text="Novo Cliente"></asp:ListItem>
                             <asp:ListItem Text="Cliente Cadastrado"></asp:ListItem>
                         </asp:RadioButtonList>
-
                         <style>
                             .radio-list-item {
                                 margin-bottom: 10px;
                             }
                         </style>
-
                     </div>
                     <div class="mb-3">
                         <asp:DropDownList ID="ddlCliente" Visible="false" CssClass="form-control" AppendDataBoundItems="true" runat="server" DataSourceID="sdsClientes" DataTextField="nomecliente" DataValueField="id" AutoPostBack="True" OnSelectedIndexChanged="ddlCliente_SelectedIndexChanged">
@@ -94,7 +68,6 @@
                     <div class="mb-3">
                         <label class="form-label">CPF/CNPJ</label>
                         <asp:TextBox ID="txtCPFCNPJ" onkeyup="determinarTipoDocumento(this);" MaxLength="18" runat="server" CssClass="form-control" Required></asp:TextBox>
-
                         <script>
                             function determinarTipoDocumento(textBox) {
                                 var value = textBox.value.replace(/\D/g, '');
@@ -108,8 +81,6 @@
                                 }
                             }
                         </script>
-
-
                     </div>
                     <div class="mb-3">
                         <label class="form-label">RG</label>
@@ -121,7 +92,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">E-mail</label>
-                        <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">CEP</label>
@@ -194,14 +165,12 @@
                         <asp:DropDownList ID="ddlProduto" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsProduto" DataTextField="nome" DataValueField="id">
                         </asp:DropDownList>
                         <asp:SqlDataSource ID="sdsProduto" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand=
-                            "select id, titulo +' : R$ '+ convert(varchar, valor) as nome from produto where status = 'ATIVO' order by nome"></asp:SqlDataSource>
+                            "select id, titulo as nome from produto where status = 'ATIVO' order by nome"></asp:SqlDataSource>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label">Quant.</label>
                         <asp:TextBox ID="txtQtde" onkeyup="formataInteiro(this,event);" runat="server" Text="1" CssClass="form-control"></asp:TextBox>
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label">Lote</label>
                         <asp:DropDownList ID="ddlLote" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsLote" DataTextField="numlote" DataValueField="idlote">
@@ -217,7 +186,6 @@
                             </SelectParameters>
                         </asp:SqlDataSource>                
                     </div>
-
                     <div class="mb-3">
                         <label class="form-label">IMEI</label>
                         <asp:TextBox ID="imei" onkeyup="formataInteiro(this,event);" runat="server" Text="" CssClass="form-control"></asp:TextBox>
@@ -225,35 +193,35 @@
 
                     <div class="mb-3">
                         <label class="form-label">Placa</label>
-                        <asp:TextBox ID="txtPlaca" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtPlaca" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Marca</label>
-                        <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Modelo</label>
-                        <asp:TextBox ID="txtModelo" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtModelo" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
-                                        <div class="mb-3">
+                    <div class="mb-3">
                         <label class="form-label">Ano do Modelo</label>
-                        <asp:TextBox ID="txtAno" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtAno" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Cor</label>
-                        <asp:TextBox ID="txtCor" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtCor" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Chassi</label>
-                        <asp:TextBox ID="txtChassi" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtChassi" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Renavam</label>
-                        <asp:TextBox ID="txtRenavam" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtRenavam" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Ano de Fabricação</label>
-                        <asp:TextBox ID="txtAnoFabricacao" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtAnoFabricacao" runat="server" CssClass="form-control" Required></asp:TextBox>
                     </div>
 
                     <asp:Button ID="btnAdicionarItem" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Adicionar ao carrinho" OnClick="btnAdicionarItem_Click" />
@@ -265,11 +233,6 @@
                         <div class="col-12 mb-5">
                             <asp:GridView ID="gdvDados" runat="server" Width="100%" ForeColor="#333333" GridLines="None" AutoGenerateColumns="False" EmptyDataText="Não há dados produtos no carrinho" DataSourceID="sdsDados" OnRowCommand="gdvDados_RowCommand">
                                 <Columns>
-                                    <asp:TemplateField>
-                                        <ItemTemplate>
-                                            <asp:Image ID="Image1" ImageAlign="AbsMiddle" Width="50px" ImageUrl='<%# Eval("imagem") %>' runat="server" />
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
                                     <asp:BoundField DataField="idpedido" HeaderText="#Cód." SortExpression="idpedido" />
                                     <asp:BoundField DataField="titulo" HeaderText="Produto" SortExpression="titulo" />
                                     <asp:BoundField DataField="qtde" HeaderText="Quant." SortExpression="qtde" />
@@ -281,7 +244,7 @@
                                     <asp:BoundField DataField="cor" HeaderText="Cor" SortExpression="cor" />
                                     <asp:BoundField DataField="chassi" HeaderText="Chassi" SortExpression="chassi" />
                                     <asp:BoundField DataField="renavam" HeaderText="Renavam" SortExpression="renavam" />
-
+                                    <%-- Excluir Item --%>
                                     <asp:TemplateField>
                                         <ItemTemplate>
                                             <asp:Button data-bs-offset="0,3" data-bs-toggle="modal" data-bs-target="#discountAddModal" ID="btnEditar" CssClass="btn btn-icon btn-icon-end btn-danger" CommandArgument='<%# Eval("id") %>' CommandName="Excluir" runat="server" Text="Retirar" />
@@ -310,6 +273,7 @@
                             </asp:SqlDataSource>
                         </div>
                     </div>
+                    <%-- Cupom de Desconto --%>
                      <div class="mb-3">
                          <label class="form-label">Cupom de Desconto</label>
                          <asp:TextBox ID="txtCupom" runat="server" CssClass="form-control"></asp:TextBox>
@@ -321,9 +285,9 @@
                         <br />
                         <asp:Button ID="btnSalvarCarrinho" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Avançar" OnClick="btnSalvarCarrinho_Click" />
                     </div>
-                   
                 </asp:Panel>
 
+                <%-- Pagamento --%>
                 <asp:Panel ID="pnlDadosPagamento" runat="server" Visible="false">
                     <h2 class="small-title">Informações de Pagamento</h2>
                                         <div class="mb-3">
@@ -363,25 +327,9 @@
                     </div>
                 </asp:Panel>
 
+                <%-- Finalização --%>
                 <asp:Panel ID="pnlDadosFinais" runat="server" Visible="false">
                     <h2 class="small-title">Informações Gerais</h2>
-
-                   <%-- <div class="mb-3">
-                        <label class="form-label">Link da Nf</label>
-                        <asp:TextBox ID="txtLinkNF" runat="server" CssClass="form-control"></asp:TextBox>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Data de Entrega</label>
-                        <asp:TextBox ID="txtDataEntrega" onkeyup="formataData(this,event);" MaxLength="10" runat="server" CssClass="form-control"></asp:TextBox>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Prazo de Entrega (dias)</label>
-                        <asp:TextBox ID="txtPrazo" onkeyup="formataInteiro(this,event);" MaxLength="2" runat="server" CssClass="form-control"></asp:TextBox>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Rastreio</label>
-                        <asp:TextBox ID="txtRastreio" runat="server" CssClass="form-control"></asp:TextBox>
-                    </div>--%>
                     <div class="mb-3 w-100">
                         <label class="form-label">Status</label>
                         <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control shadow dropdown-menu-end">
@@ -408,6 +356,7 @@
                             <asp:Label ID="lblMensagem" runat="server" Text="" Font-Size=""></asp:Label>
                             <br />
                             <br />
+
                             <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Finalizar Pedido" OnClick="btnSalvar_Click" />
                             <asp:UpdateProgress ID="LoaderBar" runat="server" DisplayAfter="300" DynamicLayout="true">
                                 <ProgressTemplate>
@@ -442,10 +391,18 @@
                                 </ProgressTemplate>
                             </asp:UpdateProgress>
                         </div>
+                        <asp:Label ID="txtPagamento" runat="server" Text="" Font-Size=""></asp:Label>
+                        <br />
+                        <br />
+                        <asp:Button ID="btnPagamento1" runat="server" Text="1 dispositivos: R$59,90" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento1_Click"/>
+                        <asp:Button ID="btnPagamento2" runat="server" Text="2 dispositivos: R$99,80" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento2_Click"/>
+                        <asp:Button ID="btnPagamento3" runat="server" Text="3 dispositivos: R$149,70" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento3_Click"/>
+                        <asp:Button ID="btnPagamento4" runat="server" Text="4 dispositivos: R$199,60" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento4_Click"/>
+                        <asp:Button ID="btnPagamento5" runat="server" Text="5 dispositivos: R$249,50" CssClass="btn btn-primary" Visible="false" onClick="btnPagamento5_Click"/>
+                        <asp:Button ID="btnFinalizar" runat="server" Text="Pagamento Finalizado" CssClass="btn btn-icon btn-icon-end btn-success" Visible="false" onClick="btnFinalizar_Click"/>
                 </asp:Panel>
 
-
-
+                <%-- Pedido Final --%>
                 <asp:Panel ID="pnlFinal" runat="server" Visible="false">
                     <h2>Número do Pedido #:
                         <asp:Label ID="lblNumeroPedidoFinal" runat="server" Text=""></asp:Label></h2>
