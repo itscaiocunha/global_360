@@ -15,24 +15,6 @@ namespace global
     {
 
         /// <summary>
-        /// Controle ScriptManager1.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
-
-        /// <summary>
-        /// Controle UpdatePanel1.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-
-        /// <summary>
         /// Controle hdfId.
         /// </summary>
         /// <remarks>
@@ -42,31 +24,13 @@ namespace global
         protected global::System.Web.UI.WebControls.HiddenField hdfId;
 
         /// <summary>
-        /// Controle hdfIdUsuario.
+        /// Controle lblResposta.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfIdUsuario;
-
-        /// <summary>
-        /// Controle hdfContrato.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdfContrato;
-
-        /// <summary>
-        /// Controle lkbAdicionarPerfil.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton lkbAdicionarPerfil;
+        protected global::System.Web.UI.WebControls.Label lblResposta;
 
         /// <summary>
         /// Controle txtBuscar.
@@ -78,40 +42,13 @@ namespace global
         protected global::System.Web.UI.WebControls.TextBox txtBuscar;
 
         /// <summary>
-        /// Controle btnImprimir.
+        /// Controle filtroClick.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnImprimir;
-
-        /// <summary>
-        /// Controle btnDownloadExcel.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnDownloadExcel;
-
-        /// <summary>
-        /// Controle btnDownloadPDf.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnDownloadPDf;
-
-        /// <summary>
-        /// Controle btnDownloadCSV.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnDownloadCSV;
+        protected global::System.Web.UI.WebControls.LinkButton filtroClick;
 
         /// <summary>
         /// Controle gdvDados.
@@ -256,5 +193,23 @@ namespace global
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
+
+        /// <summary>
+        /// Controle lblMensagem.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMensagem;
+
+        /// <summary>
+        /// Controle btnSalvar.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSalvar;
     }
 }
