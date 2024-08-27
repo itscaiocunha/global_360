@@ -18,6 +18,5 @@
             <asp:LinkButton ID="lkbEsqueceuSenha" CssClass="" runat="server" OnClick="lkbEsqueceuSenha_Click">Ir para Login</asp:LinkButton>
         </div>
         <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-primary" runat="server" Text="Enviar" OnClick="btnSalvar_Click1"/>       
-        
     </div>
 </asp:Content>

@@ -21,6 +21,7 @@
                     </asp:DropDownList>
                 </div>
 
+                <%-- PJ --%>
                 <asp:Panel ID="pnlPJ" runat="server">
                     <div class="mb-3">
                         <label class="form-label">Nome Fantasia</label>
@@ -32,17 +33,19 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">CNPJ</label>
-                        <asp:TextBox ID="txtCNPJ" onkeyup="formataCNPJ(this,event);" MaxLength="18" runat="server" CssClass="form-control" Required></asp:TextBox>
+                        <asp:TextBox ID="txtCNPJ" onkeyup="formataCNPJ(this,event);" MaxLength="18" runat="server" CssClass="form-control" placeholder="00.000.000/0000-00" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Inscrição Estadual</label>
                         <asp:TextBox ID="txtIE" runat="server" CssClass="form-control"></asp:TextBox>
                     </div>
                    <div class="mb-3">
-                     <label class="form-label">Celular</label>
-                     <asp:TextBox ID="txtQtdeLojistas" onkeyup="formataNumero(this,event);" MaxLength="5" runat="server" CssClass="form-control" Text="0"></asp:TextBox>
-                 </div>
+                     <label class="form-label">Qtde de Lojistas</label>
+                     <asp:TextBox ID="txtQtdeLojistas" onkeyup="formataNumero(this,event);" MaxLength="15" runat="server" CssClass="form-control"></asp:TextBox>
+                   </div>
                 </asp:Panel>
+
+                <%-- PF --%>
                 <asp:Panel ID="pnlPF" runat="server" Visible="false">
                     <div class="mb-3">
                         <label class="form-label">Nome Completo</label>
@@ -50,32 +53,34 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">CPF</label>
-                        <asp:TextBox ID="txtCPF" onkeyup="formataCPF(this,event);" MaxLength="18" runat="server" CssClass="form-control" Required></asp:TextBox>
+                        <asp:TextBox ID="txtCPF" onkeyup="formataCPF(this,event);" MaxLength="18" runat="server" CssClass="form-control" placeholder="000.000.000-00" Required></asp:TextBox>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">RG</label>
-                        <asp:TextBox ID="txtRG" runat="server" CssClass="form-control" Required></asp:TextBox>
+                        <asp:TextBox ID="txtRG" runat="server" CssClass="form-control" placeholder="00.000.000-0" Required></asp:TextBox>
                     </div>
                 </asp:Panel>
+
+                <%-- Tipo de Cadastro --%>
                 <hr />
                 <div class="mb-3 w-100">
                     <label class="form-label">Tipo de Cadastro</label>
-                    <asp:DropDownList ID="ddlTipoCliente" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsTipoCliente" DataTextField="descricao" DataValueField="id">
+                    <asp:DropDownList ID="ddlTipoCliente" runat="server" CssClass="form-control shadow dropdown-menu-end" DataSourceID="sdsTipoCliente" DataTextField="descricao" DataValueField="id" AppendDataBoundItems="True">
+                        <asp:ListItem Text="Selecionar Cadastro" Value="" />
                     </asp:DropDownList>
-                    <asp:SqlDataSource ID="sdsTipoCliente" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select id, descricao from tipo_cliente
-where status = 'ATIVO'"></asp:SqlDataSource>
+                    <asp:SqlDataSource ID="sdsTipoCliente" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="select id, descricao from tipo_cliente where status = 'ATIVO'"></asp:SqlDataSource>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Celular</label>
-                    <asp:TextBox ID="txtCelular" onkeyup="formataTelefone(this,event);" MaxLength="15" runat="server" CssClass="form-control" Required></asp:TextBox>
+                    <asp:TextBox ID="txtCelular" onkeyup="formataTelefone(this,event);" MaxLength="15" runat="server" CssClass="form-control" placeholder="(00) 00000-0000" Required></asp:TextBox>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">E-mail</label>
-                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" Required></asp:TextBox>
+                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="seu@exemplo.com" Required></asp:TextBox>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">CEP</label>
-                    <asp:TextBox ID="txtCEP" onkeyup="formataCEP(this,event);" MaxLength="10" runat="server" CssClass="form-control" AutoPostBack="True" OnTextChanged="txtCEP_TextChanged" Required></asp:TextBox>
+                    <asp:TextBox ID="txtCEP" onkeyup="formataCEP(this,event);" MaxLength="10" runat="server" CssClass="form-control" AutoPostBack="True" OnTextChanged="txtCEP_TextChanged" placeholder="000.000.000-00" Required></asp:TextBox>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Endereço</label>
@@ -131,7 +136,7 @@ where status = 'ATIVO'"></asp:SqlDataSource>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Senha</label>
-                    <asp:TextBox ID="txtSenha" TextMode="Password" runat="server" CssClass="form-control" Required></asp:TextBox>
+                    <asp:TextBox ID="txtSenha" TextMode="Password" runat="server" CssClass="form-control" placeholder="Mínimo de 6 dígitos" Required></asp:TextBox>
                 </div>
                 <div class="mb-3 w-100">
                     <label class="form-label">Status</label>
@@ -150,9 +155,10 @@ where status = 'ATIVO'"></asp:SqlDataSource>
                 <div class="" style="text-align: right">
                     <asp:Label ID="lblMensagem" Font-Size="1.5em" runat="server" Text=""></asp:Label>
                 </div>
-                <br />
+                <div class="mb-3" style="text-align: right">
+                    <asp:LinkButton ID="lkbJatenhoconta" CssClass="" runat="server" OnClick="lkbJatenhoconta_Click">Já possuo conta!</asp:LinkButton>
+                </div>
                 <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-success" runat="server" Text="Salvar" OnClick="btnSalvar_Click1" />
-                <asp:LinkButton ID="lkbJatenhoconta" CssClass="" runat="server" OnClick="lkbJatenhoconta_Click">Já possuo conta!</asp:LinkButton>
             </div>
 
         </ContentTemplate>

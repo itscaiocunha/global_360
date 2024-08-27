@@ -42,11 +42,18 @@
                         <div>
                             <asp:Label ID="lblEndereco" runat="server" Text=""></asp:Label></div>
                         <div>
-    Prazo de Entrega: <asp:Label ID="lblPrazoEntrega" runat="server" Text=""></asp:Label></div>
+                            Prazo de Entrega: <asp:Label ID="lblPrazoEntrega" runat="server" Text=""></asp:Label>
+                        </div>
                         <div>
-    Data da Entrega: <asp:Label ID="lblDataEntrega" runat="server" Text=""></asp:Label></div>
+                            Data da Entrega: <asp:Label ID="lblDataEntrega" runat="server" Text=""></asp:Label>
+                        </div>
                         <div>
-    Rastreio: <asp:Label ID="lblRastreio" runat="server" Text=""></asp:Label></div>
+                            Rastreio: <asp:Label ID="lblRastreio" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div>
+                            Observações:
+                            <asp:Label ID="lblObservações" runat="server" Text=""></asp:Label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">

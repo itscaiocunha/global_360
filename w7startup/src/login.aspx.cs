@@ -53,17 +53,12 @@ namespace global
             return dadosJson;
         }
 
-        /// <summary>
-        /// aqui é verificado se email e senha são válidos e direciona para o perfil cadastrado
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void btnSalvar_Click1(object sender, EventArgs e)
         {
-
             string senha = Criptografia.Encrypt(txtSenha.Text).Replace("+", "");
+
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                          "SELECT u.id as idusuario, u.email as emailusuario, * from usuario u join usuario_perfil up on up.idusuario = u.id join cliente c on c.id = u.idcliente where c.status = 'ATIVO' and u.email = '" + txtEmail.Text + "' and senha = '" + senha + "' "))
+                          "SELECT u.id as idusuario, c.nomecompleto, u.email as emailusuario, u.idcliente, u.senha, u.nomeusuario, up.idperfil, c.idiugu from usuario u join usuario_perfil up on up.idusuario = u.id join cliente c on c.id = u.idcliente where c.status = 'ATIVO' and u.email = '" + txtEmail.Text +"' and senha = '" + senha + "'"))
             {
                 if (reader.Read())
                 {
@@ -84,7 +79,7 @@ namespace global
                         lblMensagem.Text = "Usuário não liberado. Tente novamente!";
                 }
                 else
-                    lblMensagem.Text = "E-mail ou senha incorretos. Tente novamente!" ;
+                    lblMensagem.Text = "E-mail ou senha incorretos. Tente novamente!" + senha;
             }
         }
 

@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.Data.Common;
 using global.iugu;
 using System.Runtime.Remoting.Messaging;
+using System.Diagnostics.Eventing.Reader;
 
 namespace global
 {
@@ -36,11 +37,6 @@ namespace global
             }
         }
 
-        /// <summary>
-        /// aqui é verificado se email e senha são válidos e direciona para o perfil cadastrado
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void btnSalvar_Click1(object sender, EventArgs e)
         {
             Database db = DatabaseFactory.CreateDatabase("ConnectionString");
@@ -51,84 +47,74 @@ namespace global
                 {
                     if (!auth.VerificaEmail(txtEmail.Text))
                     {
-                        DbCommand command = db.GetSqlStringCommand(
-                "INSERT INTO cliente (token, cnpj_cpf, rg, inscricao_estadual, razao_social, email, celular, nomecompleto, cep, endereco, bairro, numero, cidade, estado, complemento, idtipocliente, status, qtde_lojistas) values (@token, @cnpj_cpf, @rg, @inscricao_estadual, @razao_social, @email, @celular, @nomecompleto, @cep, @endereco, @bairro, @numero, @cidade, @estado, @complemento, @idtipocliente, @status, @qtde_lojistas)");
-                        db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(auth.GeraTokenAleatorio()).Replace("+", ""));
-                        db.AddInParameter(command, "@cnpj_cpf", DbType.String, txtCNPJ.Text);
-                        db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
-                        db.AddInParameter(command, "@razao_social", DbType.String, txtRazaoSocial.Text);
-                        db.AddInParameter(command, "@inscricao_estadual", DbType.String, txtIE.Text);
-                        db.AddInParameter(command, "@email", DbType.String, txtEmail.Text);
-                        db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
-                        db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeFantasia.Text);
-                        db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
-                        db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
-                        db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
-                        db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
-                        db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
-                        db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
-                        db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
-                        db.AddInParameter(command, "@idtipocliente", DbType.Int16, ddlTipoCliente.SelectedValue);
-                        db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
-                        db.AddInParameter(command, "@qtde_lojistas", DbType.Int16, Convert.ToInt16(txtQtdeLojistas.Text));
+                        bool cnpjExistente;
+                        string pw = txtSenha.Text;
+                        bool emailExistente;
 
-                        try
+                        using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                              "SELECT * from cliente where cnpj_cpf = '" + txtCNPJ.Text + "'"))
                         {
-                            bool cnpjExistente;
-                            db.ExecuteNonQuery(command);
-
-                            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                                  "SELECT * from cliente where cnpj_cpf = '" + txtCNPJ.Text + "'"))
                             {
-                                {
-                                    cnpjExistente = reader.Read();
-                                }
+                                cnpjExistente = reader.Read();
+                            }
 
-                                if (cnpjExistente)
+                            if (!cnpjExistente)
+                            {
+                                using (IDataReader reader2 = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                                            "SELECT * from usuario where email = '" + txtEmail.Text + "'"))
                                 {
-                                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CPF já existe! Verifique o seu CPF.";
-                                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
-                                    return;
-                                }
-
-                                if (reader.Read())
-                                {
-                                    string pw = txtSenha.Text;
-
-                                    DbCommand command2 = db.GetSqlStringCommand(
-                        "INSERT INTO usuario (idcliente, email, senha, status) values (@idcliente, @email, @senha, 'ATIVO')");
-                                    db.AddInParameter(command2, "@idcliente", DbType.Int16, Convert.ToInt16(reader["id"].ToString()));
-                                    db.AddInParameter(command2, "@email", DbType.String, txtEmail.Text);
-                                    db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(pw).Replace("+", ""));
-                                    try
                                     {
-                                        bool emailExistente;
-                                        db.ExecuteNonQuery(command2);
+                                        emailExistente = reader2.Read();
+                                    }
 
-                                        using (IDataReader reader2 = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                                  "SELECT * from usuario where email = '" + txtEmail.Text + "'"))
+                                    if (!emailExistente)
+                                    {
+                                        DbCommand command = db.GetSqlStringCommand(
+                                    "INSERT INTO cliente (token, cnpj_cpf, rg, inscricao_estadual, razao_social, email, celular, nomecompleto, cep, endereco, bairro, numero, cidade, estado, complemento, idtipocliente, status, qtde_lojistas) values (@token, @cnpj_cpf, @rg, @inscricao_estadual, @razao_social, @email, @celular, @nomecompleto, @cep, @endereco, @bairro, @numero, @cidade, @estado, @complemento, @idtipocliente, @status, @qtde_lojistas)");
+                                        db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(pw).Replace("+", ""));
+                                        db.AddInParameter(command, "@cnpj_cpf", DbType.String, txtCNPJ.Text);
+                                        db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
+                                        db.AddInParameter(command, "@razao_social", DbType.String, txtRazaoSocial.Text);
+                                        db.AddInParameter(command, "@inscricao_estadual", DbType.String, txtIE.Text);
+                                        db.AddInParameter(command, "@email", DbType.String, txtEmail.Text);
+                                        db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
+                                        db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeFantasia.Text);
+                                        db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
+                                        db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
+                                        db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
+                                        db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
+                                        db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
+                                        db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
+                                        db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
+                                        db.AddInParameter(command, "@idtipocliente", DbType.Int16, ddlTipoCliente.SelectedValue);
+                                        db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                                        db.AddInParameter(command, "@qtde_lojistas", DbType.Int16, Convert.ToInt16(txtQtdeLojistas.Text));
+
+                                        try
                                         {
+                                            db.ExecuteNonQuery(command);
 
-                                            {
-                                                emailExistente = reader.Read();
-                                            }
+                                            DbCommand command2 = db.GetSqlStringCommand(
+                                                "INSERT INTO usuario (idcliente, email, senha, status) values (@idcliente, @email, @senha, 'ATIVO')");
+                                            db.AddInParameter(command2, "@idcliente", DbType.Int16, Convert.ToInt16(reader["id"].ToString()));
+                                            db.AddInParameter(command2, "@email", DbType.String, txtEmail.Text);
+                                            db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(pw).Replace("+", ""));
 
-                                            if (emailExistente)
+                                            try
                                             {
-                                                lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
-                                                txtEmail.BorderColor = System.Drawing.Color.Red;
-                                                return;
-                                            }
+                                                db.ExecuteNonQuery(command2);
 
-                                            if (reader2.Read())
-                                            {
                                                 DbCommand command3 = db.GetSqlStringCommand(
-                        "INSERT INTO usuario_perfil (idusuario, idperfil) values (@idusuario, @idperfil)");
+                                                    "INSERT INTO usuario_perfil (idusuario, idperfil) values (@idusuario, @idperfil)");
                                                 db.AddInParameter(command3, "@idusuario", DbType.Int16, Convert.ToInt16(reader2["id"].ToString()));
-                                                if(ddlTipoCliente.SelectedValue == "1")
-                                                db.AddInParameter(command3, "@idperfil", DbType.Int16, 5);
-                                                else if(ddlTipoCliente.SelectedValue == "2")
-                                                        db.AddInParameter(command3, "@idperfil", DbType.Int16, 6);
+                                                if (ddlTipoCliente.SelectedValue == "1")
+                                                {
+                                                    db.AddInParameter(command3, "@idperfil", DbType.Int16, 5);
+                                                }
+                                                else if (ddlTipoCliente.SelectedValue == "2")
+                                                {
+                                                    db.AddInParameter(command3, "@idperfil", DbType.Int16, 6);
+                                                }
                                                 try
                                                 {
                                                     db.ExecuteNonQuery(command3);
@@ -143,7 +129,7 @@ namespace global
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Seu cadastro foi realizado com sucesso na plataforma.</p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>CNPJ:</strong>" + txtCNPJ.Text + "</p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>E-mail:</strong>" + txtEmail.Text + "</p><br><br>";
-                                                    strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Senha de acesso</strong><br>"+pw+"</p>";
+                                                    strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Senha de acesso</strong><br>" + pw + "</p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><a href='https://global360.app.br/src/login.aspx'>Plataforma Global 360</a></p>";
                                                     strHtml = strHtml + "</font><img src=''></body></html>";
 
@@ -152,168 +138,126 @@ namespace global
                                                     //base oficial
                                                     Email.emailTxt("contato@w7agencia.com.br", txtEmail.Text, "", "", "Global 360 - Novo Cadastro", strHtml, 1);
 
-                                                    lblMensagem.Text = "Informação salva com sucesso!";
-                                                    txtRazaoSocial.Text = "";
-                                                    txtNomeCompleto.Text = "";
-                                                    txtIE.Text = "";
-                                                    txtCPF.Text = "";
-                                                    txtEmail.Text = "";
-                                                    txtCEP.Text = "";
-                                                    txtEndereco.Text = "";
-                                                    txtBairro.Text = "";
-                                                    txtNum.Text = "";
-                                                    txtCidade.Text = "";
-                                                    txtRG.Text = "";
-                                                    txtComplemento.Text = "";
-                                                    txtCelular.Text = "";
-                                                    txtQtdeLojistas.Text = "0";
+                                                    LimparCampos();
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    lblMensagem.Text = "Erro ao tentar salvar informação2. " + ex.Message;
+                                                    lblMensagem.Text = "Erro ao enviar E-mail. " + ex.Message;
                                                 }
                                             }
+                                            catch (Exception ex)
+                                            {
+                                                lblMensagem.Text = "Erro ao criar usuário. " + ex.Message;
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            lblMensagem.Text = "Erro ao criar cliente. " + ex.Message;
                                         }
                                     }
-                                    catch (Exception ex)
+                                    else
                                     {
-                                        lblMensagem.Text = "Erro ao tentar salvar informação3. " + ex.Message;
+                                        lblMensagem.Text = "Não foi possível realizar o cadastro! Verifique o seu E-mail.";
+                                        txtEmail.BorderColor = System.Drawing.Color.Red;
+                                        return;
                                     }
                                 }
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            lblMensagem.Text = "Erro ao tentar salvar informação. " + ex.Message;
+                            else
+                            {
+                                lblMensagem.Text = "Não foi possível realizar o cadastro, o CNPJ já está cadastrado! Verifique o seu CNPJ.";
+                                txtCNPJ.BorderColor = System.Drawing.Color.Red;
+                                return;
+                            }
                         }
                     }
                     else
                     {
-                        lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
+                        lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail é inválido! Verifique o seu E-mail.";
                         txtEmail.BorderColor = System.Drawing.Color.Red;
                     }
                 }
                 else
                 {
-                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CNPJ já existe! Verifique o seu CNPJ.";
+                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CNPJ é inválido! Verifique o seu CNPJ.";
                     txtCNPJ.BorderColor = System.Drawing.Color.Red;
                 }
             }
+
+            //Cadastro PF
             else
             {
-                if (!auth.VerificaCNPJ(txtCPF.Text))
+                if (!auth.VerificaEmail(txtEmail.Text))
                 {
-                    if (!auth.VerificaEmail(txtEmail.Text))
+                    bool emailExistente;
+
+                    using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                        "SELECT * from cliente where email = '" + txtEmail.Text + "'"))
                     {
-                        //cria o cliente na iugu
-                        Clientes dadoscliente = new Clientes();
-                        dadoscliente.email = txtEmail.Text;
-                        dadoscliente.name = txtNomeCompleto.Text;
-                        dadoscliente.notes = "";
-                        dadoscliente.phone = txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(2, 9);
-                        dadoscliente.phone_prefix = "0" + txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(0, 2);
-                        dadoscliente.cpf_cnpj = txtCPF.Text.Replace("-", "").Replace(".", "");
-                        dadoscliente.cc_emails = txtEmail.Text;
-                        dadoscliente.zip_code = txtCEP.Text.Replace("-", "");
-                        dadoscliente.number = txtNum.Text;
-                        dadoscliente.street = txtEndereco.Text;
-                        dadoscliente.city = txtCidade.Text;
-                        dadoscliente.state = "SP";
-                        dadoscliente.district = txtBairro.Text;
-                        dadoscliente.complement = "";
-
-                        var client = new RestClient($"{BASEURRL}");
-                        var request = new RestRequest(Method.POST);
-                        request.AddHeader("Accept", "application/json");
-                        var env = dadoscliente.toCreate();
-                        request.AddParameter(
-                            "application/json",
-                            env,
-                            ParameterType.RequestBody);
-                        try
                         {
-                            IRestResponse response = client.Execute(request);
-                            var dados = response.Content;
-                            string idiugu = dados.Substring(7, 32);
+                            emailExistente = reader.Read();
+                        }
 
-                            DbCommand command = db.GetSqlStringCommand(
-                   "INSERT INTO cliente (token, cnpj_cpf, inscricao_estadual, razao_social, email, celular, nomecompleto, cep, endereco, bairro, numero, cidade, estado, complemento, idtipocliente, status, idiugu, qtde_lojistas) values (@token, @cnpj_cpf, @inscricao_estadual, @razao_social, @email, @celular, @nomecompleto, @cep, @endereco, @bairro, @numero, @cidade, @estado, @complemento, @idtipocliente, @status, @idiugu, @qtde_lojistas)");
-                            db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(auth.GeraTokenAleatorio()).Replace("+", "=").Replace("/", "="));
-                            db.AddInParameter(command, "@cnpj_cpf", DbType.String, txtCPF.Text);
-                            db.AddInParameter(command, "@razao_social", DbType.String, "");
-                            db.AddInParameter(command, "@inscricao_estadual", DbType.String, "");
-                            db.AddInParameter(command, "@email", DbType.String, txtEmail.Text);
-                            db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
-                            db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeCompleto.Text);
-                            db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
-                            db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
-                            db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
-                            db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
-                            db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
-                            db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
-                            db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
-                            db.AddInParameter(command, "@idtipocliente", DbType.Int16, ddlTipoCliente.SelectedValue);
-                            db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
-                            db.AddInParameter(command, "@idiugu", DbType.String, idiugu);
-                            db.AddInParameter(command, "@qtde_lojistas", DbType.Int16, Convert.ToInt16(txtQtdeLojistas.Text));
+                        bool cpfExistente;
 
-                            db.ExecuteNonQuery(command);
-                            
-                            bool cpfExistente;
-
-                            using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                                  "SELECT * from cliente where cnpj_cpf = '" + txtCPF.Text + "'"))
+                        if (!emailExistente)
+                        {
+                            using (IDataReader reader2 = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
+                              "SELECT * from cliente where cnpj_cpf = '" + txtBairro.Text + "'"))
                             {
                                 {
-                                    cpfExistente = reader.Read();
+                                    cpfExistente = reader2.Read();
                                 }
 
-                                if (cpfExistente)
+                                if (!cpfExistente)
                                 {
-                                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CPF já existe! Verifique o seu CPF.";
-                                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
-                                    return;
-                                }
+                                    DbCommand command = db.GetSqlStringCommand(
+                                "INSERT INTO cliente (token, cnpj_cpf, inscricao_estadual, razao_social, email, celular, nomecompleto, cep, endereco, bairro, numero, cidade, estado, complemento, idtipocliente, status, idiugu, rg) values (@token, @cnpj_cpf, @inscricao_estadual, @razao_social, @email, @celular, @nomecompleto, @cep, @endereco, @bairro, @numero, @cidade, @estado, @complemento, @idtipocliente, @status, @idiugu, @rg)");
+                                    db.AddInParameter(command, "@token", DbType.String, Criptografia.Encrypt(auth.GeraTokenAleatorio()).Replace("+", "=").Replace("/", "="));
+                                    db.AddInParameter(command, "@cnpj_cpf", DbType.String, txtCPF.Text);
+                                    db.AddInParameter(command, "@razao_social", DbType.String, txtNomeCompleto.Text);
+                                    db.AddInParameter(command, "@inscricao_estadual", DbType.String, "");
+                                    db.AddInParameter(command, "@email", DbType.String, txtEmail.Text);
+                                    db.AddInParameter(command, "@celular", DbType.String, txtCelular.Text);
+                                    db.AddInParameter(command, "@nomecompleto", DbType.String, txtNomeCompleto.Text);
+                                    db.AddInParameter(command, "@cep", DbType.String, txtCEP.Text);
+                                    db.AddInParameter(command, "@endereco", DbType.String, txtEndereco.Text);
+                                    db.AddInParameter(command, "@bairro", DbType.String, txtBairro.Text);
+                                    db.AddInParameter(command, "@numero", DbType.String, txtNum.Text);
+                                    db.AddInParameter(command, "@cidade", DbType.String, txtCidade.Text);
+                                    db.AddInParameter(command, "@estado", DbType.String, ddlUF.SelectedValue);
+                                    db.AddInParameter(command, "@complemento", DbType.String, txtComplemento.Text);
+                                    db.AddInParameter(command, "@idtipocliente", DbType.Int16, ddlTipoCliente.SelectedValue);
+                                    db.AddInParameter(command, "@status", DbType.String, ddlStatus.SelectedValue);
+                                    db.AddInParameter(command, "@idiugu", DbType.String, 0);
+                                    db.AddInParameter(command, "@rg", DbType.String, txtRG.Text);
 
-                                if (reader.Read())
-                                {
-                                    string pw = txtSenha.Text;
-
-                                    DbCommand command2 = db.GetSqlStringCommand(
-                        "INSERT INTO usuario (idcliente, email, senha, status) values (@idcliente, @email, @senha, 'ATIVO')");
-                                    db.AddInParameter(command2, "@idcliente", DbType.Int16, Convert.ToInt16(reader["id"].ToString()));
-                                    db.AddInParameter(command2, "@email", DbType.String, txtEmail.Text);
-                                    db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(pw).Replace("+", ""));
                                     try
                                     {
-                                        db.ExecuteNonQuery(command2);
+                                        db.ExecuteNonQuery(command);
+                                        string pw = txtSenha.Text;
 
-                                        bool emailExistente;
+                                        DbCommand command2 = db.GetSqlStringCommand(
+                                            "INSERT INTO usuario (idcliente, email, senha, status) values (@idcliente, @email, @senha, 'ATIVO')");
+                                        db.AddInParameter(command2, "@idcliente", DbType.Int16, Convert.ToInt16(reader["id"].ToString()));
+                                        db.AddInParameter(command2, "@email", DbType.String, txtEmail.Text);
+                                        db.AddInParameter(command2, "@senha", DbType.String, Criptografia.Encrypt(pw).Replace("+", ""));
 
-                                        using (IDataReader reader2 = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
-                                  "SELECT * from usuario where email = '" + txtEmail.Text + "'"))
+                                        try
                                         {
-                                            {
-                                                emailExistente = reader.Read();
-                                            }
+                                            db.ExecuteNonQuery(command2);
 
-                                            if (emailExistente)
-                                            {
-                                                lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
-                                                txtEmail.BorderColor = System.Drawing.Color.Red;
-                                                return;
-                                            }
+                                            DbCommand command3 = db.GetSqlStringCommand(
+                                            "INSERT INTO usuario_perfil (idusuario, idperfil) values (@idusuario, @idperfil)");
+                                            db.AddInParameter(command3, "@idusuario", DbType.Int16, Convert.ToInt16(reader2["id"].ToString()));
+                                            db.AddInParameter(command3, "@idperfil", DbType.Int16, 7);
 
-                                            if (reader2.Read())
+                                            try
                                             {
-                                                DbCommand command3 = db.GetSqlStringCommand(
-                        "INSERT INTO usuario_perfil (idusuario, idperfil) values (@idusuario, @idperfil)");
-                                                db.AddInParameter(command3, "@idusuario", DbType.Int16, Convert.ToInt16(reader2["id"].ToString()));
-                                                db.AddInParameter(command3, "@idperfil", DbType.Int16, 7);
+                                                db.ExecuteNonQuery(command3);
+
                                                 try
                                                 {
-                                                    db.ExecuteNonQuery(command3);
-
                                                     //aqui envia o email ao cliente cadastrado
                                                     // corpo do e-mail
                                                     string strHtml = "<html xmlns='http://www.w3.org/1999/xhtml'><head><meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>";
@@ -322,7 +266,7 @@ namespace global
                                                     strHtml = strHtml + "<p><strong><font size='2' face='Verdana, Arial, Helvetica, sans-serif'>Novo Cadastro<br>Global 360 - Plataforma Digital</font></strong></p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Olá, tudo bem?</p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p>Seu cadastro foi realizado com sucesso na plataforma.</p>";
-                                                    strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>CPF:</strong>" + txtCPF.Text + "</p>";
+                                                    //strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>CPF:</strong>" + txtCPF.Text + "</p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>E-mail:</strong>" + txtEmail.Text + "</p><br><br>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><strong>Senha de acesso</strong><br>" + pw + "</p>";
                                                     strHtml = strHtml + "<font size='2' face='Verdana, Arial, Helvetica, sans-serif'><p><a href='https://global360.app.br/src/login.aspx'>Plataforma Global 360</a></p>";
@@ -333,51 +277,68 @@ namespace global
                                                     //base oficial
                                                     Email.emailTxt("contato@w7agencia.com.br", txtEmail.Text, "", "", "Global 360 - Novo Cadastro", strHtml, 1);
 
-                                                    lblMensagem.Text = "Seu cadastro foi realizado com sucesso!";
-                                                    txtNomeCompleto.Text = "";
-                                                    txtCPF.Text = "";
-                                                    txtEmail.Text = "";
-                                                    txtCEP.Text = "";
-                                                    txtEndereco.Text = "";
-                                                    txtRG.Text = "";
-                                                    txtBairro.Text = "";
-                                                    txtNum.Text = "";
-                                                    txtCidade.Text = "";
-                                                    txtComplemento.Text = "";
-                                                    txtCelular.Text = "";
-                                                    txtQtdeLojistas.Text = "0";
+                                                    LimparCampos();
                                                 }
                                                 catch (Exception ex)
                                                 {
-                                                    lblMensagem.Text = "Erro ao tentar salvar informação2. " + ex.Message;
+                                                    lblMensagem.Text = "Erro ao enviar E-mail! " + ex;
                                                 }
                                             }
+                                            catch (Exception ex)
+                                            {
+                                                lblMensagem.Text = "Error ao definir perfil! " + ex;
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            lblMensagem.Text = "Erro ao criar usuário! " + ex;
                                         }
                                     }
                                     catch (Exception ex)
                                     {
-                                        lblMensagem.Text = "Erro ao tentar salvar informação3. " + ex.Message;
+                                        lblMensagem.Text = "Erro ao criar cliente! " + ex;
                                     }
+                                }
+                                else
+                                {
+                                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CPF já existe! Verifique o seu CPF.";
+                                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
+                                    return;
                                 }
                             }
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            lblMensagem.Text = "Erro ao tentar salvar informação. " + ex.Message;
+                            lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
+                            txtEmail.BorderColor = System.Drawing.Color.Red;
+                            return;
                         }
-                    }
-                    else
-                    {
-                        lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail já existe! Verifique o seu E-mail.";
-                        txtEmail.BorderColor = System.Drawing.Color.Red;
                     }
                 }
                 else
                 {
-                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse CPF já existe! Verifique o seu CPF.";
-                    txtCNPJ.BorderColor = System.Drawing.Color.Red;
+                    lblMensagem.Text = "Não foi possível realizar o cadastro, esse E-mail é inválido! Verifique o seu E-mail.";
+                    txtEmail.BorderColor = System.Drawing.Color.Red;
                 }
             }
+        }
+
+        private void LimparCampos()
+        {
+            txtRazaoSocial.Text = "";
+            txtNomeCompleto.Text = "";
+            txtIE.Text = "";
+            txtCPF.Text = "";
+            txtEmail.Text = "";
+            txtCEP.Text = "";
+            txtEndereco.Text = "";
+            txtBairro.Text = "";
+            txtNum.Text = "";
+            txtCidade.Text = "";
+            txtRG.Text = "";
+            txtComplemento.Text = "";
+            txtCelular.Text = "";
+            txtQtdeLojistas.Text = "0";
         }
 
         protected void txtCEP_TextChanged(object sender, EventArgs e)
@@ -415,9 +376,39 @@ namespace global
                 txtNomeCompleto.Focus();
             }
         }
+
         protected void lkbJatenhoconta_Click(object sender, EventArgs e)
         {
             Response.Redirect("login.aspx", false);
+        }
+
+        protected void CriarIugu()
+        {
+            //cria o cliente na iugu
+            Clientes dadoscliente = new Clientes();
+            dadoscliente.email = txtEmail.Text;
+            dadoscliente.name = txtNomeCompleto.Text;
+            dadoscliente.notes = "";
+            dadoscliente.phone = txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(2, 9);
+            dadoscliente.phone_prefix = "0" + txtCelular.Text.Replace("-", "").Replace(" ", "").Replace("(", "").Replace(")", "").Replace(" ", "").Substring(0, 2);
+            dadoscliente.cpf_cnpj = txtCPF.Text.Replace("-", "").Replace(".", "");
+            dadoscliente.cc_emails = txtEmail.Text;
+            dadoscliente.zip_code = txtCEP.Text.Replace("-", "");
+            dadoscliente.number = txtNum.Text;
+            dadoscliente.street = txtEndereco.Text;
+            dadoscliente.city = txtCidade.Text;
+            dadoscliente.state = "SP";
+            dadoscliente.district = txtBairro.Text;
+            dadoscliente.complement = "";
+
+            var client = new RestClient($"{BASEURRL}");
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Accept", "application/json");
+            var env = dadoscliente.toCreate();
+            request.AddParameter("application/json", env, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            var dados = response.Content;
+            string idiugu = dados.Substring(7, 32);
         }
     }
 }

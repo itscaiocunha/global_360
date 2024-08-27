@@ -32,11 +32,6 @@ namespace global
             }
         }
 
-        /// <summary>
-        /// aqui é verificado se email e senha são válidos e direciona para o perfil cadastrado
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         protected void btnSalvar_Click1(object sender, EventArgs e)
         {
             using (IDataReader reader = DatabaseFactory.CreateDatabase("ConnectionString").ExecuteReader(CommandType.Text,
@@ -45,8 +40,9 @@ namespace global
                 if (reader.Read())
                 {
                     string newpw = auth.GeraTokenAleatorio();
-                    string senha = Criptografia.Encrypt(newpw).Replace("+", "=");
+                    string senha = Criptografia.Encrypt(newpw).Replace("+", "");
                     Database db = DatabaseFactory.CreateDatabase("ConnectionString");
+
                     try
                     {
                         DbCommand command = db.GetSqlStringCommand(
@@ -71,9 +67,9 @@ namespace global
                         strHtml = strHtml + "</font><img src=''></body></html>";
 
                         //base teste
-                        //Email.emailTxt("contato@w7agencia.com.br", "contato@w7agencia.com.br", "", "", "Global 360 - Esqueceu a senha", strHtml, 1);
+                        Email.emailTxt("contato@w7agencia.com.br", "contato@w7agencia.com.br", "", "", "Global 360 - Esqueceu a senha", strHtml, 1);
                         //base oficial
-                        Email.emailTxt("contato@w7agencia.com.br", reader["email"].ToString(), "", "", "Global 360 - Esqueceu a senha", strHtml, 1);
+                        Email.emailTxt("contato@w7agencia.com.br", txtEmail.Text, "", "", "Global 360 - Esqueceu a senha", strHtml, 1);
 
                     }
                     catch (Exception ex)

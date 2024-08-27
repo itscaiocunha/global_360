@@ -18,9 +18,11 @@
         <div class="mb-3" style="text-align: left">
             <asp:Label ID="lblToken" runat="server" Text=""></asp:Label>
             <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
-            <asp:LinkButton ID="lkbJasou" CssClass="" runat="server" OnClick="lkbJasou_Click">Não tenho cadastro!</asp:LinkButton>
-            </div>
+        </div>
         <div class="mb-3" style="text-align: right">
+            <asp:LinkButton ID="lkbJasou" CssClass="" runat="server" OnClick="lkbJasou_Click">Não tenho cadastro!</asp:LinkButton>
+            <br />
+            <br />
             <asp:LinkButton ID="lkbEsqueceuSenha" CssClass="" runat="server" OnClick="lkbEsqueceuSenha_Click">Esqueceu a senha?</asp:LinkButton>
         </div>
         <asp:Button ID="btnSalvar" CssClass="btn btn-icon btn-icon-end btn-primary" runat="server" Text="Entrar" OnClick="btnSalvar_Click1"/>       

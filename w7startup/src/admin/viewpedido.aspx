@@ -72,6 +72,10 @@
                             Rastreio:
                             <asp:Label ID="lblRastreio" runat="server" Text=""></asp:Label>
                         </div>
+                        <div>
+                            Observações:
+                            <asp:Label ID="lblObservações" runat="server" Text=""></asp:Label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
